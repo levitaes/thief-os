@@ -18,8 +18,6 @@ function boot() {
     
     loadCommands();
     
-	createDiv("js".fontcolor("#173F5F").fontsize(10) + "OS".fontcolor("#20639B").fontsize(10));
-	createDiv("Copyright (C) literally no one..", "margin-bottom: 10px");
 	getInput();
 }
 

@@ -33,6 +33,20 @@ function pushrepo() {
                             println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
                     }
                     break;
+                case "list": {
+                    if (args[1])
+                        println("too many args".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                    else 
+                        println(installed.join(' | '));
+                    }
+                    break;
+                case "count": {
+                    if (args[1])
+                        println("too many args".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                    else 
+                        println("you have installed " + installed.length + " functions.");
+                    }
+                    break;
                 default: println("invalid operation".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
             }
         }
@@ -44,16 +58,11 @@ function pushhelp() {
         name: "help",
         syntax: "help",
         func: function  (args) {
-            createDiv("re".fontcolor("#173F5F") + "Terminal".fontcolor("#20639B") + ", version 0.2-release", "margin-top: 10px");	
-            createDiv("These shell commands are defined internally. Type 'help' to see this list.");
-            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "Type 'help name' to find out more about the function 'name'.", "margin-bottom: 10px;");
-            createDiv("clear","margin-left: 10px;");
-            createDiv("time","margin-left: 10px;");
-            createDiv("print [string]","margin-left: 10px;");
-            createDiv("mkdir [string]","margin-left: 10px;");
-            createDiv("rmdir [string]","margin-left: 10px;");
-            createDiv("list","margin-left: 10px;");
-            println("uname [string]", "margin-left: 10px;");
+            createDiv("js".fontcolor("#F6D55C") + "OS".fontcolor("#ED553B") + ", version 0.2-release", "margin-top: 10px");	
+            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "These shell functions are defined internally. Type 'help' to see this list.");
+            createDiv("\\".fontcolor("#F6D55C") + "\\".fontcolor("#ED553B") + "Type 'repo install/remove function' to manage your functions.");
+            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "repo list/count will give information about aviable functions.", "margin-bottom: 10px;");
+            getInput();
         }
     });
 }
@@ -229,6 +238,18 @@ function pushngen() {
                 }
                 println(name.join(""));
             } 
+        }
+    });
+}
+
+function pushfetch() {
+    commands.push({
+        name: "fetch",
+        syntax: "fetch",
+        func: function  (args) {
+            createDiv("js".fontcolor("#173F5F").fontsize(10) + "OS".fontcolor("#20639B").fontsize(10));
+	        createDiv("Copyright (C) literally no one..", "margin-bottom: 10px");
+	        getInput();  
         }
     });
 }
