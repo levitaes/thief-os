@@ -1,7 +1,7 @@
 //vars
 var user = "usr";
 var files = [];
-var installed = ['help', 'clear', 'time', 'print', 'uname', 'mkdir', 'rmdir', 'list', 'reset'];
+var installed = ['help', 'repo', 'clear', 'time', 'print', 'uname', 'mkdir', 'rmdir', 'list', 'reset'];
 var commands = []
 
 //boot
@@ -13,11 +13,10 @@ function boot() {
         files = getCookie("files").split(",");
         files.sort();
 
-    for(var i = 0; i < installed.length; i++) {
-        var iString = installed[i];
-        var toPush = window["push" + iString];
-        if (typeof toPush === "function") toPush();
-    }
+    if (getCookie("installed") != "")
+        installed = getCookie("installed").split(",");
+    
+    loadCommands();
     
 	createDiv("js".fontcolor("#173F5F").fontsize(10) + "OS".fontcolor("#20639B").fontsize(10));
 	createDiv("Copyright (C) literally no one..", "margin-bottom: 10px");
@@ -94,6 +93,15 @@ function println(value, style) {
 	
 	getNewInput();
 } 
+
+function loadCommands() {
+    commands = [];
+    for(var i = 0; i < installed.length; i++) {
+        var iString = installed[i];
+        var toPush = window["push" + iString];
+        if (typeof toPush === "function") toPush();
+    } 
+}
 
 //cookie
 function setCookie(name, value, days) {

@@ -1,3 +1,44 @@
+function pushrepo() {
+    commands.push({
+        name: "repo",
+        syntax: "repo <String>",
+        func: function  (args) {
+            switch (args[0]) {
+                case "install": {
+                        if (installed.includes(args[1])) {
+                            console.log("!allready installed!");
+                            getNewInput();
+                        }
+                        else if (typeof window["push" + args[1]] === "function") {
+                            installed.push(args[1]);
+                            setCookie("installed", installed, 30);
+                            loadCommands();
+                            getNewInput();
+                        }else
+                            println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
+                    }
+                    break;
+                case "remove": {
+                        if (!installed.includes(args[1])) {
+                            println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
+                        }
+                        else if (typeof window["push" + args[1]] === "function") {
+                            for (var i = 0; i < installed.length; i++)
+                                if (installed[i] == args[1])
+                                    installed.splice(i, 1);
+                            setCookie("installed", installed, 30);
+                            loadCommands();
+                            getNewInput();
+                        }else
+                            println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
+                    }
+                    break;
+                default: println("invalid operation".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+            }
+        }
+    });
+}
+
 function pushhelp() {
     commands.push({
         name: "help",
