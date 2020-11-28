@@ -182,3 +182,53 @@ function pushreset() {
         }
     });
 }
+
+function pushngen() {
+    commands.push({
+        name: "ngen",
+        syntax: "ngen <int>",
+        func: function  (args) {
+            var vowel = 
+            ['a','e','i','o','u'];
+            var conso = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','x','z','w','y'];
+
+            var length = parseInt(args[0], 10);
+            if(args[1])
+                println("too many args".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+            else if (!Number.isInteger(length)) 
+                println("NaN".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+            else {
+                var name = [];              
+                switch(Math.floor(Math.random() * 2)) {
+                    case 0:
+                        var lastWas = 'conso';
+                        for(var c = 0; c < length; c++) {
+                            if(lastWas == 'conso') {
+                                name[c] = vowel[Math.floor(Math.random() * vowel.length)];
+                                lastWas = 'vowel';
+                            }else{
+                                name[c] = conso[Math.floor(Math.random() * conso.length)];
+                                lastWas = 'conso';
+                            }
+                        }
+                        break;
+                    case 1:
+                        var lastWas = 'vowel';
+                        for(var c = 0; c < length; c++) {
+                            if(lastWas == 'vowel') {
+                                name[c] = conso[Math.floor(Math.random() * conso.length)];
+                                lastWas = 'conso';
+                            }else{
+                                name[c] = vowel[Math.floor(Math.random() * vowel.length)];
+                                lastWas = 'vowel';
+                            }
+                        }
+                        break;
+                    default:
+                        console.log('error: ngen random');
+                }
+                println(name.join(""));
+            } 
+        }
+    });
+}
