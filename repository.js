@@ -62,7 +62,7 @@ function pushhelp() {
             createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "These shell functions are defined internally. Type 'help' to see this list.");
             createDiv("\\".fontcolor("#F6D55C") + "\\".fontcolor("#ED553B") + "Type 'repo install/remove function' to manage your functions.");
             createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "repo list/count will give information about aviable functions.", "margin-bottom: 10px;");
-            getInput();
+            getNewInput();
         }
     });
 }
@@ -192,6 +192,34 @@ function pushreset() {
     });
 }
 
+function pushmorsa() {
+	commands.push({
+		name: "morsa",
+		syntax: "morsa",
+		func: function (args) {
+			var morse = [
+				["a",".-"],["b","-..."],["c","-.-."],["d","-.."],
+				["e","."],["f","..-."],["g","--."],["h","...."],
+				["i",".."],["j",".---"],["k","-.-"],["l",".-.."],
+				["m","--"],["n","-."],["o","---"],["p",".--."],
+				["q","--.-"],["r",".-."],["s","..."],["t","-"],
+				["u","..-"],["v","...-"],["w",".--"],["x","-..-"],
+				["y","-.--"],["z","--.."],
+			];
+			if (typeof(args) === "string"){
+				if (args == morse[temp][0])
+					println("correct!");
+				else 
+					println("the correct answer would be '" + morse[temp][0] + "'!");
+			}
+			else {
+				temp = (Math.floor(Math.random() * morse.length));			
+				println(morse[temp][1],"",1);				
+			}				
+		}
+	});
+}
+
 function pushngen() {
     commands.push({
         name: "ngen",
@@ -249,7 +277,7 @@ function pushfetch() {
         func: function  (args) {
             createDiv("js".fontcolor("#173F5F").fontsize(10) + "OS".fontcolor("#20639B").fontsize(10));
 	        createDiv("Copyright (C) literally no one..", "margin-bottom: 10px");
-	        getInput();  
+	        getNewInput();  
         }
     });
 }
