@@ -15,12 +15,12 @@ function pushrepo() {
                             loadCommands();
                             getNewInput();
                         }else
-                            println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
+                            println("unable to locate function ".fontcolor(style.getPropertyValue('--color-4')) + args[1] + "!".fontcolor(style.getPropertyValue('--color-5')));
                     }
                     break;
                 case "remove": {
                         if (!installed.includes(args[1])) {
-                            println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
+                            println("unable to locate function ".fontcolor(style.getPropertyValue('--color-4')) + args[1] + "!".fontcolor(style.getPropertyValue('--color-5')));
                         }
                         else if (typeof window["push" + args[1]] === "function") {
                             for (var i = 0; i < installed.length; i++)
@@ -30,24 +30,24 @@ function pushrepo() {
                             loadCommands();
                             getNewInput();
                         }else
-                            println("unable to locate function ".fontcolor("#F6D55C") + args[1] + " !".fontcolor("#ED553B"));
+                            println("unable to locate function ".fontcolor(style.getPropertyValue('--color-4')) + args[1] + "!".fontcolor(style.getPropertyValue('--color-5')));
                     }
                     break;
                 case "list": {
                     if (args[1])
-                        println("too many args".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                        println("too many args".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
                     else 
                         println(installed.join(' | '));
                     }
                     break;
                 case "count": {
                     if (args[1])
-                        println("too many args".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                        println("too many args".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
                     else 
                         println("you have installed " + installed.length + " functions.");
                     }
                     break;
-                default: println("invalid operation".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                default: println("invalid operation".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
             }
         }
     });
@@ -58,10 +58,10 @@ function pushhelp() {
         name: "help",
         syntax: "help",
         func: function  (args) {
-            createDiv("OS".fontcolor("#F6D55C") + ".js".fontcolor("#ED553B") + ", version 0.2-release", "margin-top: 10px;");	
-            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "These shell functions are defined internally. Type 'help' to see this list.", "margin-left: 10px");
-            createDiv("\\".fontcolor("#F6D55C") + "\\".fontcolor("#ED553B") + "Type 'repo install/remove function' to manage your functions.", "margin-left: 10px");
-            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "repo list/count will give information about aviable functions.", "margin-bottom: 10px; margin-left: 10px");
+            createDiv("OS".fontcolor(style.getPropertyValue('--color-4')) + ".js".fontcolor(style.getPropertyValue('--color-5')) + ", version 0.2-release", "margin-top: 10px;");	
+            createDiv("/".fontcolor(style.getPropertyValue('--color-4')) + "/".fontcolor(style.getPropertyValue('--color-5')) + "These shell functions are defined internally. Type 'help' to see this list.", "margin-left: 10px");
+            createDiv("\\".fontcolor(style.getPropertyValue('--color-4')) + "\\".fontcolor(style.getPropertyValue('--color-5')) + "Type 'repo install/remove function' to manage your functions.", "margin-left: 10px");
+            createDiv("/".fontcolor(style.getPropertyValue('--color-4')) + "/".fontcolor(style.getPropertyValue('--color-5')) + "repo list/count will give information about aviable functions.", "margin-bottom: 10px; margin-left: 10px");
             getNewInput();
         }
     });
@@ -105,7 +105,7 @@ function pushuname() {
         func: function  (args) {
             if (args.join()) {
                 if (args[1])
-                    println("no spaces allowed".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                    println("no spaces allowed".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
                 else {
                     user = args.join();
                     setCookie("user", user, 30);
@@ -124,7 +124,7 @@ function pushmkdir() {
         func: function  (args) {
             if (args.join()) {
                 if (args[1])
-                    println("no spaces allowed".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                    println("no spaces allowed".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
                 else {
                     files.push(args.join());
                     files.sort();
@@ -134,7 +134,7 @@ function pushmkdir() {
             }
 
             else 
-                println("name required".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                println("name required".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
         }
     });
 }
@@ -146,7 +146,7 @@ function pushrmdir() {
         func: function  (args) {
             if (args.join()) {
                 if (args[1])
-                    println("no spaces allowed".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                    println("no spaces allowed".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
 
                 else {
                     var index = files.indexOf(args.join());
@@ -160,12 +160,12 @@ function pushrmdir() {
                     } 
 
                     else
-                        println("directory does not exist".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                        println("directory does not exist".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
                 }   
             } 
 
             else 
-                println("name required".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                println("name required".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
         }
     });
 }
@@ -175,7 +175,7 @@ function pushlist() {
         name: "list",
         syntax: "list",
         func: function  (args) {
-            createDiv(files.join(" &nbsp;&nbsp;").fontcolor("#F6D55C"));
+            createDiv(files.join(" &nbsp;&nbsp;").fontcolor(style.getPropertyValue('--color-4')));
             getNewInput();    
         }
     });
@@ -231,9 +231,9 @@ function pushngen() {
 
             var length = parseInt(args[0], 10);
             if(args[1])
-                println("too many args".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                println("too many args".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
             else if (!Number.isInteger(length)) 
-                println("NaN".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                println("NaN".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
             else {
                 var name = [];              
                 switch(Math.floor(Math.random() * 2)) {
@@ -275,7 +275,7 @@ function pushfetch() {
         name: "fetch",
         syntax: "fetch",
         func: function  (args) {
-            createDiv("OS".fontcolor("#173F5F").fontsize(10) + ".js".fontcolor("#20639B").fontsize(10));
+            createDiv("OS".fontcolor(style.getPropertyValue('--color-1')).fontsize(10) + ".js".fontcolor(style.getPropertyValue('--color-2')).fontsize(10));
 	        createDiv("Copyright (C) literally no one..", "margin-bottom: 10px");
 	        getNewInput();  
         }
@@ -292,8 +292,31 @@ function pushcalc() {
             }
             catch(err) {
                 //println(err);
-                println("invalid operation".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+                println("invalid operation".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
             }
+        }
+    });
+}
+
+function pushtweak() {
+    commands.push({
+        name: "tweak",
+        syntax: "tweak <String>",
+        func: function  (args) {
+            if (args.join()) {
+                if (args[1])
+                    println("no spaces allowed".fontcolor(style.getPropertyValue('--color-4')) + "!".fontcolor(style.getPropertyValue('--color-5')));
+                else {
+                    if (args.join() == "dark" || args.join() == "light") {
+                        theme = args.join();
+                        setCookie("theme", theme, 30);
+                        location.reload();                        
+                    } else {
+                        println("unable to locate theme ".fontcolor(style.getPropertyValue('--color-4')) + args.join() + "!".fontcolor(style.getPropertyValue('--color-5')));
+                    }                        
+                }   
+            } else 
+                println(theme);
         }
     });
 }
