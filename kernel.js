@@ -1,6 +1,8 @@
 //vars
 var user = "usr";
 var files = ['.themes', '.config'];
+var style = getComputedStyle(document.body);
+var theme;
 var installed = ['help', 'repo', 'clear', 'time', 'print', 'uname', 'mkdir', 'rmdir', 'list', 'reset'];
 var commands = []
 var temp;
@@ -17,6 +19,17 @@ function boot() {
     if (getCookie("installed") != "")
         installed = getCookie("installed").split(",");
     
+    if (getCookie("theme") != "")
+        theme = getCookie("theme");
+    
+    switch (theme) {
+        case "light":
+            document.styleSheets[1].disabled = true;
+            break;
+        default:
+            document.styleSheets[1].disabled = false;
+    }
+    
     loadCommands();
     
 	getInput();
@@ -25,7 +38,7 @@ function boot() {
 //input
 function getInput(loop) {
 	
-    createDiv(user.fontcolor("#173F5F") + "@".fontcolor("#20639B") + "terminal:".fontcolor("#3CAEA3") + "~".fontcolor("#F6D55C") + "$".fontcolor("#ED553B"),"float:left; margin-right:10px;")
+    createDiv(user.fontcolor(style.getPropertyValue('--color-1')) +                                     "@".fontcolor(style.getPropertyValue('--color-2')) + "terminal:".fontcolor(style.getPropertyValue('--color-3')) + "~".fontcolor(style.getPropertyValue('--color-4')) + "$".fontcolor(style.getPropertyValue('--color-5')),"float:left; margin-right:10px;")
 
     var divInput = document.createElement("div");
     divInput.innerHTML = "";

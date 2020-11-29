@@ -1,6 +1,14 @@
+:root {
+    --color-1: #173F5F;
+    --color-2: #20639B;
+    --color-3: #3CAEA3;
+    --color-4: #F6D55C;
+    --color-5: #ED553B;
+}
+
 body {
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
     font-family: 'Roboto';
     font-weight: bold;
 }
