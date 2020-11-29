@@ -58,10 +58,10 @@ function pushhelp() {
         name: "help",
         syntax: "help",
         func: function  (args) {
-            createDiv("js".fontcolor("#F6D55C") + "OS".fontcolor("#ED553B") + ", version 0.2-release", "margin-top: 10px");	
-            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "These shell functions are defined internally. Type 'help' to see this list.");
-            createDiv("\\".fontcolor("#F6D55C") + "\\".fontcolor("#ED553B") + "Type 'repo install/remove function' to manage your functions.");
-            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "repo list/count will give information about aviable functions.", "margin-bottom: 10px;");
+            createDiv("OS".fontcolor("#F6D55C") + ".js".fontcolor("#ED553B") + ", version 0.2-release", "margin-top: 10px;");	
+            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "These shell functions are defined internally. Type 'help' to see this list.", "margin-left: 10px");
+            createDiv("\\".fontcolor("#F6D55C") + "\\".fontcolor("#ED553B") + "Type 'repo install/remove function' to manage your functions.", "margin-left: 10px");
+            createDiv("/".fontcolor("#F6D55C") + "/".fontcolor("#ED553B") + "repo list/count will give information about aviable functions.", "margin-bottom: 10px; margin-left: 10px");
             getNewInput();
         }
     });
@@ -275,7 +275,7 @@ function pushfetch() {
         name: "fetch",
         syntax: "fetch",
         func: function  (args) {
-            createDiv("js".fontcolor("#173F5F").fontsize(10) + "OS".fontcolor("#20639B").fontsize(10));
+            createDiv("OS".fontcolor("#173F5F").fontsize(10) + ".js".fontcolor("#20639B").fontsize(10));
 	        createDiv("Copyright (C) literally no one..", "margin-bottom: 10px");
 	        getNewInput();  
         }

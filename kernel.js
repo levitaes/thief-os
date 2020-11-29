@@ -1,6 +1,6 @@
 //vars
 var user = "usr";
-var files = [];
+var files = ['.themes', '.config'];
 var installed = ['help', 'repo', 'clear', 'time', 'print', 'uname', 'mkdir', 'rmdir', 'list', 'reset'];
 var commands = []
 var temp;
