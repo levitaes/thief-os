@@ -3,6 +3,7 @@ var user = "usr";
 var files = [];
 var installed = ['help', 'repo', 'clear', 'time', 'print', 'uname', 'mkdir', 'rmdir', 'list', 'reset'];
 var commands = []
+var temp;
 
 //boot
 function boot() {
@@ -22,8 +23,8 @@ function boot() {
 }
 
 //input
-function getInput() {
-
+function getInput(loop) {
+	
     createDiv(user.fontcolor("#173F5F") + "@".fontcolor("#20639B") + "terminal:".fontcolor("#3CAEA3") + "~".fontcolor("#F6D55C") + "$".fontcolor("#ED553B"),"float:left; margin-right:10px;")
 
     var divInput = document.createElement("div");
@@ -44,19 +45,23 @@ function getInput() {
 	divInput.addEventListener("keydown", function (e) {
 		if (e.keyCode === 13) {
 			e.preventDefault(); //prevents <br>'s, and <p>'s in input soup
-						
-			//circleCmdList(divInput.innerHTML);
-            execute(divInput.innerHTML);
+			
+			if (!loop == 1)
+            	execute(divInput.innerHTML);
+            else {
+            	const command = commands.find(cmd => cmd.name == "morsa");
+            	command.func(divInput.innerHTML);
+            }
 		}
 	});
 }
 
-function getNewInput() {
+function getNewInput(loop) {
     var oldInputDiv = document.getElementById("inputID");
     oldInputDiv.setAttribute("contenteditable","false");
     oldInputDiv.setAttribute("id","inputKilled");
 
-    getInput();
+    getInput(loop);
 }
 
 //core
@@ -86,10 +91,10 @@ function execute(input) {
         println(inputSplit[0].fontcolor("#F6D55C") + ": command not found".fontcolor("#ED553B"));    
 }
 
-function println(value, style) {
+function println(value, style, loop) {
 	createDiv(value, style);
 	
-	getNewInput();
+	getNewInput(loop);
 } 
 
 function loadCommands() {
