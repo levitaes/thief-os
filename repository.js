@@ -281,3 +281,19 @@ function pushfetch() {
         }
     });
 }
+
+function pushcalc() {
+    commands.push({
+        name: "calc",
+        syntax: "calc <String>",
+        func: function  (args) {
+            try {
+                println(eval(args.join(" ")));
+            }
+            catch(err) {
+                //println(err);
+                println("invalid operation".fontcolor("#F6D55C") + "!".fontcolor("#ED553B"));
+            }
+        }
+    });
+}
