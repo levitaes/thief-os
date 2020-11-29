@@ -5,8 +5,10 @@ OS.js will be a hub to share functions made by
 
 #### build-in repository: 
 ```
-repo install 'function'
+repo install/remove 'function'
+repo list/count
 ```
+- aviable functions: fetch, calc, ngen, morsa, tweak
 #### calculator
 ```
 repo install calc
@@ -18,4 +20,12 @@ repo install ngen
 #### learn morse code
 ```
 repo install morsa
+```
+#### tweak-tool
+```
+repo install tweak
+```
+- aviable themes: dark, light
+```
+tweak light
 ```
