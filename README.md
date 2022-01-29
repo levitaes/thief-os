@@ -5,4 +5,4 @@ OS.js will be a hub to share functions made by
 
 #### Documentation: 
 
-<a href="thief.boomla.net/OS.js" target="_blank">thief.boobla.net/OS.js</a>
+<a href="thief.boomla.net/OS.js" target="_blank">thief.boomla.net/OS.js</a>
