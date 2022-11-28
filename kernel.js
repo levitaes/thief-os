@@ -76,15 +76,11 @@ async function run() {
     if (input === "") {
         document.getElementById("input").innerHTML = "";
         pushBr();
-        run()
+        await run()
         return;
     }
-
     functionLoader.run(input);
-    console.log(functionLoader)
-
 }
-
 
 let functionLoader;
 function functionLoaderInit() {
