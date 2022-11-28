@@ -81,8 +81,7 @@ async function run() {
         case "command":
             say("doing commands");
             say("still doing commands");
-            let response = await ask("what is love?");
-            next("so you think: " + response);
+            next("so you think: " + await ask("what is love?"));
             return;
         default:
             next("command '" + input + "' not found");
