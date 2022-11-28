@@ -3,68 +3,89 @@ let user = "thief";
 
 //boot
 function boot() {
-	getInput();
+	run();
 }
 
-//input
-function getInput(returnValue) {
+//dialog
+function next(returnValue) {
     if (returnValue) {
-        pushOut(returnValue);
-        document.body.appendChild(document.createElement("br"));
+        push(returnValue);
+        pushBr();
     }
-    pushOut(user + " ~");
-    pushOut("input")
+    run();
+}
+
+function say(message) {
+    push(message);
+    pushBr();
+}
+
+function ask(message) {
+    push(message)
+    return pull();
 }
 
 //core
-function pushOut(value) {
+function push(value) {
+    let div = document.createElement("div");
+    div.innerHTML = value;
+    div.setAttribute("class","line");
+    document.body.appendChild(div);
+}
+
+function pull() {
     if (document.getElementById("input")) {
         let lastInput = document.getElementById("input");
         lastInput.setAttribute("contenteditable","false");
         lastInput.setAttribute("id","inputKilled");
     }
+    let div = document.createElement("div");
+    div.innerHTML = "";
+    div.setAttribute("class", "input");
+    div.setAttribute("id","input");
+    div.setAttribute("spellcheck","false");
+    div.setAttribute("contenteditable", "true");
+    div.setAttribute("autofocus", "");
 
-    let lineToAppend = document.createElement("div");
-    lineToAppend.innerHTML = value;
-    lineToAppend.setAttribute("class","line");
-    if (value === "input") {
-        lineToAppend.innerHTML = "";
-        lineToAppend.setAttribute("class", "input");
-        lineToAppend.setAttribute("id","input");
-        lineToAppend.setAttribute("spellcheck","false");
-        lineToAppend.setAttribute("contenteditable", "true");
-        lineToAppend.setAttribute("autofocus", "");
-    }
-    document.body.appendChild(lineToAppend);
+    document.body.appendChild(div);
 
-    if (value === "input") {
-        setTimeout(function() {
-            lineToAppend.focus();
-        }, 0);
+    setTimeout(function() {
+        div.focus();
+    }, 0);
 
-        document.execCommand('defaultParagraphSeparator', false, 'p');
+    document.execCommand('defaultParagraphSeparator', false, 'p');
 
-        lineToAppend.addEventListener("keydown", function (e) {
+    return new Promise((resolve) => {
+        div.addEventListener("keydown", function (e) {
             if (e.keyCode === 13) {
                 e.preventDefault(); //prevents <br>'s, and <p>'s in input soup
-                run(lineToAppend.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,""));//.replace(/<br>/g,"").replace(/&nbsp;/g,"").split(" ")
+                resolve(div.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,""));
             }
         });
-    }
+    });
+
 }
 
-function run(input) {
-    console.log(input);
+function pushBr () {
+    document.body.appendChild(document.createElement("br"));
+}
+
+async function run() {
+    let input = await ask(user + " ~");
     switch (input) {
         case "":
             document.getElementById("input").innerHTML = "";
-            getInput(" ");
+            pushBr();
+            run()
             return;
         case "command":
-            getInput("doing command stuff");
+            say("doing commands");
+            say("still doing commands");
+            let response = await ask("what is love?");
+            next("so you think: " + response);
             return;
         default:
-            getInput("command '" + input + "' not found");
+            next("command '" + input + "' not found");
             return;
     }
 }
