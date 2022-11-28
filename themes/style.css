@@ -1,9 +1,11 @@
 body {
-    background-color: black;
-    color: white;
+    background-color: #596B6A;
+    color: #FAF0E6;
     font-weight: bolder;
-    height: 100vh;
+    height: 95vh;
     margin: 0;
+    font-family: 'Courier New', monospace;
+    padding: 15px;
 }
 
 .line {
