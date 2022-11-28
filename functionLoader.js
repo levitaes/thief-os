@@ -24,13 +24,13 @@ os.run = function (data) {
     const command = args.shift().toLowerCase();
 
     if (!this.functions.has(command)) {
-        this.ask('command not found');
+        this.next('command not found');
         return;
     }
 
     try {
         if (args[0] === '-h') {
-            this.say(this.functions.get(command).description);
+            this.next(this.functions.get(command).description);
             return;
         }
 
