@@ -2,12 +2,14 @@ import help from './help.function.js';
 import about from './about.function.js';
 import man from './man.function.js';
 import time from './time.function.js';
+import print from './print.function.js';
 
 const list = {
     help,
     about,
     man,
-    time
+    time,
+    print,
 }
 
 const functionList = new Map();
