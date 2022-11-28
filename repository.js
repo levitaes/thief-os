@@ -1,4 +1,4 @@
-function pushrepo() {
+/*function pushrepo() {
     commands.push({
         name: "repo",
         syntax: "repo <String>",
@@ -319,4 +319,4 @@ function pushtweak() {
                 println(theme);
         }
     });
-}
+}*/

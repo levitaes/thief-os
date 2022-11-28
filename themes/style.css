@@ -1,20 +1,14 @@
-:root {
-    --color-1: #173F5F;
-    --color-2: #20639B;
-    --color-3: #3CAEA3;
-    --color-4: #F6D55C;
-    --color-5: #ED553B;
-}
-
 body {
     background-color: black;
     color: white;
-    font-family: 'Roboto';
-    font-weight: bold;
+    font-weight: bolder;
+    height: 100vh;
+    margin: 0;
 }
 
-html, body {
-    height: 98%;
+.line {
+    margin-right: 10px;
+    float: left;
 }
 
 [contenteditable="true"].input {
@@ -29,6 +23,6 @@ html, body {
 
 }
 [contenteditable="true"].input * {
-    display:inline;
-    white-space:nowrap;
+    display: inline;
+    white-space: nowrap;
 }
