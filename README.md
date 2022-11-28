@@ -21,7 +21,7 @@ OS.js will be a hub to share functions made by
 export default {
   name: "function name",
   description: "function description",
-  execute: async (app, args) => {
+  execute: async (os, args) => {
     // Your code here
   },
 };
@@ -41,3 +41,13 @@ const list = {
   yourNewFunction,
 };
 ```
+
+In the `execute` function you can use the `os` and `args` parameters.
+
+Through the `os` parameter you have access to the following functions:
+
+- `os.ask` - wait for user input
+- `os.say` - print text to user
+- `os.next` - last message to end function
+
+The `args` parameter is an array of arguments passed to the function.
