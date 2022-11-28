@@ -1,7 +1,7 @@
 <h3 align='center'> OS.js </h3>
 
 OS.js will be a hub to share functions made by 
-<a href="https://github.com/thief-hub" target="_blank">thief</a>
+<a href="https://thief.page" target="_blank">thief</a>
 
 #### Documentation: 
 
