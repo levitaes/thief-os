@@ -1,13 +1,8 @@
-<h3 align='center'> OS.js </h3>
+<h3 align='center'> thief-os </h3>
 
 OS.js will be a hub to share functions made by
-<a href="https://thief.page" target="_blank">thief</a>
-
-#### Documentation:
-
-<a href="https://thief.boomla.net/os.js" target="_blank">https://thief.boomla.net/os.js</a>
-
-<br>
+<a href="https://github.com/thief-hub" target="_blank">Thief</a>
+and <a href="https://github.com/Beniox" target="_blank">Beniox</a>.
 
 ---
 
