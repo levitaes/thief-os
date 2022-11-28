@@ -1,5 +1,5 @@
 
-const app = {
+const os = {
     functions: new Map(),
     promiseResolve: null,
     promiseReject: null,
@@ -8,10 +8,10 @@ const app = {
     }
 }
 
-app.load = () => {
+os.load = () => {
     return new Promise(async (resolve, reject) => {
         import('./functions/functionList.js').then((module) => {
-            app.functions = module.default;
+            os.functions = module.default;
             resolve();
         }).catch((error) => {
             reject(error);
@@ -19,7 +19,7 @@ app.load = () => {
     });
 }
 
-app.run = function (data) {
+os.run = function (data) {
     const args = data.split(' ');
     const command = args.shift().toLowerCase();
 
@@ -42,6 +42,5 @@ app.run = function (data) {
 
 }
 
-app.load();
-
-export default app;
+os.load();
+export default os;

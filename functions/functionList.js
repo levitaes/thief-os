@@ -1,11 +1,13 @@
 import help from './help.function.js';
 import about from './about.function.js';
-import man from './man.function.js'
+import man from './man.function.js';
+import time from './time.function.js';
 
 const list = {
     help,
     about,
-    man
+    man,
+    time
 }
 
 const functionList = new Map();
