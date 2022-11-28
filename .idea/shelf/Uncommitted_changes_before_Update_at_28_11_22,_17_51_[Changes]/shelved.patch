@@ -1,0 +1,43 @@
+Index: functions/functionList.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import help from './help.function.js';\nimport about from './about.function.js';\nimport man from './man.function.js';\nimport time from './time.function.js';\n\nconst list = {\n    help,\n    about,\n    man,\n    time\n}\n\nconst functionList = new Map();\n\nfor (const [key, value] of Object.entries(list)) {\n    functionList.set(key, value);\n}\n\nexport default functionList;\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/functions/functionList.js b/functions/functionList.js
+--- a/functions/functionList.js	(revision 34de25f50b28a907250ed68da563121f7041150e)
++++ b/functions/functionList.js	(date 1669654226912)
+@@ -2,12 +2,14 @@
+ import about from './about.function.js';
+ import man from './man.function.js';
+ import time from './time.function.js';
++import print from './print.function';
+ 
+ const list = {
+     help,
+     about,
+     man,
+-    time
++    time,
++    print,
+ }
+ 
+ const functionList = new Map();
+Index: functions/print.function.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/functions/print.function.js b/functions/print.function.js
+new file mode 100644
+--- /dev/null	(date 1669654226916)
++++ b/functions/print.function.js	(date 1669654226916)
+@@ -0,0 +1,7 @@
++export default {
++    name: 'print',
++    description: 'print arguments',
++    execute(os, args) {
++        os.next(args);
++    }
++};
