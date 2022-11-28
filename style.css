@@ -1,0 +1,28 @@
+body {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    height: 100vh;
+    margin: 0;
+}
+
+.line {
+    margin-right: 10px;
+    float: left;
+}
+
+[contenteditable="true"].input {
+    white-space: nowrap;
+    width: auto;
+    height: 20px;
+    overflow: hidden;
+    outline: none;
+} 
+[contenteditable="true"].input br {
+    display:none;
+
+}
+[contenteditable="true"].input * {
+    display: inline;
+    white-space: nowrap;
+}
