@@ -3,7 +3,7 @@ let user = "thief";
 
 //boot
 function boot() {
-	run();
+    run();
 }
 
 //dialog
@@ -29,27 +29,27 @@ function ask(message) {
 function push(value) {
     let div = document.createElement("div");
     div.innerHTML = value;
-    div.setAttribute("class","line");
+    div.setAttribute("class", "line");
     document.body.appendChild(div);
 }
 
 function pull() {
     if (document.getElementById("input")) {
         let lastInput = document.getElementById("input");
-        lastInput.setAttribute("contenteditable","false");
-        lastInput.setAttribute("id","inputKilled");
+        lastInput.setAttribute("contenteditable", "false");
+        lastInput.setAttribute("id", "inputKilled");
     }
     let div = document.createElement("div");
     div.innerHTML = "";
     div.setAttribute("class", "input");
-    div.setAttribute("id","input");
-    div.setAttribute("spellcheck","false");
+    div.setAttribute("id", "input");
+    div.setAttribute("spellcheck", "false");
     div.setAttribute("contenteditable", "true");
     div.setAttribute("autofocus", "");
 
     document.body.appendChild(div);
 
-    setTimeout(function() {
+    setTimeout(function () {
         div.focus();
     }, 0);
 
@@ -59,43 +59,48 @@ function pull() {
         div.addEventListener("keydown", function (e) {
             if (e.keyCode === 13) {
                 e.preventDefault(); //prevents <br>'s, and <p>'s in input soup
-                resolve(div.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g,""));
+                resolve(div.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g, ""));
             }
         });
     });
 
 }
 
-function pushBr () {
+function pushBr() {
     document.body.appendChild(document.createElement("br"));
 }
 
 async function run() {
     let input = await ask(user + " ~");
-    switch (input) {
-        case "":
-            document.getElementById("input").innerHTML = "";
-            pushBr();
-            run()
-            return;
-        case "command":
-            say("doing commands");
-            say("still doing commands");
-            next("so you think: " + await ask("what is love?"));
-            return;
-        default:
-            next("command '" + input + "' not found");
-            return;
+
+    if (input === "") {
+        document.getElementById("input").innerHTML = "";
+        pushBr();
+        run()
+        return;
     }
+
+    functionLoader.run(input);
+    console.log(functionLoader)
+
 }
 
 
-
-
-
-
-
-
+let functionLoader;
+function functionLoaderInit() {
+    return new Promise(async (resolve, reject) => {
+        import('./functionLoader.js').then((module) => {
+            functionLoader = module.default;
+            functionLoader.say = say;
+            functionLoader.ask = ask;
+            functionLoader.next = next;
+            resolve();
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+}
+functionLoaderInit();
 
 
 
