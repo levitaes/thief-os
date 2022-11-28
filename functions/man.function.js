@@ -1,14 +1,14 @@
 export default {
     name: 'man',
-    description: 'show infos about a command',
+    description: 'show info about a command',
     execute(os, args) {
         if (args.length === 0) {
-            os.next('No command specified');
+            os.next('os command specified');
             return;
         }
         const command = args.shift().toLowerCase();
         if (!os.functions.has(command)) {
-            os.next('Command not found');
+            os.next('command not found');
             return;
         }
 

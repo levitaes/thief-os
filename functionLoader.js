@@ -24,7 +24,7 @@ os.run = function (data) {
     const command = args.shift().toLowerCase();
 
     if (!this.functions.has(command)) {
-        this.ask('Command not found');
+        this.ask('command not found');
         return;
     }
 

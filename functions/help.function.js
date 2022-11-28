@@ -1,6 +1,6 @@
 export default {
     name: 'help',
-    description: 'help command',
+    description: 'show basic operations to user',
     execute(os) {
         os.next('help command executed');
     }

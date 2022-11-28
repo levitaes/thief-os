@@ -1,7 +1,8 @@
 export default {
     name: 'about',
-    description: 'About the author of this project',
+    description: 'show info about this OS',
     execute(os) {
-        os.next('about command executed');
+        os.say("This 'OS' was created by Thief and Beniox.");
+        os.next("Work in Progress..");
     }
 };
