@@ -20,7 +20,6 @@ export default {
             while (!quit) {
                 os.say(ngen(length));
                 let response = await os.ask(">");
-                console.log(typeof response)
                 if (!(response === ""))
                     quit = true;
             }

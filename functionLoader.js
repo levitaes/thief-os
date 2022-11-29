@@ -34,7 +34,7 @@ os.run = function (data) {
             return;
         }
 
-        this.functions.get(command).execute(this, args);
+        this.functions.get(command).execute(this, args, os.functions);
     }
     catch (error) {
         say(error);

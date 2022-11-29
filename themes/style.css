@@ -4,6 +4,7 @@ body {
     height: 95vh;
     margin: 0;
     padding: 5px;
+    line-height: 20px;
 }
 
 .line {

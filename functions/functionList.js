@@ -5,6 +5,7 @@ import time from './time.function.js';
 import print from './print.function.js';
 import ngen2 from './ngen2.function.js';
 import clear from './clear.function.js';
+import repo from './repo.function.js';
 
 const list = {
     help,
@@ -14,6 +15,7 @@ const list = {
     print,
     ngen2,
     clear,
+    repo,
 }
 
 const functionList = new Map();
