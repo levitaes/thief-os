@@ -1,14 +1,14 @@
 export default {
     name: 'repo',
     description: 'manage functions',
-    execute(os, args, functions) {
+    execute(os, args) {
         switch (args[0]) {
             case "count":
-                os.next(functions.size);
+                os.next(os.functions.size);
                 break;
             case "list":
-                os.next(Array.from(functions.keys()));
-                console.log(Array.from(functions.keys()));
+                os.next(Array.from(os.functions.keys()));
+                console.log(Array.from(os.functions.keys()));
         }
     }
 };
