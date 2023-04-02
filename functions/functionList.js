@@ -6,6 +6,7 @@ import print from './print.function.js';
 import ngen2 from './ngen2.function.js';
 import clear from './clear.function.js';
 import repo from './repo.function.js';
+import curl from './curl.function.js';
 
 const list = {
     help,
@@ -16,6 +17,7 @@ const list = {
     ngen2,
     clear,
     repo,
+    curl
 }
 
 const functionList = new Map();
