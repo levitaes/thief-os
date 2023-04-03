@@ -7,6 +7,8 @@ import ngen2 from './ngen2.function.js';
 import clear from './clear.function.js';
 import repo from './repo.function.js';
 import curl from './curl.function.js';
+import rev from './rev.function.js';
+import neofetch from './neofetch.function.js';
 
 const list = {
     help,
@@ -17,7 +19,9 @@ const list = {
     ngen2,
     clear,
     repo,
-    curl
+    curl,
+    rev,
+    neofetch,
 }
 
 const functionList = new Map();
