@@ -7,7 +7,6 @@ import clear from './clear.function.js';
 import repo from './repo.function.js';
 import curl from './curl.function.js';
 import rev from './rev.function.js';
-import omnifetch from './omnifetch.function.js';
 
 const list = {
     help,
@@ -19,7 +18,6 @@ const list = {
     repo,
     curl,
     rev,
-    omnifetch,
 }
 
 const functionList = new Map();
