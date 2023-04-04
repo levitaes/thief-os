@@ -17,8 +17,9 @@ export default {
                     return;
                 }
 
+                // Standard repositories
                 this.repositories.set("default", "/functions");
-                this.repositories.set("stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions");
+                this.repositories.set("stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions"); // See https://stackoverflow.com/questions/17341122/link-and-execute-external-javascript-file-hosted-on-github
 
                 const command = args[1];
                 for (const [key, value] of this.repositories.entries()) {
