@@ -18,9 +18,11 @@ export default {
                 }
 
                 this.repositories.set("default", "/functions");
+                this.repositories.set("stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions");
 
                 const command = args[1];
                 for (const [key, value] of this.repositories.entries()) {
+                    console.log("checking repository " + key);
                     try {
                         const url = `${value}/${command}.function.js`;
                         const res = await fetch(url);
@@ -55,8 +57,10 @@ export default {
                     os.next("please specify a repository");
                     return;
                 }
+                console.log(args[1]);
                 // TODO: check if repository exists
-                this.repositories.set("custom", args[2]);
+                this.repositories.set("custom", args[1]);
+                console.log(this.repositories);
                 os.next("repository added");
                 break;
             default:

@@ -3,7 +3,6 @@ import about from './about.function.js';
 import man from './man.function.js';
 import time from './time.function.js';
 import print from './print.function.js';
-import ngen2 from './ngen2.function.js';
 import clear from './clear.function.js';
 import repo from './repo.function.js';
 import curl from './curl.function.js';
@@ -16,7 +15,6 @@ const list = {
     man,
     time,
     print,
-    ngen2,
     clear,
     repo,
     curl,
