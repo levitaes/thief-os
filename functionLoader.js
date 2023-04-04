@@ -42,11 +42,6 @@ os.run = function (data) {
     }
 
     try {
-        if (args[0] === '-h') {
-            this.next(this.functions.get(command).description);
-            return;
-        }
-
         this.functions.get(command).execute(this, args);
     }
     catch (error) {
