@@ -1,11 +1,21 @@
 //vars
-let user = "thief";
+let userName = "thief";
 let inputHistory = [];
 let inputHistoryCursor = inputHistory.length;
 
 //boot
 function boot() {
+    setup();
     run();
+}
+
+function setup() {
+    if (localStorage.getItem("userName"))
+        userName = localStorage.getItem("userName");
+
+    if (localStorage.getItem("inputHistory"))
+        inputHistory = localStorage.getItem("inputHistory").split(",");
+    inputHistoryCursor = inputHistory.length;
 }
 
 //dialog
@@ -65,6 +75,7 @@ function pull() {
                 resolve(replacedInnerHTML);
                 if (replacedInnerHTML !== "" && replacedInnerHTML !== inputHistory[inputHistory.length -1]) {
                     inputHistory.push(replacedInnerHTML);
+                    localStorage.setItem("inputHistory", inputHistory);
                 }
                 inputHistoryCursor = inputHistory.length;
             }
@@ -87,7 +98,7 @@ function pushBr() {
 }
 
 async function run() {
-    let input = await ask(user + " ~");
+    let input = await ask(userName + " ~");
 
     if (input === "") {
         document.getElementById("input").innerHTML = "";

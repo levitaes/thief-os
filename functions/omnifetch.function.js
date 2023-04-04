@@ -1,13 +1,14 @@
 export default {
-    name: 'neofetch',
-    description: 'neofetch',
-    execute(os, args) {
+    name: 'omnifetch',
+    description: 'omnifetch (fetch system information)',
+    arguments: 0,
+    execute(os) {
     const data = {
-        os: "thiefOS",
+        os: "thief-os",
         host: navigator.platform,
-        kernel: "thiefOS",
+        kernel: "kernel.js",
         packages: os.functions.size,
-        shell: "thiefOS",
+        shell: "murex",
         resolution: `${window.innerWidth}x${window.innerHeight}`,
         cpu: navigator.hardwareConcurrency,
     }
