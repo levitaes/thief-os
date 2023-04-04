@@ -1,17 +1,21 @@
 export default {
     name: 'man',
-    description: 'show info about a command',
+    description: 'man [string] (display manual of function)',
+    arguments: 1,
     execute(os, args) {
-        if (args.length === 0) {
-            os.next('os command specified');
-            return;
-        }
         const command = args.shift().toLowerCase();
         if (!os.functions.has(command)) {
-            os.next('command not found');
+            os.next('function not found');
             return;
         }
 
-        os.next(os.functions.get(command).description);
+        if(Array.isArray(os.functions.get(command).description)) {
+            let i;
+            for(i = 0; i < (os.functions.get(command).description.length -1); i++)
+                os.say(os.functions.get(command).description[i]);
+            os.next(os.functions.get(command).description[i]);
+        } 
+        else
+            os.next(os.functions.get(command).description);
     }
 };

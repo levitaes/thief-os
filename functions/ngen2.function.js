@@ -1,7 +1,8 @@
 export default {
     name: 'ngen2',
-    description: 'generate unique username',
-    execute: async function (os) {
+    description: 'ngen2 [integer] (generate unique username with given length)',
+    arguments: 1,
+    execute: async function (os, args) {
         let vowel =
             ['a', 'e', 'i', 'o', 'u'];
         let conso =
@@ -9,21 +10,20 @@ export default {
         let last = "";
         let quit = false;
 
-        os.say("enter desired length");
-        let length = parseInt(await os.ask(">"), 10);
+        let length = parseInt(args, 10);
 
         if (!Number.isInteger(length)) {
             os.next("NaN");
         }else {
-            os.say("press enter to get different name,");
-            os.say("or anything else to quit");
+            os.say("ngen2: press enter for next,");
+            os.say("ngen2: or type quit");
             while (!quit) {
                 os.say(ngen(length));
-                let response = await os.ask(">");
-                if (!(response === ""))
+                let response = await os.ask("");
+                if (response === "quit")
                     quit = true;
             }
-            os.next("bye");
+            os.next("ngen2: bye");
         }
 
         function ngen(length) {

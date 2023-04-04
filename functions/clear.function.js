@@ -1,7 +1,8 @@
 export default {
     name: 'clear',
-    description: 'clear all past entries',
-    execute(os) {
+    description: 'clear (clear all past entries)',
+    arguments: 0,
+    execute(os, args) {
         let divs = document.getElementsByTagName("div");
         let brs = document.getElementsByTagName("br");
         let length = divs.length;

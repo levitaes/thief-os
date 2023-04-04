@@ -24,8 +24,21 @@ os.run = function (data) {
     const command = args.shift().toLowerCase();
 
     if (!this.functions.has(command)) {
-        this.next('command not found');
+        this.next('function doesnt exist');
         return;
+    }
+
+    if (this.functions.get(command).arguments !== -1) {
+            
+        if (args.length > this.functions.get(command).arguments) {
+        os.next('too many arguments');
+        return;
+        }
+
+        if (args.length < this.functions.get(command).arguments) {
+            os.next('not enough arguments');
+            return;
+        }
     }
 
     try {

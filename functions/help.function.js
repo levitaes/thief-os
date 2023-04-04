@@ -1,7 +1,9 @@
 export default {
     name: 'help',
-    description: 'show basic operations to user',
+    description: 'help (output quickstart information)',
+    arguments: 0,
     execute(os) {
-        os.next('help command executed');
+        os.say('repo list (list aviable functions)');
+        os.next('man [options] (display manual of function)');
     }
 };

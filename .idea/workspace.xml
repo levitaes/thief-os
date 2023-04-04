@@ -4,13 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98d11ea2-bee6-4031-a52e-db066a40edf3" name="Changes" comment="feat: add print function">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/clear.function.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/functions/ngen2.function.js" afterDir="false" />
+    <list default="true" id="98d11ea2-bee6-4031-a52e-db066a40edf3" name="Changes" comment="refactor: simplify time">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions/functionList.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/functionList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kernel.js" beforeDir="false" afterPath="$PROJECT_DIR$/kernel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/themes/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/themes/style.css" afterDir="false" />
     </list>
+    <list id="399f8df7-a3b7-49c6-8594-7011e566c694" name="Changes by benni" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,13 +41,14 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/thief/Projects/thief-os&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.javascript.prettier&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -64,6 +65,10 @@
       <workItem from="1669625324878" duration="17851000" />
       <workItem from="1669646648971" duration="1782000" />
       <workItem from="1669650741441" duration="10061000" />
+      <workItem from="1669735466325" duration="1170000" />
+      <workItem from="1669807533276" duration="217000" />
+      <workItem from="1669903025739" duration="2691000" />
+      <workItem from="1669967067597" duration="364000" />
     </task>
     <task id="LOCAL-00001" summary="refactor: doing everything from scratch">
       <created>1669634169628</created>

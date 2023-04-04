@@ -1,5 +1,7 @@
 //vars
 let user = "thief";
+let inputHistory = [];
+let inputHistoryCursor = inputHistory.length;
 
 //boot
 function boot() {
@@ -59,7 +61,21 @@ function pull() {
         div.addEventListener("keydown", function (e) {
             if (e.keyCode === 13) {
                 e.preventDefault(); //prevents <br>'s, and <p>'s in input soup
-                resolve(div.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g, ""));
+                let replacedInnerHTML = div.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g, "")
+                resolve(replacedInnerHTML);
+                if (replacedInnerHTML !== "" && replacedInnerHTML !== inputHistory[inputHistory.length -1]) {
+                    inputHistory.push(replacedInnerHTML);
+                }
+                inputHistoryCursor = inputHistory.length;
+            }
+            if (e.keyCode === 38 && inputHistory[inputHistoryCursor -1] !== undefined) {
+                inputHistoryCursor--;
+                div.innerHTML = inputHistory[inputHistoryCursor];
+            }
+
+            if (e.keyCode === 40 && inputHistory[inputHistoryCursor +1] !== undefined) {
+                inputHistoryCursor++;
+                div.innerHTML = inputHistory[inputHistoryCursor];
             }
         });
     });

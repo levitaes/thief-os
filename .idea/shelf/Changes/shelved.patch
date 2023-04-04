@@ -1,0 +1,66 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"98d11ea2-bee6-4031-a52e-db066a40edf3\" name=\"Changes\" comment=\"feat: add print function\">\n      <change afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/functions/clear.function.js\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/functions/ngen2.function.js\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/functions/functionList.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/functions/functionList.js\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"RESET_MODE\" value=\"HARD\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2I3lPVI1ft5F2akcTAt9ADfv0d8\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\n    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/thief/Projects/thief-os&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"98d11ea2-bee6-4031-a52e-db066a40edf3\" name=\"Changes\" comment=\"\" />\n      <created>1669418123966</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1669418123966</updated>\n      <workItem from=\"1669418125375\" duration=\"4893000\" />\n      <workItem from=\"1669477105171\" duration=\"81000\" />\n      <workItem from=\"1669625324878\" duration=\"17851000\" />\n      <workItem from=\"1669646648971\" duration=\"1782000\" />\n      <workItem from=\"1669650741441\" duration=\"10061000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"refactor: doing everything from scratch\">\n      <created>1669634169628</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669634169628</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"feat: add ask with await pull\">\n      <created>1669640481739</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669640481739</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"refactor: remove unnecessary line\">\n      <created>1669644133629</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669644133629</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"chore: structure files\">\n      <created>1669644311409</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669644311409</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"chore: add function folder\">\n      <created>1669644495364</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669644495364</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"feat: apply padding and colors\">\n      <created>1669647048103</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669647048103</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"chore: migrate to bootstrap\">\n      <created>1669648253225</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669648253225</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"feat: add time function\">\n      <created>1669652961797</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669652961797</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"chore: change formating\">\n      <created>1669653919335</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669653919335</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"feat: add print function\">\n      <created>1669654331346</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1669654331346</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"11\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"COLUMN_ID_WIDTH\">\n                <map>\n                  <entry key=\"Table.Default.Author.ColumnIdWidth\" value=\"158\" />\n                  <entry key=\"Table.Default.Date.ColumnIdWidth\" value=\"108\" />\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\n    <MESSAGE value=\"refactor: doing everything from scratch\" />\n    <MESSAGE value=\"feat: add ask with await pull\" />\n    <MESSAGE value=\"refactor: remove unnecessary line\" />\n    <MESSAGE value=\"chore: structure files\" />\n    <MESSAGE value=\"chore: add function folder\" />\n    <MESSAGE value=\"feat: apply padding and colors\" />\n    <MESSAGE value=\"chore: migrate to bootstrap\" />\n    <MESSAGE value=\"feat: add time function\" />\n    <MESSAGE value=\"chore: change formating\" />\n    <MESSAGE value=\"feat: add print function\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"feat: add print function\" />\n  </component>\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\n    <expand />\n    <select />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f2a4a922bcf8eeb35aada7871c327c5077dbfac6)
++++ b/.idea/workspace.xml	(date 1669723900168)
+@@ -4,12 +4,14 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="98d11ea2-bee6-4031-a52e-db066a40edf3" name="Changes" comment="feat: add print function">
+-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/functions/clear.function.js" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/functions/ngen2.function.js" afterDir="false" />
++    <list default="true" id="98d11ea2-bee6-4031-a52e-db066a40edf3" name="Changes" comment="feat: add clear and ngen2">
++      <change afterPath="$PROJECT_DIR$/functions/repo.function.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/functionLoader.js" beforeDir="false" afterPath="$PROJECT_DIR$/functionLoader.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/functions/functionList.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/functionList.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/functions/ngen2.function.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/ngen2.function.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/functions/time.function.js" beforeDir="false" afterPath="$PROJECT_DIR$/functions/time.function.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/themes/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/themes/style.css" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -63,7 +65,9 @@
+       <workItem from="1669477105171" duration="81000" />
+       <workItem from="1669625324878" duration="17851000" />
+       <workItem from="1669646648971" duration="1782000" />
+-      <workItem from="1669650741441" duration="10061000" />
++      <workItem from="1669650741441" duration="10443000" />
++      <workItem from="1669709029831" duration="51000" />
++      <workItem from="1669717598225" duration="3433000" />
+     </task>
+     <task id="LOCAL-00001" summary="refactor: doing everything from scratch">
+       <created>1669634169628</created>
+@@ -135,7 +139,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1669654331346</updated>
+     </task>
+-    <option name="localTasksCounter" value="11" />
++    <task id="LOCAL-00011" summary="feat: add clear and ngen2">
++      <created>1669662697062</created>
++      <option name="number" value="00011" />
++      <option name="presentableId" value="LOCAL-00011" />
++      <option name="project" value="LOCAL" />
++      <updated>1669662697062</updated>
++    </task>
++    <option name="localTasksCounter" value="12" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -171,7 +182,8 @@
+     <MESSAGE value="feat: add time function" />
+     <MESSAGE value="chore: change formating" />
+     <MESSAGE value="feat: add print function" />
+-    <option name="LAST_COMMIT_MESSAGE" value="feat: add print function" />
++    <MESSAGE value="feat: add clear and ngen2" />
++    <option name="LAST_COMMIT_MESSAGE" value="feat: add clear and ngen2" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
