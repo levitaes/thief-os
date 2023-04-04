@@ -29,6 +29,7 @@ export default {
                         const res = await fetch(url);
                         if (res.status === 200) {
                             const fn = await import(url);
+                            Object.defineProperty(fn.default, "source", {value: url, writable: false});
                             os.functions.set(command, fn.default);
                             os.next("command installed");
                             console.log(os.functions);

@@ -23,6 +23,7 @@ const list = {
 const functionList = new Map();
 
 for (const [key, value] of Object.entries(list)) {
+    Object.defineProperty(value, "source", {value: `default/${key}.function.js`, writable: false});
     functionList.set(key, value);
 }
 
