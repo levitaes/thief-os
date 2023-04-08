@@ -9,8 +9,11 @@ export class INode {
      * @param parent {INode} - the parent inode
      */
     constructor(name, parent) {
-        console.log('new inode');
-        console.log(name);
+        if (parent) {
+            errorIfChildWithNameExist(parent, name);
+            parent.dir.set(name, this);
+        }
+
         this.parent = parent;
         this.name = name;
         this.metadata = {
@@ -52,12 +55,8 @@ export class INode {
      * @param name {string} - the new name
      */
     rename(name) {
-        if (this.parent == null) {
-            throw new Error('Cannot rename root directory');
-        }
-        if (this.parent.dir.has(name)) {
-            throw new Error('Name already exists: ' + name);
-        }
+        errorIfRoot(this);
+        errorIfChildWithNameExist(this.parent, name);
 
         this.parent.dir.delete(this.name); // delete from parent
         this.parent.dir.set(name, this); // add to parent
@@ -77,6 +76,20 @@ export class INode {
             parent = parent.parent;
         }
         return path;
+    }
+
+    /**
+     * Move this inode to a new parent
+     * @param newParent {INode} - the new parent
+     */
+    move(newParent) {
+        errorIfRoot(this);
+        errorIfChildWithNameExist(newParent, this.name);
+
+        this.parent.dir.delete(this.name); // delete from old parent
+        newParent.dir.set(this.name, this); // add to new parent
+
+        this.parent = newParent; // update parent
     }
 
 
@@ -136,7 +149,7 @@ export class Directory extends INode {
             throw new Error('Invalid directory name: ' + name);
         }
 
-        console.log('new directory');
+        console.log(`new directory: ${name}`);
         super(name, parent);
     }
 
@@ -162,12 +175,8 @@ export class Directory extends INode {
      * @param name {string} - the name of the directory
      */
     addDirectory(name) {
-        if (name === '.' || name === '..') {
-            throw new Error('Invalid directory name: ' + name);
-        }
-        if (this.dir.has(name)) {
-            throw new Error('Directory already exists: ' + name);
-        }
+        errorIfInvalidDirName(name);
+        errorIfChildWithNameExist(this, name);
 
         let dir = new Directory(name, this);
         this.dir.set(name, dir);
@@ -180,9 +189,7 @@ export class Directory extends INode {
      * @param data {string} - the data for the file
      */
     addFile(name, data) {
-        if (this.dir.has(name)) {
-            throw new Error('File already exists: ' + name);
-        }
+        errorIfChildWithNameExist(this, name);
 
         let file = new File(name, this, data);
         this.dir.set(name, file);
@@ -199,5 +206,37 @@ export class Device extends INode {
 export class SysLink extends INode {
     constructor() {
         super();
+    }
+}
+
+
+/**
+ * Throw an error if the inode is the root directory
+ * @param inode
+ */
+function errorIfRoot(inode) {
+    if (inode.parent === null) {
+        throw new Error('Cannot delete root directory');
+    }
+}
+
+/**
+ * Throw an error if the parent directory already has a child with the given name
+ * @param dir {Directory} - the parent directory
+ * @param name {string} - the name
+ */
+function errorIfChildWithNameExist(dir, name) {
+    if (dir.dir.has(name)) {
+        throw new Error('Name already exists: ' + name);
+    }
+}
+
+/**
+ * Throw an error if the name is invalid
+ * @param name {string} - the name
+ */
+function errorIfInvalidDirName(name) {
+    if (name === '.' || name === '..') {
+        throw new Error('Invalid directory name: ' + name);
     }
 }
