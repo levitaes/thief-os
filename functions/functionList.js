@@ -7,6 +7,7 @@ import clear from './clear.function.js';
 import repo from './repo.function.js';
 import curl from './curl.function.js';
 import rev from './rev.function.js';
+import ls from './ls.function.js';
 
 const list = {
     help,
@@ -18,6 +19,7 @@ const list = {
     repo,
     curl,
     rev,
+    ls
 }
 
 const functionList = new Map();

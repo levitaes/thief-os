@@ -1,7 +1,16 @@
 import {INode, File, SysLink, Device, Directory} from "./INode.js";
 
-class FileSystem {
+/**
+ * @class FileSystem
+ * @description The file system is a singleton class that represents the file system.
+ * It is a tree of directories and files.
+ */
+export class FileSystem {
     static instance = null;
+    /**
+     * @property {Directory} root
+     * @description The root directory of the file system.
+     */
     root = null;
 
     constructor() {
@@ -20,7 +29,7 @@ class FileSystem {
     }
 }
 
-const fs = new FileSystem();
-window.fs = fs;
+// const fs = new FileSystem();
+// window.fs = fs;
 
-export default FileSystem;
+// export default FileSystem;

@@ -2,19 +2,22 @@
 let userName = "thief";
 let inputHistory = [];
 let inputHistoryCursor = inputHistory.length;
+let fs;
 
 //boot
-function boot() {
+async function boot() {
+    const { FileSystem } = await import('./filesystem/FileSystem.js');
+    fs = new FileSystem();
+    window.fs = fs;
     setup();
-    run();
+    await functionLoaderInit();
+    await run();
 }
 
 function setup() {
-    if (localStorage.getItem("userName"))
-        userName = localStorage.getItem("userName");
+    if (localStorage.getItem("userName")) userName = localStorage.getItem("userName");
 
-    if (localStorage.getItem("inputHistory"))
-        inputHistory = localStorage.getItem("inputHistory").split(",");
+    if (localStorage.getItem("inputHistory")) inputHistory = localStorage.getItem("inputHistory").split(",");
     inputHistoryCursor = inputHistory.length;
 }
 
@@ -73,18 +76,18 @@ function pull() {
                 e.preventDefault(); //prevents <br>'s, and <p>'s in input soup
                 let replacedInnerHTML = div.innerHTML.replace(/<br>/g, "").replace(/&nbsp;/g, "")
                 resolve(replacedInnerHTML);
-                if (replacedInnerHTML !== "" && replacedInnerHTML !== inputHistory[inputHistory.length -1]) {
+                if (replacedInnerHTML !== "" && replacedInnerHTML !== inputHistory[inputHistory.length - 1]) {
                     inputHistory.push(replacedInnerHTML);
                     localStorage.setItem("inputHistory", inputHistory);
                 }
                 inputHistoryCursor = inputHistory.length;
             }
-            if (e.keyCode === 38 && inputHistory[inputHistoryCursor -1] !== undefined) {
+            if (e.keyCode === 38 && inputHistory[inputHistoryCursor - 1] !== undefined) {
                 inputHistoryCursor--;
                 div.innerHTML = inputHistory[inputHistoryCursor];
             }
 
-            if (e.keyCode === 40 && inputHistory[inputHistoryCursor +1] !== undefined) {
+            if (e.keyCode === 40 && inputHistory[inputHistoryCursor + 1] !== undefined) {
                 inputHistoryCursor++;
                 div.innerHTML = inputHistory[inputHistoryCursor];
             }
@@ -110,6 +113,7 @@ async function run() {
 }
 
 let functionLoader;
+
 function functionLoaderInit() {
     return new Promise(async (resolve, reject) => {
         import('./functionLoader.js').then((module) => {
@@ -117,13 +121,13 @@ function functionLoaderInit() {
             functionLoader.say = say;
             functionLoader.ask = ask;
             functionLoader.next = next;
+            functionLoader.fs = fs;
             resolve();
         }).catch((error) => {
             reject(error);
         });
     });
 }
-functionLoaderInit();
 
 
 

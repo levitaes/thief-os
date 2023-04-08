@@ -5,7 +5,8 @@ const os = {
     promiseReject: null,
     say: (message) => {
         console.log(message);
-    }
+    },
+    // fs: null,
 }
 
 os.load = () => {
