@@ -92,7 +92,14 @@ export class INode {
         this.parent = newParent; // update parent
     }
 
-
+    /**
+     * Delete this inode
+     */
+    delete() {
+        errorIfRoot(this);
+        this.parent.dir.delete(this.name);
+        delete this;
+    }
 }
 
 /**
@@ -145,9 +152,7 @@ export class Directory extends INode {
      * @param parent {INode} - the parent directory
      */
     constructor(name, parent) {
-        if (name === '.' || name === '..') {
-            throw new Error('Invalid directory name: ' + name);
-        }
+        errorIfInvalidDirName(name);
 
         console.log(`new directory: ${name}`);
         super(name, parent);
