@@ -8,6 +8,7 @@ import repo from './repo.function.js';
 import curl from './curl.function.js';
 import rev from './rev.function.js';
 import ls from './ls.function.js';
+import cd from './cd.function.js';
 
 const list = {
     help,
@@ -19,7 +20,8 @@ const list = {
     repo,
     curl,
     rev,
-    ls
+    ls,
+    cd
 }
 
 const functionList = new Map();
