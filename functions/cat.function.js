@@ -7,7 +7,7 @@ export default {
         const path = args[0];
         const file = os.wd.getChild(path);
         if(file instanceof File) {
-            os.say(file.data);
+            os.say(file.getData());
         } else {
             os.say(`cat: ${path}: No such file`);
         }
