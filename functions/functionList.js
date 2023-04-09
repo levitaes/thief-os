@@ -11,6 +11,7 @@ import ls from './ls.function.js';
 import cd from './cd.function.js';
 import mkdir from './mkdir.function.js';
 import cat from './cat.function.js';
+import touch from './touch.function.js';
 
 const list = {
     help,
@@ -25,7 +26,8 @@ const list = {
     ls,
     cd,
     mkdir,
-    cat
+    cat,
+    touch
 }
 
 const functionList = new Map();
