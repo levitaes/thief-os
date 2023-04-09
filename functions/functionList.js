@@ -9,6 +9,7 @@ import curl from './curl.function.js';
 import rev from './rev.function.js';
 import ls from './ls.function.js';
 import cd from './cd.function.js';
+import mkdir from './mkdir.function.js';
 
 const list = {
     help,
@@ -21,7 +22,8 @@ const list = {
     curl,
     rev,
     ls,
-    cd
+    cd,
+    mkdir
 }
 
 const functionList = new Map();
