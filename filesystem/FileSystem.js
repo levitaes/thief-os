@@ -29,7 +29,86 @@ export class FileSystem {
     }
 }
 
-// const fs = new FileSystem();
-// window.fs = fs;
+/**
+ * @class WorkingDirectory
+ * @description The working directory is a class that represents the current directory.
+ */
+export class WorkingDirectory {
+    fs = null;
+    current = null;
 
-// export default FileSystem;
+    constructor() {
+        this.fs = FileSystem.instance;
+        this.current = this.fs.root;
+    }
+
+    /**
+     * go one Directory up
+     * @returns {Directory}
+     */
+    goDirUp() {
+        if (this.current.parent != null) {
+            this.current = this.current.parent;
+        }
+        return this.current;
+    }
+
+    /**
+     * go to a child directory
+     * @param {String} name
+     * @returns {Directory}
+     */
+    goDir(name) {
+        const child = this.current.dir.get(name);
+        if (child instanceof Directory) {
+            this.current = child;
+        }
+        return this.current;
+    }
+
+    /**
+     * go to directory by path
+     * @param {String} path
+     * @returns {Directory}
+     */
+    goDirByPath(path) {
+        const parts = path.split("/");
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            console.log(part);
+            if (part === "..") {
+                this.goDirUp();
+            } else if(part === "") {
+                this.current = this.fs.root;
+            }else if (part !== "") {
+                this.goDir(part);
+            }
+        }
+        return this.current;
+    }
+
+    /**
+     * get all children of the current directory
+     * @returns {Map<String, INode>}
+     */
+    getChildren() {
+        return this.current.dir;
+    }
+
+    /**
+     * get a child of the current directory
+     * @param {String} name
+     * @returns {INode}
+     */
+    getChild(name) {
+        return this.current.dir.get(name);
+    }
+
+    /**
+     * get the current directory
+     * @returns {Directory}
+     */
+    getCurrent() {
+        return this.current;
+    }
+}

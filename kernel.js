@@ -3,11 +3,13 @@ let userName = "thief";
 let inputHistory = [];
 let inputHistoryCursor = inputHistory.length;
 let fs;
+let wd;
 
 //boot
 async function boot() {
-    const { FileSystem } = await import('./filesystem/FileSystem.js');
+    const { FileSystem , WorkingDirectory} = await import('./filesystem/FileSystem.js');
     fs = new FileSystem();
+    wd = new WorkingDirectory();
     window.fs = fs;
     setup();
     await functionLoaderInit();
@@ -122,6 +124,7 @@ function functionLoaderInit() {
             functionLoader.ask = ask;
             functionLoader.next = next;
             functionLoader.fs = fs;
+            functionLoader.wd = wd;
             resolve();
         }).catch((error) => {
             reject(error);
