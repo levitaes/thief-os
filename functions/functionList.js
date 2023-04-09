@@ -10,6 +10,7 @@ import rev from './rev.function.js';
 import ls from './ls.function.js';
 import cd from './cd.function.js';
 import mkdir from './mkdir.function.js';
+import cat from './cat.function.js';
 
 const list = {
     help,
@@ -23,7 +24,8 @@ const list = {
     rev,
     ls,
     cd,
-    mkdir
+    mkdir,
+    cat
 }
 
 const functionList = new Map();
