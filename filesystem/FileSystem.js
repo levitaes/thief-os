@@ -120,7 +120,7 @@ export class WorkingDirectory {
 
     constructor() {
         this.fs = FileSystem.instance;
-        this.current = this.fs.root;
+        this.current = this.fs.root; // default directory
     }
 
     /**

@@ -1,6 +1,18 @@
 export class INode {
+    /**
+     * The parent inode
+     * @type {INode}
+     */
     parent = null;
+    /**
+     * The name of this inode
+     * @type {string}
+     */
     name = null;
+    /**
+     * The metadata for this inode
+     * @type {Object}
+     */
     metadata = {}
 
     /**
@@ -144,6 +156,10 @@ export class File extends INode {
  * @extends INode
  */
 export class Directory extends INode {
+    /**
+     * The entries in this directory
+     * @type {Map<String, INode>}
+     */
     dir = new Map();
 
     /**
@@ -169,7 +185,7 @@ export class Directory extends INode {
 
     /**
      * Get the names of all entries in this directory
-     * @returns {Map<name, INode>} - the entries
+     * @returns {Map<String, INode>} - the entries
      */
     getEntries() {
         return this.dir;
