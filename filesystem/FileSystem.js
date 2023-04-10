@@ -32,10 +32,17 @@ export class FileSystem {
         return FileSystem.instance;
     }
 
+    /**
+     * save the file system to the local storage
+     */
     save() {
         localStorage.setItem("FileSystem", JSON.stringify(this.serialize()));
     }
 
+    /**
+     * restore the file system from the local storage
+     * @returns {boolean} - true if the file system was restored, false otherwise
+     */
     restore() {
         const json = localStorage.getItem("FileSystem");
         if (json != null) {
