@@ -1,7 +1,7 @@
 import {File} from '../filesystem/INode.js'
 export default {
     name: 'cat',
-    description: 'cat',
+    description: 'cat (show file contents)',
     arguments: 1,
     execute(os, args) {
         const path = args[0];

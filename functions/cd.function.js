@@ -1,6 +1,6 @@
 export default {
     name: 'cd',
-    description: 'cd',
+    description: 'cd [string]/[..] (change directory)',
     arguments: 1,
     execute(os, args) {
         const path = args[0];
