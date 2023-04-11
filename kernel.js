@@ -116,10 +116,16 @@ async function run() {
 
 let functionLoader;
 
+/**
+ * loads the functionLoader.js file and sets the functions
+ * @returns {Promise}
+ */
 function functionLoaderInit() {
     return new Promise(async (resolve, reject) => {
         import('./functionLoader.js').then((module) => {
             functionLoader = module.default;
+
+            // custom functions
             functionLoader.say = say;
             functionLoader.ask = ask;
             functionLoader.next = next;

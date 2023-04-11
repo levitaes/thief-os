@@ -1,3 +1,5 @@
+import {FileSystem} from "./FileSystem.js";
+
 export class INode {
     /**
      * The parent inode
@@ -73,6 +75,7 @@ export class INode {
         this.parent.dir.delete(this.name); // delete from parent
         this.parent.dir.set(name, this); // add to parent
 
+        FileSystem.instance.save();
         this.name = name;
     }
 
@@ -102,6 +105,7 @@ export class INode {
         newParent.dir.set(this.name, this); // add to new parent
 
         this.parent = newParent; // update parent
+        FileSystem.instance.save();
     }
 
     /**
@@ -111,6 +115,15 @@ export class INode {
         errorIfRoot(this);
         this.parent.dir.delete(this.name);
         delete this;
+        FileSystem.instance.save();
+    }
+
+    /**
+     * Test if INode is File
+     * @returns {boolean} - true if file
+     */
+    isFile() {
+        return (this === typeof File);
     }
 }
 
@@ -148,6 +161,7 @@ export class File extends INode {
     setData(data) {
         this.data = data;
         this.metadata.modified = new Date();
+        FileSystem.instance.save();
     }
 }
 
@@ -201,6 +215,8 @@ export class Directory extends INode {
 
         let dir = new Directory(name, this);
         this.dir.set(name, dir);
+
+        FileSystem.instance.save();
         return dir;
     }
 
@@ -214,6 +230,8 @@ export class Directory extends INode {
 
         let file = new File(name, this, data);
         this.dir.set(name, file);
+
+        FileSystem.instance.save();
         return file;
     }
 }
