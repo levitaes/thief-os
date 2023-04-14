@@ -1,3 +1,5 @@
+import {Logger} from "./utils/Logger.js";
+
 const os = {
     functions: new Map(),
     promiseResolve: null,
@@ -34,6 +36,7 @@ os.run = function (data) {
     // check if the command exists
     if (!this.functions.has(command)) {
         this.next('function doesnt exist');
+        Logger.info(` ${command}: function doesnt exist`);
         return;
     }
 

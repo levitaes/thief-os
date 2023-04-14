@@ -117,6 +117,27 @@ export class FileSystem {
         }
         return node;
     }
+
+    /**
+     * Get a node by its path.
+     * @param {String} path
+     * @returns {INode}
+     */
+    getNodeByPath(path) {
+        const parts = path.split("/");
+        let node = this.root;
+        for (let i = 0; i < parts.length; i++) {
+            const part = parts[i];
+            if (part === "..") {
+                node = node.parent;
+            } else if (part === "") {
+                node = this.root;
+            } else if (part !== "") {
+                node = node.dir.get(part);
+            }
+        }
+        return node;
+    }
 }
 
 /**

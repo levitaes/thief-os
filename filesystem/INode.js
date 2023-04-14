@@ -140,7 +140,7 @@ export class File extends INode {
      * @param parent {INode} - the parent directory
      * @param data {string}- the data for this file
      */
-    constructor(name, parent, data) {
+    constructor(name, parent, data = "") {
         super(name, parent);
         this.data = data;
     }
@@ -160,6 +160,16 @@ export class File extends INode {
      */
     setData(data) {
         this.data = data;
+        this.metadata.modified = new Date();
+        FileSystem.instance.save();
+    }
+
+    /**
+     * Append data to this file
+     * @param data {string} - the data
+     */
+    appendData(data) {
+        this.data += data;
         this.metadata.modified = new Date();
         FileSystem.instance.save();
     }
@@ -184,7 +194,6 @@ export class Directory extends INode {
     constructor(name, parent) {
         errorIfInvalidDirName(name);
 
-        console.log(`new directory: ${name}`);
         super(name, parent);
     }
 
