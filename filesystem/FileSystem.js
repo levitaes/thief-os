@@ -27,6 +27,9 @@ export class FileSystem {
                 new Directory("bin", this.root);
                 new Directory("etc", this.root);
                 new File("README.md", home, "This is a README file.");
+
+                const varDir = new Directory("var", this.root);
+                new Directory("log", varDir);
             }
         }
         return FileSystem.instance;
@@ -48,7 +51,6 @@ export class FileSystem {
         if (json != null) {
             const data = JSON.parse(json);
             this.root = this.deserialize(data);
-            console.log(this.root);
             return true;
         }
         return false;
@@ -81,7 +83,7 @@ export class FileSystem {
             name: node.name,
         };
         if (node instanceof File) {
-            data.content = node.content;
+            data.content = node.data;
         } else if (node instanceof Directory) {
             data.children = [];
             for (const child of node.dir.values()) {
@@ -163,7 +165,7 @@ export class WorkingDirectory {
         const parts = path.split("/");
         for (let i = 0; i < parts.length; i++) {
             const part = parts[i];
-            console.log(part);
+            // console.log(part);
             if (part === "..") {
                 this.goDirUp();
             } else if (part === "") {
