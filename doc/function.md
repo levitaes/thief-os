@@ -1,5 +1,30 @@
 # Functions
 
+<!-- TOC -->
+* [Functions](#functions)
+  * [Create a new function](#create-a-new-function)
+  * [Save Data](#save-data)
+* [API](#api)
+  * [args](#args)
+  * [this Object](#this-object)
+    * [this.storage](#thisstorage)
+      * [this.storage.get](#thisstorageget)
+      * [this.storage.set](#thisstorageset)
+      * [this.storage.delete](#thisstoragedelete)
+      * [this.storage.has](#thisstoragehas)
+    * [this.name](#thisname)
+    * [this.description](#thisdescription)
+    * [this.execute](#thisexecute)
+    * [this.source](#thissource)
+    * [this.nameSpace](#thisnamespace)
+    * [this.arguments](#thisarguments)
+  * [os](#os)
+    * [os.ask](#osask)
+    * [os.say](#ossay)
+    * [os.next](#osnext)
+    * [os.wd](#oswd)
+<!-- TOC -->
+
 ## Create a new function
 
 1.  Create a new file in the `functions` folder with name `yourNewFunction.function.js`
@@ -57,3 +82,163 @@ this.storage.has("key");
 ```
 
 
+
+
+# API
+
+## this Object
+
+### this.storage
+
+This is a storage for the function. It is a key-value store, and it is unique for each function.
+
+It stores the data in `/var/opt/` and creates a new file for each function.
+
+<br>
+
+#### this.storage.get
+
+```js
+this.storage.get("key");
+```
+
+Get value by key.
+
+<br>
+
+#### this.storage.set
+
+```js
+this.storage.set("key", "value");
+```
+
+Set value by key.
+
+<br>
+
+<br>
+
+#### this.storage.delete
+
+```js
+this.storage.delete("key");
+```
+
+Delete value by key.
+
+<br>
+
+#### this.storage.has
+
+```js
+this.storage.has("key");
+```
+
+Check if key exists.
+
+<br>
+
+
+### this.name
+
+```js
+this.name;
+```
+
+Name of the function.
+
+
+<br>
+
+### this.description
+
+```js
+this.description;
+```
+
+Description of the function.
+
+<br>
+
+### this.execute
+
+```js
+this.execute(os, args) {
+  // Your code here
+}
+```
+
+Entry point of the function.
+- args - array of arguments passed to the function
+
+<br>
+
+### this.source
+
+```js
+this.source;
+```
+
+Path to the origin of the function.
+- Read only
+
+<br>
+
+### this.nameSpace
+
+```js
+this.nameSpace;
+```
+
+Name space of the function.
+- Read only
+
+<br>
+
+### this.arguments
+
+```js
+this.arguments;
+```
+
+Required amount of arguments of the function.
+If the user does not pass the required amount of arguments, the function will not be executed.
+
+
+## os
+
+### os.ask
+
+```js
+os.ask("question");
+```
+
+Wait for user input.
+
+### os.say
+
+```js
+os.say("text");
+```
+
+Print text to user.
+
+### os.next
+
+```js
+os.next("last message");
+```
+
+Last message to end function.
+
+### os.wd
+
+the current working directory
+
+See also: [filesystem.md](./filesystem.md)
+
+### os.fs
+
+the filesystem
+
+See also: [filesystem.md](./filesystem.md)
