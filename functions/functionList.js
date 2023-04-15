@@ -30,7 +30,7 @@
 //     touch
 // }
 
-
+import storage from "../utils/storage.js";
 /**
  * List of paths to functions
  * @type {string[]}
@@ -62,6 +62,7 @@ const functionList = new Map();
 //     functionList.set(key, value);
 // }
 
+
 /**
  * Load functions from paths
  */
@@ -69,6 +70,9 @@ for(const ele of arr) {
     try{
         const func = (await import(ele)).default;
         Object.defineProperty(func, "source", {value: ele, writable: false});
+        Object.defineProperty(func, "nameSpace", {value: `default-${func.name}`, writable: false});
+        const sto = new storage(func.nameSpace);
+        Object.defineProperty(func, "storage", {value: sto , writable: false});
         functionList.set(func.name, func);
     }
     catch(e) {
@@ -76,5 +80,8 @@ for(const ele of arr) {
         console.warn(e);
     }
 }
+
+
+
 
 export default functionList;

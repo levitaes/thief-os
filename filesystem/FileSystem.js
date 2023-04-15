@@ -30,6 +30,7 @@ export class FileSystem {
 
                 const varDir = new Directory("var", this.root);
                 new Directory("log", varDir);
+                new Directory("opt", varDir);
             }
         }
         return FileSystem.instance;
