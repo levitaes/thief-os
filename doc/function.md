@@ -1,5 +1,11 @@
 # Functions
 
+Functions are the core of the OS. They are the programs that the user can run.
+
+Functions are stored in the `functions` folder. Each function is a separate file with the `.function.js` extension.
+
+---
+
 <!-- TOC -->
 * [Functions](#functions)
   * [Create a new function](#create-a-new-function)
@@ -24,6 +30,8 @@
     * [os.next](#osnext)
     * [os.wd](#oswd)
 <!-- TOC -->
+
+---
 
 ## Create a new function
 
@@ -50,10 +58,10 @@ import yourNewFunction from "./functions/yourNewFunction.function.js";
 and add it to the array
 
 ```js
-const list = {
-  // ...
-  yourNewFunction,
-};
+const arr = [
+    // ...
+  "./YourName.function.js"
+]
 ```
 
 In the `execute` function you can use the `os` and `args` parameters.
@@ -81,9 +89,9 @@ this.storage.delete("key");
 this.storage.has("key");
 ```
 
+<br>
 
-
-
+---
 # API
 
 ## this Object
