@@ -10,6 +10,7 @@ export class Dialog {
      */
     static say(message, config ){
         console.log(message);
+        //TODO
     }
 
     /**
@@ -17,6 +18,7 @@ export class Dialog {
      * @param {string} message - The message to output
      */
     static sayRaw(message){
+        //TODO
         push(message);
         pushBr();
     }
@@ -28,6 +30,7 @@ export class Dialog {
      * @returns {Promise<string>}
      */
     static ask(message, config){
+        //TODO
         console.log(message);
         return new Promise();
     }
@@ -38,6 +41,7 @@ export class Dialog {
      * @returns {Promise<string>}
      */
     static askRaw(message){
+        //TODO
         console.log(message);
         return new Promise();
     }
@@ -49,6 +53,7 @@ export class Dialog {
      * @returns {Promise<boolean>}
      */
     static askYesNo(message, config){
+        //TODO
         console.log(message);
     }
 }
