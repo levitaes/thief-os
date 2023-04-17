@@ -3,10 +3,6 @@ import {WorkingDirectory} from "../filesystem/FileSystem.js";
 /**
  * A simple storage class
  * @typedef {Object} Storage
- * @property {function(string): Object} get
- * @property {function(string, Object): void} set
- * @property {function(string): void} delete
- * @property {function(string): boolean} has
  */
 export default class Storage {
 
@@ -27,6 +23,7 @@ export default class Storage {
 
     /**
      * @param {string} nameSpace
+     * @constructor
      */
     constructor(nameSpace) {
         this.nameSpace = nameSpace;

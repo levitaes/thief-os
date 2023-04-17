@@ -7,7 +7,7 @@ const os = {
     say: (message) => {
         console.log(message);
     },
-    // fs: null,
+    logger: Logger,
 }
 
 /**

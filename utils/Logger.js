@@ -1,7 +1,7 @@
 import {FileSystem} from "../filesystem/FileSystem.js";
 
 /**
- * Logger
+ * Logger class
  */
 export class Logger {
     static logFile;
@@ -11,18 +11,46 @@ export class Logger {
         if(f === undefined){
             f = d.addFile("log.txt");
         }
-        console.log(f)
         this.logFile = f;
     }
 
     /**
-     * Log info
+     * Log debug message
+     * @param message {string}
+     */
+    static debug(message) {
+        const d = new Date();
+        const msg = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T DEBUG: ${message}\n`;
+        this.logFile.appendData(msg)
+    }
+
+    /**
+     * Log info message
      * @param message {string}
      */
     static info(message) {
-        console.log(message);
         const d = new Date();
         const msg = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T INFO: ${message}\n`;
+        this.logFile.appendData(msg)
+    }
+
+    /**
+     * Log warning message
+     * @param message {string}
+     */
+    static warning(message) {
+        const d = new Date();
+        const msg = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T WARNING: ${message}\n`;
+        this.logFile.appendData(msg)
+    }
+
+    /**
+     * Log error message
+     * @param message {string}
+     */
+    static error(message) {
+        const d = new Date();
+        const msg = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T ERROR: ${message}\n`;
         this.logFile.appendData(msg)
     }
 

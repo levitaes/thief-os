@@ -91,6 +91,17 @@ this.storage.has("key");
 
 <br>
 
+## Log Data
+
+You can log data to the file system.
+
+```js
+os.logger.info("info message");
+os.logger.warn("warn message");
+os.logger.error("error message");
+os.logger.debug("debug message");
+```
+
 ---
 # API
 
@@ -250,3 +261,9 @@ See also: [filesystem.md](./filesystem.md)
 the filesystem
 
 See also: [filesystem.md](./filesystem.md)
+
+### os.logger
+
+the logger
+
+See also: [logger.md](./logger.md)
