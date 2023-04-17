@@ -49,7 +49,8 @@ const arr = [
     "./cd.function.js",
     "./mkdir.function.js",
     "./cat.function.js",
-    "./touch.function.js"
+    "./touch.function.js",
+    "./fs.function.js",
 ]
 /**
  * List of functions
