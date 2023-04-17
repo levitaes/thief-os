@@ -1,16 +1,23 @@
 import {FileSystem} from "./FileSystem.js";
 
+/**
+ * Abstract Inode class
+ * @abstract
+ * @class
+ */
 export class INode {
     /**
      * The parent inode
      * @type {INode}
      */
     parent = null;
+
     /**
      * The name of this inode
      * @type {string}
      */
     name = null;
+
     /**
      * The metadata for this inode
      * @type {Object}

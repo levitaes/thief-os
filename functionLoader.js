@@ -1,4 +1,5 @@
 import {Logger} from "./utils/Logger.js";
+import {Dialog} from "./utils/dialog.js";
 
 const os = {
     functions: new Map(),
@@ -8,6 +9,7 @@ const os = {
         console.log(message);
     },
     logger: Logger,
+    dialog: Dialog,
 }
 
 /**
@@ -42,10 +44,10 @@ os.run = function (data) {
 
     // check if the command has the correct amount of arguments
     if (this.functions.get(command).arguments !== -1) {
-            
+
         if (args.length > this.functions.get(command).arguments) {
-        os.next('too many arguments');
-        return;
+            os.next('too many arguments');
+            return;
         }
 
         if (args.length < this.functions.get(command).arguments) {
@@ -57,8 +59,7 @@ os.run = function (data) {
     try {
         // run the command
         this.functions.get(command).execute(this, args);
-    }
-    catch (error) {
+    } catch (error) {
         next(error);
     }
 

@@ -2,6 +2,7 @@ import {FileSystem} from "../filesystem/FileSystem.js";
 
 /**
  * Logger class
+ *
  */
 export class Logger {
     static logFile;

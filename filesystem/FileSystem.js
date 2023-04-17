@@ -8,8 +8,8 @@ import {INode, File, SysLink, Device, Directory} from "./INode.js";
 export class FileSystem {
     static instance = null;
     /**
-     * @property {Directory} root
-     * @description The root directory of the file system.
+     * The root directory of the file system.
+     * @property {Directory} root - the root directory
      */
     root = null;
 

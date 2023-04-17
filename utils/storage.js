@@ -2,7 +2,7 @@ import {WorkingDirectory} from "../filesystem/FileSystem.js";
 
 /**
  * A simple storage class
- * @typedef {Object} Storage
+ * @Param {string} nameSpace
  */
 export default class Storage {
 
@@ -21,10 +21,6 @@ export default class Storage {
      */
     wd = null;
 
-    /**
-     * @param {string} nameSpace
-     * @constructor
-     */
     constructor(nameSpace) {
         this.nameSpace = nameSpace;
         this.wd = new WorkingDirectory();
