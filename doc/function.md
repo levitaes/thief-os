@@ -229,7 +229,7 @@ If the user does not pass the required amount of arguments, the function will no
 ### os.ask
 
 ```js
-os.ask("question");
+const string = await os.ask("question");
 ```
 
 Wait for user input.

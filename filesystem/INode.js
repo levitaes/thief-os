@@ -22,7 +22,7 @@ export class INode {
      * The metadata for this inode
      * @type {Object}
      */
-    metadata = {}
+    metadata = {};
 
     /**
      * Create a new inode
@@ -39,11 +39,18 @@ export class INode {
         this.name = name;
         this.metadata = {
             permissions: {
-                read: true, write: true, execute: true
-            }, owner: {
-                uid: 0, gid: 0
-            }, created: new Date(), modified: new Date(), accessed: new Date()
-        }
+                read: true,
+                write: true,
+                execute: true,
+            },
+            owner: {
+                uid: 0,
+                gid: 0,
+            },
+            created: new Date(),
+            modified: new Date(),
+            accessed: new Date(),
+        };
         return this;
     }
 
@@ -94,7 +101,7 @@ export class INode {
         let path = this.name;
         let parent = this.parent;
         while (parent) {
-            path = parent.name + '/' + path;
+            path = parent.name + "/" + path;
             parent = parent.parent;
         }
         return path;
@@ -130,7 +137,7 @@ export class INode {
      * @returns {boolean} - true if file
      */
     isFile() {
-        return (this === typeof File);
+        return this === typeof File;
     }
 }
 
@@ -139,7 +146,11 @@ export class INode {
  * @extends INode
  */
 export class File extends INode {
-    data = null;
+    /**
+     * The data for this file
+     * @type {string}
+     */
+    data = "";
 
     /**
      * Create a new file
@@ -209,7 +220,7 @@ export class Directory extends INode {
      * @param name {string} - the name of the entry
      * @returns {INode}
      */
-    getEntry(name) {
+    getChild(name) {
         return this.dir.get(name);
     }
 
@@ -217,7 +228,7 @@ export class Directory extends INode {
      * Get the names of all entries in this directory
      * @returns {Map<String, INode>} - the entries
      */
-    getEntries() {
+    getChildren() {
         return this.dir;
     }
 
@@ -264,14 +275,13 @@ export class SysLink extends INode {
     }
 }
 
-
 /**
  * Throw an error if the inode is the root directory
  * @param inode
  */
 function errorIfRoot(inode) {
     if (inode.parent === null) {
-        throw new Error('Cannot delete root directory');
+        throw new Error("Cannot delete root directory");
     }
 }
 
@@ -282,7 +292,7 @@ function errorIfRoot(inode) {
  */
 function errorIfChildWithNameExist(dir, name) {
     if (dir.dir.has(name)) {
-        throw new Error('Name already exists: ' + name);
+        throw new Error("Name already exists: " + name);
     }
 }
 
@@ -291,7 +301,7 @@ function errorIfChildWithNameExist(dir, name) {
  * @param name {string} - the name
  */
 function errorIfInvalidDirName(name) {
-    if (name === '.' || name === '..') {
-        throw new Error('Invalid directory name: ' + name);
+    if (name === "." || name === "..") {
+        throw new Error("Invalid directory name: " + name);
     }
 }

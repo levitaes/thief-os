@@ -6,6 +6,11 @@ import {INode, File, SysLink, Device, Directory} from "./INode.js";
  * It is a tree of directories and files.
  */
 export class FileSystem {
+    /**
+     * The instance of the file system.
+     * @type {FileSystem}
+     * @static
+     */
     static instance = null;
     /**
      * The root directory of the file system.
@@ -146,7 +151,16 @@ export class FileSystem {
  * @description The working directory is a class that represents the current directory.
  */
 export class WorkingDirectory {
+    /**
+     * @property {FileSystem} fs - the file system
+     * @type {FileSystem}
+     */
     fs = null;
+
+    /**
+     * @property {Directory} current - the current directory
+     * @type {Directory}
+     */
     current = null;
 
     constructor() {
