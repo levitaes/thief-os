@@ -24,10 +24,9 @@ export default {
                 console.log(this.repositories);
 
                 const command = args[1];
-                for (const [key, value] of this.repositories.entries()) {
-                    console.log("checking repository " + key);
+                for (const ele of this.repositories) {
                     try {
-                        const url = `${value}/${command}.function.js`;
+                        const url = `${ele[1]}/${command}.function.js`;
                         const res = await fetch(url);
                         if (res.status === 200) {
                             await AppManager.instance.addApp(url);
