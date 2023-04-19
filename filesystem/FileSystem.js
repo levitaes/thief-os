@@ -19,7 +19,6 @@ export class FileSystem {
     root = null;
 
     constructor() {
-        console.log("FileSystem constructor");
         if (FileSystem.instance == null) {
             FileSystem.instance = this;
 
@@ -236,5 +235,17 @@ export class WorkingDirectory {
      */
     getCurrent() {
         return this.current;
+    }
+
+    /**
+     * get or create file
+     * @param  name {String} - the name of the file
+     */
+    getOrCreateFile(name) {
+        const file = this.current.getChild(name)
+        if (file == null) {
+            return new File(name, this.current);
+        }
+        return file;
     }
 }

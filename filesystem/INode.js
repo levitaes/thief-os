@@ -8,7 +8,7 @@ import {FileSystem} from "./FileSystem.js";
 export class INode {
     /**
      * The parent inode
-     * @type {INode}
+     * @type {Directory}
      */
     parent = null;
 
@@ -16,7 +16,7 @@ export class INode {
      * The name of this inode
      * @type {string}
      */
-    name = null;
+    name = "";
 
     /**
      * The metadata for this inode
@@ -27,11 +27,11 @@ export class INode {
     /**
      * Create a new inode
      * @param name  {string} - the name of this inode
-     * @param parent {INode} - the parent inode
+     * @param parent {Directory} - the parent inode
      */
     constructor(name, parent) {
         if (parent) {
-            errorIfChildWithNameExist(parent, name);
+            errorIfChildWithNameExist( name, parent);
             parent.dir.set(name, this);
         }
 
@@ -84,7 +84,7 @@ export class INode {
      */
     rename(name) {
         errorIfRoot(this);
-        errorIfChildWithNameExist(this.parent, name);
+        errorIfChildWithNameExist(name, this.parent);
 
         this.parent.dir.delete(this.name); // delete from parent
         this.parent.dir.set(name, this); // add to parent
@@ -109,11 +109,11 @@ export class INode {
 
     /**
      * Move this inode to a new parent
-     * @param newParent {INode} - the new parent
+     * @param newParent {Directory} - the new parent
      */
     move(newParent) {
         errorIfRoot(this);
-        errorIfChildWithNameExist(newParent, this.name);
+        errorIfChildWithNameExist( this.name, newParent);
 
         this.parent.dir.delete(this.name); // delete from old parent
         newParent.dir.set(this.name, this); // add to new parent
@@ -155,7 +155,7 @@ export class File extends INode {
     /**
      * Create a new file
      * @param name  {string} - the name of this file
-     * @param parent {INode} - the parent directory
+     * @param parent {Directory} - the parent directory
      * @param data {string}- the data for this file
      */
     constructor(name, parent, data = "") {
@@ -207,7 +207,7 @@ export class Directory extends INode {
     /**
      * Create a new directory
      * @param name {string}- the name of this directory
-     * @param parent {INode} - the parent directory
+     * @param parent {Directory} - the parent directory
      */
     constructor(name, parent) {
         errorIfInvalidDirName(name);
@@ -238,7 +238,7 @@ export class Directory extends INode {
      */
     addDirectory(name) {
         errorIfInvalidDirName(name);
-        errorIfChildWithNameExist(this, name);
+        errorIfChildWithNameExist(name, this);
 
         let dir = new Directory(name, this);
         this.dir.set(name, dir);
@@ -253,7 +253,7 @@ export class Directory extends INode {
      * @param data {string} - the data for the file
      */
     addFile(name, data) {
-        errorIfChildWithNameExist(this, name);
+        errorIfChildWithNameExist(name, this);
 
         let file = new File(name, this, data);
         this.dir.set(name, file);
@@ -263,15 +263,35 @@ export class Directory extends INode {
     }
 }
 
+/**
+ * Class representing a device
+ * @extends INode
+ */
 export class Device extends INode {
-    constructor() {
-        super();
+    constructor(name, parent) {
+        super(name, parent);
     }
 }
 
+/**
+ * Class representing a symlink
+ * @extends INode
+ */
 export class SysLink extends INode {
-    constructor() {
-        super();
+    /**
+     * The target inode
+     * @type {INode}
+     */
+    target = null;
+
+    /**
+     * Create a new symlink
+     * @param name {string} - the name of this symlink
+     * @param parent {Directory} - the parent directory
+     * @param target {INode} - the target inode
+     */
+    constructor(name, parent, target) {
+        super(name, parent);
     }
 }
 
@@ -290,7 +310,7 @@ function errorIfRoot(inode) {
  * @param dir {Directory} - the parent directory
  * @param name {string} - the name
  */
-function errorIfChildWithNameExist(dir, name) {
+function errorIfChildWithNameExist(name, dir) {
     if (dir.dir.has(name)) {
         throw new Error("Name already exists: " + name);
     }

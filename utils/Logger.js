@@ -8,7 +8,7 @@ export class Logger {
     static logFile;
     static {
         const d = FileSystem.instance.getNodeByPath('/var/log');
-        let f = d.getEntry("log.txt");
+        let f = d.getChild("log.txt");
         if(f === undefined){
             f = d.addFile("log.txt");
         }
@@ -43,6 +43,7 @@ export class Logger {
         const d = new Date();
         const msg = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T WARNING: ${message}\n`;
         this.logFile.appendData(msg)
+        console.warn(msg);
     }
 
     /**
@@ -53,6 +54,7 @@ export class Logger {
         const d = new Date();
         const msg = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}T ERROR: ${message}\n`;
         this.logFile.appendData(msg)
+        console.error(msg);
     }
 
 

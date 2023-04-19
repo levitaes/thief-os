@@ -1,5 +1,6 @@
 import {Logger} from "./utils/Logger.js";
 import {Dialog} from "./utils/dialog.js";
+import {AppManager} from "./appManager.js";
 
 const os = {
     functions: new Map(),
@@ -16,14 +17,14 @@ const os = {
  * Loads the functions into the os
  * @returns {Promise<unknown>}
  */
-os.load = () => {
+os.load = async() => {
     return new Promise(async (resolve, reject) => {
-        import('./functions/functionList.js').then((module) => {
-            os.functions = module.default;
-            resolve();
-        }).catch((error) => {
-            reject(error);
-        });
+        const {appList} = await import('./functions/functionList.js');
+        for (const app of appList.apps) {
+            const path = `./${appList.path}/${app}`;
+            await AppManager.instance.addApp(path);
+        }
+        resolve();
     });
 }
 
@@ -36,21 +37,21 @@ os.run = function (data) {
     const command = args.shift().toLowerCase();
 
     // check if the command exists
-    if (!this.functions.has(command)) {
+    if (!AppManager.instance.apps.has(command)) {
         this.next('function doesnt exist');
         Logger.info(` ${command}: function doesnt exist`);
         return;
     }
 
     // check if the command has the correct amount of arguments
-    if (this.functions.get(command).arguments !== -1) {
+    if (AppManager.instance.apps.get(command).arguments !== -1) {
 
-        if (args.length > this.functions.get(command).arguments) {
+        if (args.length > AppManager.instance.apps.get(command).arguments) {
             os.next('too many arguments');
             return;
         }
 
-        if (args.length < this.functions.get(command).arguments) {
+        if (args.length < AppManager.instance.apps.get(command).arguments) {
             os.next('not enough arguments');
             return;
         }
@@ -58,7 +59,7 @@ os.run = function (data) {
 
     try {
         // run the command
-        this.functions.get(command).execute(this, args);
+        AppManager.instance.apps.get(command).execute(this, args);
     } catch (error) {
         next(error);
     }

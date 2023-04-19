@@ -78,6 +78,14 @@ export default class Storage {
             this.storage = new Map(JSON.parse(file.getData()));
         }
     }
+
+    /**
+     * Clear the storage
+     */
+    clear() {
+        this.storage.clear();
+        this.save();
+    }
 }
 
 

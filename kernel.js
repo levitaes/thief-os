@@ -4,6 +4,7 @@ let inputHistory = [];
 let inputHistoryCursor = inputHistory.length;
 let fs;
 let wd;
+let appManager;
 
 //boot
 async function boot() {
@@ -11,6 +12,9 @@ async function boot() {
     fs = new FileSystem();
     wd = new WorkingDirectory();
     window.fs = fs;
+    const { AppManager } = await import('./appManager.js');
+    appManager = new AppManager();
+    await appManager.load();
     setup();
     await functionLoaderInit();
     await run();
