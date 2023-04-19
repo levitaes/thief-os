@@ -21,7 +21,6 @@ export default {
 
                 const repositories = await this.storage.get("repositories") ?? []
                 this.repositories.push(...repositories);
-                console.log(this.repositories);
 
                 const command = args[1];
                 for (const ele of this.repositories) {
@@ -57,15 +56,21 @@ export default {
                     os.next("please specify a repository");
                     return;
                 }
-                console.log(args[1]);
-                // TODO: check if repository exists
+                if(!args[1].includes("https://")) {
+                    os.next("please specify a valid url");
+                    return;
+                }
 
                 const tmp = await this.storage.get("repositories") ?? [];
-                tmp.push(args[1]);
+                for (const ele of tmp) {
+                    if (ele[1] === args[1]) {
+                        os.next("repository already exists");
+                        return;
+                    }
+                }
+                tmp.push([`repo${tmp.length}`, args[1]]);
                 await this.storage.set("repositories", tmp);
-
-                console.log(this.storage.get("repositories"));
-                console.log(this.repositories);
+                os.logger.info(`added repository ${args[1]}`);
                 os.next("repository added");
                 break;
 
