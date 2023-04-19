@@ -6,7 +6,7 @@ export default {
     arguments: 0,
     execute(os) {
         for(let [key, value] of os.wd.getChildren()) {
-            const color = value instanceof Directory ? '#0000ff' : '#00ff00';
+            const color = value instanceof Directory ? '#92AEBE' : '#C4D3B2';
             os.say(`<span style="color: ${color}">${key}</span>`);
         }
         os.next();

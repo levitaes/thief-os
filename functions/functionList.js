@@ -18,6 +18,7 @@ const arr = [
     "cat.function.js",
     "touch.function.js",
     "fs.function.js",
+    "roguealike.function.js",
 ]
 export const appList =  {
     apps: arr,

@@ -107,7 +107,10 @@ function pushBr() {
 }
 
 async function run() {
-    let input = await ask(userName + " ~");
+    let currentPath = wd.getCurrent().name;
+    if (currentPath === "home")
+        currentPath = "~";
+    let input = await ask(userName + " " + currentPath + ' ');
 
     if (input === "") {
         document.getElementById("input").innerHTML = "";
