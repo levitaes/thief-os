@@ -34,19 +34,7 @@ export default {
             }
             case '3': {
                 const string = localStorage.getItem('FileSystem') || ''
-
-                //create a json file with the string and download it
-                const element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(string));
-                element.setAttribute('download', 'filesystem.json');
-
-
-                element.style.display = 'none';
-                document.body.appendChild(element);
-
-                element.click();
-
-                document.body.removeChild(element);
+                await os.dialog.download(string, 'filesystem.json');
 
                 os.say('filesystem backed up');
                 break;
