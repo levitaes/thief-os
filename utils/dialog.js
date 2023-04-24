@@ -1,3 +1,6 @@
+import {InputManager} from "../inputManager.js";
+import functionLoader from "../functionLoader.js";
+
 /**
  * Class Representing Input/Output Dialogs
  */
@@ -22,7 +25,7 @@ export class Dialog {
      * @param {string} message - The message to output
      */
     static sayRaw(message){
-        new CommandLine(message);
+        new CommandLine(message, {raw: true});
     }
 
     /**
@@ -32,13 +35,11 @@ export class Dialog {
      // * @returns {Promise<string>}
      */
     static ask(message, config = {color: 'default', newline: true}){
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const commandLine = new CommandLine(message, config);
             // commandLine.input = true;
-            commandLine.onInput((data) => {
-
-                resolve(data);
-            });
+            const data = await commandLine.onInput();
+            resolve(data);
         });
     }
 
@@ -96,6 +97,16 @@ export class Dialog {
         //TODO
     }
 
+    /**
+     * Output the last message and exit
+     * @param message {string}
+     */
+    static next(message = ''){
+        if(message !== ''){
+            Dialog.say(message);
+        }
+    }
+
 }
 
 /**
@@ -109,7 +120,7 @@ function pushBr() {
  * Write a value to the Terminal
  *
  */
-class CommandLine extends HTMLElement {
+export class CommandLine extends HTMLElement {
 
     /**
      * Create a new CommandLine
@@ -125,7 +136,11 @@ class CommandLine extends HTMLElement {
         // gets the template
         let tmpl = document.getElementById('commandLineTemplate');
         const p = tmpl.content.querySelector('p');
-        p.innerText = this.data;
+        if(config.raw === true){
+            p.innerHTML = this.data;
+        } else {
+            p.innerText = this.data;
+        }
 
         // creates a shadow root
         let shadow = this.attachShadow({mode: 'open'});
@@ -139,16 +154,27 @@ class CommandLine extends HTMLElement {
     /**
      * On Input
      */
-    onInput(callback){
-        //
-        const input = document.createElement('input');
-        input.setAttribute('type', 'text');
-        input.setAttribute('spellcheck', 'false');
-        input.setAttribute('contenteditable', 'true');
-        input.setAttribute('autofocus', '');
-        input.classList.add('input');
+    onInput(){
+        return new Promise((resolve, reject) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('spellcheck', 'false');
+            input.setAttribute('contenteditable', 'true');
+            input.setAttribute('autofocus', 'true');
+            input.classList.add('input');
 
-        this.shadowRoot.appendChild(input);
+            this.shadowRoot.appendChild(input);
+
+            //focus
+            input.focus();
+
+            InputManager.instance.waitFor("Enter").then(() => {
+                const data = input.value;
+                // display the input
+                input.disabled = true;
+                resolve(data);
+            });
+        });
     }
 }
 

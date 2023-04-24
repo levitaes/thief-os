@@ -73,7 +73,7 @@ export class AppManager {
     }
 
     /**
-     * saves the apps
+     * saves the apps to the apps.json file
      */
     save() {
         const wd = new WorkingDirectory();
@@ -87,7 +87,7 @@ export class AppManager {
     }
 
     /**
-     * Load the apps
+     * Load the apps from the apps.json file
      * @returns {Promise<void>}
      */
     async load() {
@@ -117,4 +117,7 @@ export class AppManager {
         }
         return false;
     }
+
+
+
 }

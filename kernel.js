@@ -8,18 +8,45 @@ let appManager;
 
 //boot
 async function boot() {
+    await initFilesystem(); // load the filesystem
+    await initInputManager(); //load the input manager
+    await initAppManager(); //load the app manager
+    setup();
+    await functionLoaderInit();
+    // await run();
+
+    // create a new Session
+    const {Terminal} = await import('./terminal.js');
+    new Terminal();
+}
+
+/**
+ * Loads the filesystem
+ * @returns {Promise<void>}
+ */
+async function initFilesystem() {
     const {FileSystem, WorkingDirectory} = await import('./filesystem/FileSystem.js');
     fs = new FileSystem();
     wd = new WorkingDirectory();
     window.fs = fs;
+}
+
+/**
+ * Loads the InputManager
+ * @returns {Promise<void>}
+ */
+async function initInputManager() {
     const {InputManager} = await import('./inputManager.js');
     new InputManager();
+}
+
+/**
+ * Loads the AppManager and install the apps
+ */
+async function initAppManager() {
     const {AppManager} = await import('./appManager.js');
     appManager = new AppManager();
     await appManager.load();
-    setup();
-    await functionLoaderInit();
-    await run();
 }
 
 function setup() {
@@ -135,9 +162,6 @@ function functionLoaderInit() {
             functionLoader = module.default;
 
             // custom functions
-            functionLoader.say = say;
-            functionLoader.ask = ask;
-            functionLoader.next = next;
             functionLoader.fs = fs;
             functionLoader.wd = wd;
             resolve();

@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="themes/style.css">
 </head>
 
-<body onclick="document.getElementById('input').focus()">
+<body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
         crossorigin="anonymous"></script>
@@ -19,9 +19,10 @@
 <!--  Template for cli  -->
 <template id="commandLineTemplate">
     <style>
-        p{
+        p {
             margin: 0;
         }
+
         input {
             background-color: transparent;
             border: none;
@@ -29,7 +30,8 @@
             color: white;
             font-size: 16px;
             font-family: monospace;
-            width: 100%;
+            /*width: 100%;*/
+            display: inline;
         }
     </style>
     <p></p>
