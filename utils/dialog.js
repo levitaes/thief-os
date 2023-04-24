@@ -1,5 +1,4 @@
 import {InputManager} from "../inputManager.js";
-import functionLoader from "../functionLoader.js";
 
 /**
  * Class Representing Input/Output Dialogs
@@ -37,7 +36,6 @@ export class Dialog {
     static ask(message, config = {color: 'default', newline: true}){
         return new Promise(async (resolve, reject) => {
             const commandLine = new CommandLine(message, config);
-            // commandLine.input = true;
             const data = await commandLine.onInput();
             resolve(data);
         });
@@ -49,9 +47,11 @@ export class Dialog {
      * @returns {Promise<string>}
      */
     static askRaw(message){
-        //TODO
-        console.log(message);
-        return new Promise();
+        return new Promise(async (resolve) => {
+            const commandLine = new CommandLine(message, {raw: true});
+            const data = await commandLine.onInput();
+            resolve(data);
+        });
     }
 
     /**
@@ -72,7 +72,7 @@ export class Dialog {
      * @returns {Promise<void>}
      */
     static download(data, filename){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
             element.setAttribute('download', filename);
@@ -107,13 +107,6 @@ export class Dialog {
         }
     }
 
-}
-
-/**
- * Push a line break to the Terminal
- */
-function pushBr() {
-    document.body.appendChild(document.createElement("br"));
 }
 
 /**
@@ -155,7 +148,7 @@ export class CommandLine extends HTMLElement {
      * On Input
      */
     onInput(){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.setAttribute('spellcheck', 'false');

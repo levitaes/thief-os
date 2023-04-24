@@ -31,20 +31,29 @@ export class Terminal {
         this.init();
     }
 
+    /**
+     * Initialize the terminal and start the main loop
+     * @returns {Promise<void>}
+     */
     async init() {
         Dialog.say("Welcome to the terminal");
-        // const input = await Dialog.ask(">");
-        //
-        // console.log(input);
-        // functionLoader.run(input);
-
         await this.loop();
     }
 
+    /**
+     * The main loop of the terminal
+     * @returns {Promise<void>}
+     */
     async loop (){
         while (true) {
             const input = await Dialog.ask(">");
-           await functionLoader.run(input);
+            try {
+                // save output of last command
+                await functionLoader.run(input);
+            } catch (e) {
+                console.log(e);
+                Dialog.say(e.message);
+            }
         }
     }
 

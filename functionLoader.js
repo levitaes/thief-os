@@ -1,6 +1,7 @@
 import {Logger} from "./utils/Logger.js";
 import {Dialog} from "./utils/dialog.js";
 import {AppManager} from "./appManager.js";
+import {FileSystem} from "./filesystem/FileSystem.js";
 
 const os = {
     functions: new Map(),
@@ -19,6 +20,7 @@ const os = {
     next: Dialog.next,
     logger: Logger,
     dialog: Dialog,
+    fs: FileSystem.instance,
 }
 
 /**
@@ -58,11 +60,13 @@ os.run = function (data) {
 
             if (args.length > AppManager.instance.apps.get(command).arguments) {
                 os.next('too many arguments');
+                resolve();
                 return;
             }
 
             if (args.length < AppManager.instance.apps.get(command).arguments) {
                 os.next('not enough arguments');
+                resolve();
                 return;
             }
         }
