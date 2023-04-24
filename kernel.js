@@ -8,11 +8,13 @@ let appManager;
 
 //boot
 async function boot() {
-    const { FileSystem , WorkingDirectory} = await import('./filesystem/FileSystem.js');
+    const {FileSystem, WorkingDirectory} = await import('./filesystem/FileSystem.js');
     fs = new FileSystem();
     wd = new WorkingDirectory();
     window.fs = fs;
-    const { AppManager } = await import('./appManager.js');
+    const {InputManager} = await import('./inputManager.js');
+    new InputManager();
+    const {AppManager} = await import('./appManager.js');
     appManager = new AppManager();
     await appManager.load();
     setup();

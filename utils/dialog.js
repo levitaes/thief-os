@@ -3,14 +3,18 @@
  */
 export class Dialog {
 
+    static defaultConfig = {
+        color: 'default',
+        newline: true,
+    }
+
     /**
      * Output a message
      * @param {string} message - The message to output
-     * @param {Object} config - The configuration object
+     * @param {{newline: boolean, color: string}} config - The configuration object
      */
-    static say(message, config ){
-        console.log(message);
-        //TODO
+    static say(message, config = {} ){
+        new CommandLine(message, config);
     }
 
     /**
@@ -18,21 +22,24 @@ export class Dialog {
      * @param {string} message - The message to output
      */
     static sayRaw(message){
-        //TODO
-        push(message);
-        pushBr();
+        new CommandLine(message);
     }
 
     /**
      * Output a message and wait for user input
      * @param {string} message - The message to output
-     * @param {Object} config - The configuration object
-     * @returns {Promise<string>}
+     * @param {{newline: boolean, color: string}} config - The configuration object, not required
+     // * @returns {Promise<string>}
      */
-    static ask(message, config){
-        //TODO
-        console.log(message);
-        return new Promise();
+    static ask(message, config = {color: 'default', newline: true}){
+        return new Promise((resolve, reject) => {
+            const commandLine = new CommandLine(message, config);
+            // commandLine.input = true;
+            commandLine.onInput((data) => {
+
+                resolve(data);
+            });
+        });
     }
 
     /**
@@ -92,19 +99,60 @@ export class Dialog {
 }
 
 /**
- * Push a value to the Terminal
- * @param value {string}
- */
-function push(value) {
-    let div = document.createElement("div");
-    div.innerHTML = value;
-    div.setAttribute("class", "line");
-    document.body.appendChild(div);
-}
-
-/**
  * Push a line break to the Terminal
  */
 function pushBr() {
     document.body.appendChild(document.createElement("br"));
 }
+
+/**
+ * Write a value to the Terminal
+ *
+ */
+class CommandLine extends HTMLElement {
+
+    /**
+     * Create a new CommandLine
+     * @param data {string}
+     * @param config {Object}
+     */
+    constructor(data, config = {}) {
+        // Always call super first in constructor
+        super();
+
+        this.data = data;
+
+        // gets the template
+        let tmpl = document.getElementById('commandLineTemplate');
+        const p = tmpl.content.querySelector('p');
+        p.innerText = this.data;
+
+        // creates a shadow root
+        let shadow = this.attachShadow({mode: 'open'});
+        shadow.appendChild(tmpl.content.cloneNode(true));
+
+        // appends the element to the DOM
+        let lines = document.getElementById("lines");
+        lines.appendChild(this);
+    }
+
+    /**
+     * On Input
+     */
+    onInput(callback){
+        //
+        const input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('spellcheck', 'false');
+        input.setAttribute('contenteditable', 'true');
+        input.setAttribute('autofocus', '');
+        input.classList.add('input');
+
+        this.shadowRoot.appendChild(input);
+    }
+}
+
+
+
+// define the custom element
+window.customElements.define('command-line', CommandLine);

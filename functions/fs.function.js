@@ -1,15 +1,19 @@
+import {InputManager} from '../inputManager.js';
+
 export default {
     name: 'fs',
     description: 'fs (file system) commands',
     arguments: 0,
     async execute(os, args) {
-        os.say('fs commands:');
-        os.say('1 - show stats ');
-        os.say('2 - reset filesystem');
-        os.say('3 - backup filesystem');
-        os.say('4 - restore filesystem');
+        os.dialog.say('fs commands:');
+        os.dialog.say('1 - show stats ');
+        os.dialog.say('2 - reset filesystem');
+        os.dialog.say('3 - backup filesystem');
+        os.dialog.say('4 - restore filesystem');
 
-        const choice = await os.ask("Please enter a number:");
+        // await InputManager.instance.waitFor("");
+
+        const choice = await os.dialog.ask("Please enter a number:");
 
         switch (choice) {
             case '1': {
@@ -40,7 +44,7 @@ export default {
                 break;
             }
             case '4':
-                try{
+                try {
                     // upload a json file and read it
                     const input = document.createElement('input');
                     input.type = 'file';
@@ -62,8 +66,7 @@ export default {
                         console.log(file);
                     });
                     input.click();
-                }
-                catch (e) {
+                } catch (e) {
                     os.say('filesystem not restored');
                     os.next();
                     return;
