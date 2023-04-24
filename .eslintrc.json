@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    "no-console": "error",
+    "no-unused-vars": "warn",
+    "no-debugger": "error"
+  },
+  "ignorePatterns": ["doc/*", "out/*"]
+}
