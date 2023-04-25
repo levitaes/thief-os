@@ -26,3 +26,7 @@ body {
     display: inline;
     white-space: nowrap;
 }
+
+.commandline {
+    background-color: red;
+}

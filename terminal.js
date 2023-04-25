@@ -17,6 +17,12 @@ export class Terminal {
     static sessions = [];
 
     /**
+     * The current working directory
+     * @type {WorkingDirectory}
+     */
+    wd = null;
+
+    /**
      * This creates a new Session
      * @constructor
      *

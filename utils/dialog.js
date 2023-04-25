@@ -124,6 +124,8 @@ export class CommandLine extends HTMLElement {
         // Always call super first in constructor
         super();
 
+        this.classList.add('commandLine');
+
         this.data = data;
 
         // gets the template
