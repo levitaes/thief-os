@@ -160,11 +160,13 @@ export class CommandLine extends HTMLElement {
 
             //focus
             input.focus();
+            InputManager.instance.focusInput(input);
 
             InputManager.instance.waitFor("Enter").then(() => {
                 const data = input.value;
                 // display the input
                 input.disabled = true;
+                InputManager.instance.unFocusInput(input);
                 resolve(data);
             });
         });

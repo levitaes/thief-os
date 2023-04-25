@@ -14,7 +14,7 @@ export class InputManager {
             InputManager.instance = this;
         }
         // this.disableContextMenu();
-        this.catchCtrlC(() =>{
+        this.catchCtrlC(() => {
             console.log("Ctrl+C");
         })
         return InputManager.instance;
@@ -42,7 +42,6 @@ export class InputManager {
     }
 
 
-
     /**
      * Wait for specific key press
      * @param {string} key - The key to wait for
@@ -56,6 +55,26 @@ export class InputManager {
                 }
             };
             window.addEventListener('keydown', callback);
+        });
+    }
+
+    /**
+     * focus the input on left click
+     * @param {HTMLInputElement} input - The input to focus
+     */
+    focusInput(input) {
+        window.addEventListener('click', () => {
+            input.focus();
+
+        });
+    }
+
+    /**
+     * unFocus the input on left click
+     * @param {HTMLInputElement} input - The input to unfocus
+     */
+    unFocusInput(input) {
+        window.removeEventListener('click', () => {
         });
     }
 

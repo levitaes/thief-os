@@ -13,9 +13,11 @@ async function boot() {
     await initAppManager(); //load the app manager
     setup();
     await functionLoaderInit();
+
     // create a new Session
     const {Terminal} = await import('./terminal.js');
-    new Terminal();
+    const terminal = new Terminal();
+    terminal.div = document.getElementById("lines");
 }
 
 /**
