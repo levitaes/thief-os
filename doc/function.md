@@ -226,7 +226,7 @@ If the user does not pass the required amount of arguments, the function will no
 
 ## os
 
-### os.ask
+### os.ask (Deprecated)
 
 ```js
 const string = await os.ask("question");
@@ -234,7 +234,7 @@ const string = await os.ask("question");
 
 Wait for user input.
 
-### os.say
+### os.say (Deprecated)
 
 ```js
 os.say("text");
@@ -242,13 +242,31 @@ os.say("text");
 
 Print text to user.
 
-### os.next
+### os.next (Deprecated)
 
 ```js
 os.next("last message");
 ```
 
 Last message to end function.
+
+### os.dialog
+
+#### os.dialog.ask
+
+```js
+const string = await os.dialog.ask("question");
+```
+
+Wait for user input.
+
+#### os.dialog.say
+
+```js
+os.dialog.say("text");
+```
+
+Print text to user.
 
 ### os.wd
 

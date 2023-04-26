@@ -7,6 +7,12 @@ Functions are installable apps.
 
 [Read more](./function.md)
 
+## Dialog
+
+The Dialog is a static class to show messages in the Terminal.
+
+[Read more](./dialog.md)
+
 ## File System
 
 The file system is a hierarchical structure that stores files and directories.
