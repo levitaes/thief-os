@@ -23,6 +23,12 @@ export class Terminal {
     wd = null;
 
     /**
+     * History of the terminal
+     * @type {String[]}
+     */
+    history = [];
+
+    /**
      * This creates a new Session
      * @constructor
      *
@@ -47,14 +53,28 @@ export class Terminal {
     }
 
     /**
+     * Push a new input to the history
+     * @param input {string}
+     */
+    pushHistory(input){
+        const index = this.history.indexOf(input);
+        if(index !== -1){
+            this.history.splice(index, 1);
+        }
+        this.history.push(input);
+    }
+
+
+    /**
      * The main loop of the terminal
      * @returns {Promise<void>}
      */
     async loop (){
         while (true) {
-            const input = await Dialog.ask(">");
+            const input = await Dialog.ask(">", {autoComplete: "apps"});
             try {
                 // save output of last command
+                this.pushHistory(input);
                 await functionLoader.run(input);
             } catch (e) {
                 console.log(e);

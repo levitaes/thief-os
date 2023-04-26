@@ -1,4 +1,6 @@
 import {InputManager} from "../inputManager.js";
+import {AppManager} from "../appManager.js";
+import {WorkingDirectory} from "../filesystem/FileSystem.js";
 
 /**
  * Class Representing Input/Output Dialogs
@@ -30,10 +32,10 @@ export class Dialog {
     /**
      * Output a message and wait for user input
      * @param {string} message - The message to output
-     * @param {{newline: boolean, color: string}} config - The configuration object, not required
+     * @param {{autoComplete: string}} config - The configuration object, not required
      // * @returns {Promise<string>}
      */
-    static ask(message, config = {color: 'default', newline: true}){
+    static ask(message, config = {color: 'default', newline: true, autoComplete: null}){
         return new Promise(async (resolve, reject) => {
             const commandLine = new CommandLine(message, config);
             const data = await commandLine.onInput();
@@ -114,6 +116,11 @@ export class Dialog {
  *
  */
 export class CommandLine extends HTMLElement {
+    /**
+     * Configuration Object
+     * @type {{color: string, newline: boolean, raw: boolean, autoComplete: string}}
+     */
+    config = {};
 
     /**
      * Create a new CommandLine
@@ -127,6 +134,7 @@ export class CommandLine extends HTMLElement {
         this.classList.add('commandLine');
 
         this.data = data;
+        this.config = config;
 
         // gets the template
         let tmpl = document.getElementById('commandLineTemplate');
@@ -147,7 +155,8 @@ export class CommandLine extends HTMLElement {
     }
 
     /**
-     * On Input
+     * creates a new input element and waits for Enter to be pressed
+     * @returns {Promise<string>}
      */
     onInput(){
         return new Promise((resolve) => {
@@ -164,11 +173,49 @@ export class CommandLine extends HTMLElement {
             input.focus();
             InputManager.instance.focusInput(input);
 
+            const config = this.config;
+            function autoCompleteCallBack() {
+                if(config.autoComplete === "apps") {
+                    const apps = AppManager.instance.getAppList();
+                    const data = input.value;
+                    apps.forEach((app) => {
+                        if (app.name.startsWith(data)) {
+                            input.value = app.name;
+                        }
+                    });
+                }
+                else if(config.autoComplete === "file") {
+                    // TODO use the current working directory
+                    const wd = new WorkingDirectory();
+                    const files = wd.getChildren();
+                    const data = input.value;
+                    files.forEach((file) => {
+                        if (file.name.startsWith(data)) {
+                            input.value = file.name;
+                        }
+                    });
+                }
+                else if (Array.isArray(config.autoComplete)) {
+                    const data = input.value;
+                    config.autoComplete.forEach((item) => {
+                        if (item.startsWith(data)) {
+                            input.value = item;
+                        }
+                    });
+                }
+            }
+
+            if(this.config.autoComplete !== null) {
+
+                InputManager.instance.onKeyDown("Tab", autoCompleteCallBack);
+            }
+
             InputManager.instance.waitFor("Enter").then(() => {
                 const data = input.value;
                 // display the input
                 input.disabled = true;
                 InputManager.instance.unFocusInput(input);
+                InputManager.instance.removeKeyDown("Tab", autoCompleteCallBack);
                 resolve(data);
             });
         });

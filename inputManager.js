@@ -51,11 +51,53 @@ export class InputManager {
             const callback = (event) => {
                 if (event.key === key || key === "") {
                     window.removeEventListener('keydown', callback);
+                    //prevent default
+                    event.preventDefault();
                     resolve();
                 }
             };
             window.addEventListener('keydown', callback);
         });
+    }
+
+    /**
+     * Add a key Down listener
+     * @param {string} key - The key to listen for
+     */
+    waitKeyRaw(key) {
+        return new Promise((resolve) => {
+            const callback = (event) => {
+                if (event.key === key) {
+                    event.preventDefault();
+                    resolve();
+                }
+            };
+            window.addEventListener('keydown', callback);
+        });
+    }
+
+    /**
+     * Add a key Down listener
+     * @param key
+     * @param callback
+     */
+    onKeyDown(key, callback){
+        const callback2 = (event) => {
+            if (event.key === key) {
+                event.preventDefault();
+                callback();
+            }
+        };
+        window.addEventListener('keydown', callback2);
+    }
+
+    /**
+     * Remove a event listener
+     * @param key {string} - The key to remove
+     * @param callback {function} - The callback function
+     */
+    removeKeyDown(key, callback){
+        window.removeEventListener(key, callback);
     }
 
     /**
