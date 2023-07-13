@@ -10,9 +10,23 @@ export default {
         let hp = 3;
         let dmg = 1;
 
-        os.say("龴ↀ◡ↀ龴: Welcome Adventurer what is your name?")
-        response = await os.ask(">>")
-        os.next(response + "? Your epic journey awaits!");
+        switch (this.storage.get('chapter')) {
+            case 0:
+                os.say("龴ↀ◡ↀ龴: Welcome Adventurer what is your name?")
+                response = await os.ask(">>")
+                let name = response.charAt(0).toUpperCase() + response.slice(1);
+                this.storage.set('name', name);
+                os.say(name + "? Your epic journey awaits!");
+                this.storage.set('chapter', 1);
+            case 1:
+                os.say('~CHAPTER ONE~');
+                os.say(this.storage.get('name') + "? Is that really you?")
+                break;
+            default:
+                this.storage.set('chapter', 0);
+                await this.execute(os);
+        }
+        os.next();
     }
 };
 
