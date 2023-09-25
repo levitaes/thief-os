@@ -17,7 +17,7 @@ export class Dialog {
      * @param {string} message - The message to output
      * @param {{newline: boolean, color: string}} config - The configuration object
      */
-    static say(message, config = {} ){
+    static say(message, config = {}) {
         new CommandLine(message, config);
     }
 
@@ -25,7 +25,7 @@ export class Dialog {
      * Output a raw message
      * @param {string} message - The message to output
      */
-    static sayRaw(message){
+    static sayRaw(message) {
         new CommandLine(message, {raw: true});
     }
 
@@ -35,7 +35,7 @@ export class Dialog {
      * @param {{autoComplete: string}} config - The configuration object, not required
      // * @returns {Promise<string>}
      */
-    static ask(message, config = {color: 'default', newline: true, autoComplete: null}){
+    static ask(message, config = {color: 'default', newline: true, autoComplete: null}) {
         return new Promise(async (resolve, reject) => {
             const commandLine = new CommandLine(message, config);
             const data = await commandLine.onInput();
@@ -48,7 +48,7 @@ export class Dialog {
      * @param {string} message - The message to output
      * @returns {Promise<string>}
      */
-    static askRaw(message){
+    static askRaw(message) {
         return new Promise(async (resolve) => {
             const commandLine = new CommandLine(message, {raw: true});
             const data = await commandLine.onInput();
@@ -62,7 +62,7 @@ export class Dialog {
      * @param {Object} config - The configuration object
      * @returns {Promise<boolean>}
      */
-    static askYesNo(message, config){
+    static askYesNo(message, config) {
         //TODO
         console.log(message);
         return new Promise(async (resolve) => {
@@ -88,7 +88,7 @@ export class Dialog {
      * @param {string} filename - The filename to download as
      * @returns {Promise<void>}
      */
-    static download(data, filename){
+    static download(data, filename) {
         return new Promise((resolve) => {
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
@@ -106,20 +106,44 @@ export class Dialog {
     }
 
     /**
-     * Upload a file
+     * Upload a file and return the content
      * @param {string} type - The file type to upload
-     * @returns {Promise<string>}
+     * @returns {Promise<String>} - The file that was uploaded as JavaScript File Object
      */
-    static upload(type){
-        //TODO
+    static upload(type) {
+        return new Promise((resolve, reject) => {
+            // upload a json file and read it
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = type || '*';
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+
+                if (!file) {
+                    reject(new Error('No file selected'));
+                    return;
+                }
+
+                reader.onload = e => {
+                    const text = e.target.result;
+                    resolve(text);
+                };
+
+                reader.readAsText(file);
+
+                console.log(file);
+            });
+            input.click();
+        });
     }
 
     /**
      * Output the last message and exit
      * @param message {string}
      */
-    static next(message = ''){
-        if(message !== ''){
+    static next(message = '') {
+        if (message !== '') {
             Dialog.say(message);
         }
     }
@@ -127,7 +151,7 @@ export class Dialog {
     /**
      * Clear the terminal
      */
-    static clear(){
+    static clear() {
         const lines = document.getElementById("lines");
         lines.innerHTML = "";
     }
@@ -162,7 +186,7 @@ export class CommandLine extends HTMLElement {
         // gets the template
         let tmpl = document.getElementById('commandLineTemplate');
         const p = tmpl.content.querySelector('p');
-        if(config.raw === true){
+        if (config.raw === true) {
             p.innerHTML = this.data;
         } else {
             p.innerText = this.data;
@@ -181,7 +205,7 @@ export class CommandLine extends HTMLElement {
      * creates a new input element and waits for Enter to be pressed
      * @returns {Promise<string>}
      */
-    onInput(){
+    onInput() {
         return new Promise((resolve) => {
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
@@ -197,8 +221,9 @@ export class CommandLine extends HTMLElement {
             InputManager.instance.focusInput(input);
 
             const config = this.config;
+
             function autoCompleteCallBack() {
-                if(config.autoComplete === "apps") {
+                if (config.autoComplete === "apps") {
                     const apps = AppManager.instance.getAppList();
                     const data = input.value;
                     apps.forEach((app) => {
@@ -206,8 +231,7 @@ export class CommandLine extends HTMLElement {
                             input.value = app.name;
                         }
                     });
-                }
-                else if(config.autoComplete === "file") {
+                } else if (config.autoComplete === "file") {
                     // TODO use the current working directory
                     const wd = new WorkingDirectory();
                     const files = wd.getChildren();
@@ -217,8 +241,7 @@ export class CommandLine extends HTMLElement {
                             input.value = file.name;
                         }
                     });
-                }
-                else if (Array.isArray(config.autoComplete)) {
+                } else if (Array.isArray(config.autoComplete)) {
                     const data = input.value;
                     config.autoComplete.forEach((item) => {
                         if (item.startsWith(data)) {
@@ -228,7 +251,7 @@ export class CommandLine extends HTMLElement {
                 }
             }
 
-            if(this.config.autoComplete !== null) {
+            if (this.config.autoComplete !== null) {
 
                 InputManager.instance.onKeyDown("Tab", autoCompleteCallBack);
             }
@@ -244,7 +267,6 @@ export class CommandLine extends HTMLElement {
         });
     }
 }
-
 
 
 // define the custom element
