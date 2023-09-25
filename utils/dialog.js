@@ -65,6 +65,21 @@ export class Dialog {
     static askYesNo(message, config){
         //TODO
         console.log(message);
+        return new Promise(async (resolve) => {
+            const msg = message + " (y/n)";
+            while (true) {
+                const commandLine = new CommandLine(msg, config);
+                const data = await commandLine.onInput();
+                if (data === "y" || data === "Y" || data === "yes" || data === "Yes" || data === "YES") {
+                    resolve(true);
+                    break;
+                }
+                if (data === "n" || data === "N" || data === "no" || data === "No" || data === "NO") {
+                    resolve(false);
+                    break;
+                }
+            }
+        });
     }
 
     /**

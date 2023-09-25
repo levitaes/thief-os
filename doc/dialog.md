@@ -53,13 +53,14 @@ This is useful if you want to show a message with HTML tags.
 
 __Note:__ This function should be used with caution, as it can be used to inject malicious code into the Terminal.
 
-### os.dialog.askYesNo(message, [options]) (Not implemented yet)
+### os.dialog.askYesNo(message, [options])
 
 ```js
 const answer = await os.dialog.askYesNo("Do you like this?", options);
 ```
 
 Show a message in the Terminal and wait for user input.
+It will append `(y/n)` to the message.
 The user can answer with "yes" or "no".
 Returns `true` if the user answered "yes" and `false` if the user answered "no".
 
