@@ -45,27 +45,13 @@ export default {
             }
             case '4':
                 try {
-                    // upload a json file and read it
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = '.json';
-                    input.addEventListener('change', (e) => {
-                        const file = e.target.files[0];
-                        const reader = new FileReader();
-
-                        reader.onload = e => {
-                            const text = e.target.result;
-                            console.log(text);
-                            localStorage.setItem('FileSystem', text);
-                            os.say('filesystem restored');
-                            window.location.reload();
-                            os.next();
-                        };
-                        reader.readAsText(file);
-
-                        console.log(file);
-                    });
-                    input.click();
+                    await os.dialog.say('Please upload a json file');
+                    const data = await os.dialog.upload('.json');
+                    console.log(data);
+                    localStorage.setItem('FileSystem', data);
+                    os.say('filesystem restored');
+                    window.location.reload();
+                    break;
                 } catch (e) {
                     os.say('filesystem not restored');
                     os.next();

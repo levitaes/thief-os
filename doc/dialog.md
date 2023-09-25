@@ -81,13 +81,17 @@ os.dialog.download("Hello World!", "hello.txt");
 
 Download a file to the user's computer.
 
-### os.dialog.upload(filetype) (Not implemented yet)
+### os.dialog.upload(filetype)
 
 ```js
 const file = await os.dialog.upload(fileType);
 ```
 
 Upload a file from the user's computer.
+It returns a `string`.
+As a parameter, you can specify the file type, e.g. `.txt`.
+
+Currently, only text files are supported.
 
 ### os.dialog.clear()
 
