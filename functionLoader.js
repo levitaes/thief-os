@@ -43,7 +43,7 @@ os.load = async() => {
  * @param data {string} The command to run
  */
 os.run = function (data) {
-    return new Promise((resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
         const args = data.split(' ');
         const command = args.shift().toLowerCase();
 
@@ -73,7 +73,7 @@ os.run = function (data) {
 
         try {
             // run the command
-            AppManager.instance.apps.get(command).execute(this, args);
+            await AppManager.instance.apps.get(command).execute(this, args);
         } catch (error) {
             Dialog.next(error);
         }

@@ -109,6 +109,14 @@ export class Dialog {
         }
     }
 
+    /**
+     * Clear the terminal
+     */
+    static clear(){
+        const lines = document.getElementById("lines");
+        lines.innerHTML = "";
+    }
+
 }
 
 /**
