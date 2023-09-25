@@ -88,6 +88,15 @@ const file = await os.dialog.upload(fileType);
 
 Upload a file from the user's computer.
 
+### os.dialog.clear()
+
+```js
+os.dialog.clear();
+```
+
+Clear the Terminal.
+
+
 ## config
 
 The config object is used to configure the Terminal.
