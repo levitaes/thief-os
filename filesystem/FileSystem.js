@@ -185,7 +185,7 @@ export class WorkingDirectory {
      */
     goDir(name) {
         const child = this.current.dir.get(name);
-        if(child == null) {
+        if (child == null) {
             throw new Error(`Directory "${name}" not found`);
         }
         if (child instanceof Directory) {
@@ -237,7 +237,7 @@ export class WorkingDirectory {
      * @returns {Directory}
      */
     getCurrent() {
-
+        return this.current;
     }
 
     /**
@@ -247,7 +247,7 @@ export class WorkingDirectory {
     getFile(name) {
         console.log(name);
         const tmp = name.indexOf("/");
-        if(name.indexOf("/") !== -1) {
+        if (name.indexOf("/") !== -1) {
             this.goDirByPath(name.substring(0, name.lastIndexOf("/")));
         }
         return this.getChild(name.substring(name.lastIndexOf("/") + 1));

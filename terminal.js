@@ -1,5 +1,6 @@
 import {CommandLine, Dialog} from './utils/dialog.js'
 import functionLoader from "./functionLoader.js";
+import {FileSystem, WorkingDirectory} from "./filesystem/FileSystem.js";
 
 /**
  * The terminal class
@@ -58,6 +59,7 @@ export class Terminal {
      */
     async init() {
         Dialog.say("Welcome to the terminal");
+        this.loadHistory();
         await this.loop();
     }
 
@@ -71,10 +73,28 @@ export class Terminal {
             this.history.splice(index, 1);
         }
         this.history.push(input);
+        this.saveHistory();
     }
 
     clearHistory() {
         this.history = [];
+        this.saveHistory();
+    }
+
+    saveHistory() {
+        const wwd = new WorkingDirectory();
+        wwd.goDirByPath("var");
+        const file = wwd.getOrCreateFile("history.json");
+        file.setData(JSON.stringify(this.history));
+    }
+
+    loadHistory() {
+        const wwd = new WorkingDirectory();
+        wwd.goDirByPath("var");
+        const file = wwd.getOrCreateFile("history.json");
+        const data = file.getData();
+        if(data === "") return;
+        this.history = JSON.parse(data);
     }
 
 
