@@ -7,8 +7,10 @@ export default {
     execute(os) {
         for(let [key, value] of os.wd.getChildren()) {
             const color = value instanceof Directory ? '#92AEBE' : '#C4D3B2';
-            os.say(`<span style="color: ${color}">${key}</span>`);
+            // os.dialog.sayRaw(`<span style="color: ${color}">${key}</span>`);
+            os.dialog.say(key, {color: color});
         }
+
         os.next();
     }
 };
