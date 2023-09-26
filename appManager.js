@@ -146,7 +146,6 @@ export class AppManager {
             }
             const obj = this.apps.get(command);
             const app = new Process(obj, context, args);
-            console.log(app);
             this.foregroundApp = app;
             await app.run();
             this.foregroundApp = null;
@@ -211,7 +210,6 @@ class Process {
         this.args = args;
         AppManager.instance.lastPid++;
         this.pid = AppManager.instance.lastPid;
-        console.log(this.pid);
         AppManager.instance.runningApps.set(this.pid, this);
         // this.run();
         return this.pid;
