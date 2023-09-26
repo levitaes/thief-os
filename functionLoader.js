@@ -2,6 +2,10 @@ import {Logger} from "./utils/Logger.js";
 import {Dialog} from "./utils/dialog.js";
 import {AppManager} from "./appManager.js";
 import {FileSystem} from "./filesystem/FileSystem.js";
+import {Terminal} from "./terminal.js";
+
+const dialog = Dialog;
+const terminal = new Terminal();
 
 const os = {
     functions: new Map(),
@@ -19,15 +23,16 @@ const os = {
     ask: Dialog.ask,
     next: Dialog.next,
     logger: Logger,
-    dialog: Dialog,
+    dialog: dialog,
     fs: FileSystem.instance,
+    terminal: terminal,
 }
 
 /**
  * Loads the functions into the os
  * @returns {Promise<unknown>}
  */
-os.load = async() => {
+os.load = async () => {
     return new Promise(async (resolve, reject) => {
         const {appList} = await import('./functions/functionList.js');
         for (const app of appList.apps) {
@@ -43,8 +48,8 @@ os.load = async() => {
  * @param data {string} The command to run
  */
 os.run = function (data) {
-    return new Promise( async (resolve, reject) => {
-        const args = data.split(' ');
+    return new Promise(async (resolve, reject) => {
+        const args = data.trim().split(' ');
         const command = args.shift().toLowerCase();
 
         // check if the command exists
@@ -73,14 +78,49 @@ os.run = function (data) {
 
         try {
             // run the command
-            await AppManager.instance.apps.get(command).execute(this, args);
+            // await AppManager.instance.apps.get(command).execute(this, args);
+            await AppManager.instance.run(command, this, args);
         } catch (error) {
             Dialog.next(error);
+            console.log(error);
         }
         resolve();
     });
 
 }
+
+os.runNew = function (data) {
+    return new Promise(async (resolve, reject) => {
+
+        let output = '';
+
+        while (true) {
+            // find next |
+            const index = data.indexOf('|');
+            if (index === -1) {
+
+                // no pipe found, but there is still data
+                await os.runOld(data);
+                resolve();
+                break;
+            }
+            // Pipe command found
+            const command = data.substring(0, index);
+            data = data.substring(index + 1);
+
+            // overwrite os.dialog.next()
+            os.dialog.next = (message) => {
+                output = message;
+            }
+
+            // run the command
+            await os.runOld(command);
+
+        }
+
+    });
+}
+
 
 await os.load();
 export default os;
