@@ -1,3 +1,5 @@
+import {AppManager} from "./appManager.js";
+
 /**
  * @class InputManager
  * @description Manages the input of the user
@@ -13,10 +15,14 @@ export class InputManager {
         if (InputManager.instance === null) {
             InputManager.instance = this;
         }
+
         // this.disableContextMenu();
         this.catchCtrlC(() => {
             console.log("Ctrl+C");
+            AppManager.instance.stopForegroundApp().then(r => {
+            });
         })
+
         return InputManager.instance;
     }
 
@@ -81,11 +87,11 @@ export class InputManager {
      * @param key
      * @param callback
      */
-    onKeyDown(key, callback){
+    onKeyDown(key, callback) {
         const callback2 = (event) => {
             if (event.key === key) {
                 event.preventDefault();
-                callback();
+                callback(event);
             }
         };
         window.addEventListener('keydown', callback2);
@@ -96,7 +102,7 @@ export class InputManager {
      * @param key {string} - The key to remove
      * @param callback {function} - The callback function
      */
-    removeKeyDown(key, callback){
+    removeKeyDown(key, callback) {
         window.removeEventListener(key, callback);
     }
 

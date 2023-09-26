@@ -1,6 +1,7 @@
 import {InputManager} from "../inputManager.js";
 import {AppManager} from "../appManager.js";
 import {WorkingDirectory} from "../filesystem/FileSystem.js";
+import {Terminal} from "../terminal.js";
 
 /**
  * Class Representing Input/Output Dialogs
@@ -8,7 +9,7 @@ import {WorkingDirectory} from "../filesystem/FileSystem.js";
 export class Dialog {
 
     static defaultConfig = {
-        color: 'default',
+        color: 'white',
         newline: true,
     }
 
@@ -35,7 +36,7 @@ export class Dialog {
      * @param {{autoComplete: string}} config - The configuration object, not required
      // * @returns {Promise<string>}
      */
-    static ask(message, config = {color: 'default', newline: true, autoComplete: null}) {
+    static ask(message, config = {color: 'default', newline: true, autoComplete: null, history: false}) {
         return new Promise(async (resolve, reject) => {
             const commandLine = new CommandLine(message, config);
             const data = await commandLine.onInput();
@@ -165,9 +166,12 @@ export class Dialog {
 export class CommandLine extends HTMLElement {
     /**
      * Configuration Object
-     * @type {{color: string, newline: boolean, raw: boolean, autoComplete: string}}
+     * @type {{color: string, newline: boolean, raw: boolean, autoComplete: string, history: boolean}}
      */
     config = {};
+
+
+    active = false;
 
     /**
      * Create a new CommandLine
@@ -183,22 +187,36 @@ export class CommandLine extends HTMLElement {
         this.data = data;
         this.config = config;
 
-        // gets the template
-        let tmpl = document.getElementById('commandLineTemplate');
-        const p = tmpl.content.querySelector('p');
-        if (config.raw === true) {
-            p.innerHTML = this.data;
-        } else {
-            p.innerText = this.data;
+
+        try {
+
+            // gets the template
+            let tmpl = document.getElementById('commandLineTemplate');
+            const p = tmpl.content.querySelector('p');
+            if (config.raw === true) {
+                p.innerHTML = this.data;
+            } else {
+                p.innerText = this.data;
+            }
+
+            if (config.color !== undefined) {
+                p.style.color = config.color;
+            }
+            else {
+                p.style.color = Dialog.defaultConfig.color;
+            }
+
+            // creates a shadow root
+            let shadow = this.attachShadow({mode: 'open'});
+            shadow.appendChild(tmpl.content.cloneNode(true));
+
+            // appends the element to the DOM
+            let lines = document.getElementById("lines");
+            lines.appendChild(this);
+        } catch (error) {
+            console.log(error);
+
         }
-
-        // creates a shadow root
-        let shadow = this.attachShadow({mode: 'open'});
-        shadow.appendChild(tmpl.content.cloneNode(true));
-
-        // appends the element to the DOM
-        let lines = document.getElementById("lines");
-        lines.appendChild(this);
     }
 
     /**
@@ -213,6 +231,7 @@ export class CommandLine extends HTMLElement {
             input.setAttribute('contenteditable', 'true');
             input.setAttribute('autofocus', 'true');
             input.classList.add('input');
+            this.active = true;
 
             this.shadowRoot.appendChild(input);
 
@@ -222,7 +241,8 @@ export class CommandLine extends HTMLElement {
 
             const config = this.config;
 
-            function autoCompleteCallBack() {
+            const autoCompleteCallBack = () => {
+                if(!this.active) return;
                 if (config.autoComplete === "apps") {
                     const apps = AppManager.instance.getAppList();
                     const data = input.value;
@@ -256,12 +276,38 @@ export class CommandLine extends HTMLElement {
                 InputManager.instance.onKeyDown("Tab", autoCompleteCallBack);
             }
 
+            const historyCallBack = (e) => {
+                if(this.active === false) return;
+                if (e.key === "ArrowUp") {
+                    Terminal.instance.historyPointer--;
+                    if (Terminal.instance.historyPointer < 0) {
+                        Terminal.instance.historyPointer = 0;
+                    }
+
+                } else if (e.key === "ArrowDown") {
+                    Terminal.instance.historyPointer++;
+                    if (Terminal.instance.historyPointer > Terminal.instance.history.length) {
+                        Terminal.instance.historyPointer = Terminal.instance.history.length;
+                    }
+                }
+                input.value = Terminal.instance.history[Terminal.instance.historyPointer] || "";
+            }
+
+            if (this.config.history === true) {
+                InputManager.instance.onKeyDown("ArrowUp", historyCallBack);
+                InputManager.instance.onKeyDown("ArrowDown", historyCallBack);
+            }
+
             InputManager.instance.waitFor("Enter").then(() => {
                 const data = input.value;
+                this.active = false;
                 // display the input
                 input.disabled = true;
                 InputManager.instance.unFocusInput(input);
+                // ToDO: remove the event listener
                 InputManager.instance.removeKeyDown("Tab", autoCompleteCallBack);
+                InputManager.instance.removeKeyDown("ArrowUp", historyCallBack);
+                InputManager.instance.removeKeyDown("ArrowDown", historyCallBack);
                 resolve(data);
             });
         });

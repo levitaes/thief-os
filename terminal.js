@@ -14,7 +14,7 @@ export class Terminal {
     /**
      * All sessions of the terminal
      */
-    static sessions = [];
+    // static sessions = [];
 
     /**
      * The current working directory
@@ -28,6 +28,10 @@ export class Terminal {
      */
     history = [];
 
+    historyPointer = 0;
+
+    static instance = null;
+
     /**
      * This creates a new Session
      * @constructor
@@ -38,8 +42,14 @@ export class Terminal {
         //Spawn the terminal
         // TODO: Make this a function
 
+        if (Terminal.instance === null) {
+            Terminal.instance = this;
+        } else {
+            return Terminal.instance;
+        }
+
         // Saves the session
-        Terminal.sessions.push(this);
+        // Terminal.sessions.push(this);
         this.init();
     }
 
@@ -56,12 +66,16 @@ export class Terminal {
      * Push a new input to the history
      * @param input {string}
      */
-    pushHistory(input){
+    pushHistory(input) {
         const index = this.history.indexOf(input);
-        if(index !== -1){
+        if (index !== -1) {
             this.history.splice(index, 1);
         }
         this.history.push(input);
+    }
+
+    clearHistory() {
+        this.history = [];
     }
 
 
@@ -69,9 +83,10 @@ export class Terminal {
      * The main loop of the terminal
      * @returns {Promise<void>}
      */
-    async loop (){
+    async loop() {
         while (true) {
-            const input = await Dialog.ask(">", {autoComplete: "apps"});
+            this.historyPointer = this.history.length;
+            const input = await Dialog.ask(">", {autoComplete: "apps", history: true});
             try {
                 // save output of last command
                 this.pushHistory(input);
