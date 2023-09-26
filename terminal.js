@@ -50,7 +50,6 @@ export class Terminal {
 
         // Saves the session
         // Terminal.sessions.push(this);
-        this.init();
     }
 
     /**
@@ -86,7 +85,7 @@ export class Terminal {
     async loop() {
         while (true) {
             this.historyPointer = this.history.length;
-            const input = await Dialog.ask(">", {autoComplete: "apps", history: true});
+            const input = await Dialog.ask(`${this.wd.getPath() || ""} >`, {autoComplete: "apps", history: true});
             try {
                 // save output of last command
                 this.pushHistory(input);

@@ -56,6 +56,7 @@ async function initTerminal() {
     const terminal = new Terminal();
     terminal.div = document.getElementById("lines");
     terminal.wd = wd;
+    terminal.init();
 }
 
 function setup() {

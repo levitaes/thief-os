@@ -185,6 +185,9 @@ export class WorkingDirectory {
      */
     goDir(name) {
         const child = this.current.dir.get(name);
+        if(child == null) {
+            throw new Error(`Directory "${name}" not found`);
+        }
         if (child instanceof Directory) {
             this.current = child;
         }
@@ -234,7 +237,20 @@ export class WorkingDirectory {
      * @returns {Directory}
      */
     getCurrent() {
-        return this.current;
+
+    }
+
+    /**
+     * Get the file with the given path and name
+     * @param name {string}
+     */
+    getFile(name) {
+        console.log(name);
+        const tmp = name.indexOf("/");
+        if(name.indexOf("/") !== -1) {
+            this.goDirByPath(name.substring(0, name.lastIndexOf("/")));
+        }
+        return this.getChild(name.substring(name.lastIndexOf("/") + 1));
     }
 
     /**
@@ -247,5 +263,19 @@ export class WorkingDirectory {
             return new File(name, this.current);
         }
         return file;
+    }
+
+    /**
+     * Get the current path as a string
+     * @returns {string}
+     */
+    getPath() {
+        let path = "";
+        let current = this.current;
+        while (current.parent != null) {
+            path = "/" + current.name + path;
+            current = current.parent;
+        }
+        return path;
     }
 }
