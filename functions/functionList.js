@@ -21,6 +21,7 @@ const arr = [
     "roguealike.function.js",
     "ps.function.js",
     "history.function.js",
+    "tree.function.js",
 ]
 export const appList =  {
     apps: arr,
