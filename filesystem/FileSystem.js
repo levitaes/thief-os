@@ -169,6 +169,7 @@ export class WorkingDirectory {
 
     /**
      * go one Directory up
+     * changes the current directory
      * @returns {Directory}
      */
     goDirUp() {
@@ -180,6 +181,7 @@ export class WorkingDirectory {
 
     /**
      * go to a child directory
+     * changes the current directory
      * @param {String} name
      * @returns {Directory}
      */
@@ -196,13 +198,14 @@ export class WorkingDirectory {
 
     /**
      * go to directory by path
+     * changes the current directory
      * @param {String} path
      * @returns {Directory}
      */
     goDirByPath(path) {
         const parts = path.split("/");
-        for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
+        for (const element of parts) {
+            const part = element;
             // console.log(part);
             if (part === "..") {
                 this.goDirUp();
@@ -245,12 +248,11 @@ export class WorkingDirectory {
      * @param name {string}
      */
     getFile(name) {
-        console.log(name);
-        const tmp = name.indexOf("/");
-        if (name.indexOf("/") !== -1) {
-            this.goDirByPath(name.substring(0, name.lastIndexOf("/")));
+        // if the name starts with a slash, it is an absolute path
+        if (name.startsWith("/")) {
+            return this.fs.getNodeByPath(name);
         }
-        return this.getChild(name.substring(name.lastIndexOf("/") + 1));
+        return this.fs.getNodeByPath(this.getPath() + "/" + name);
     }
 
     /**
