@@ -4,6 +4,9 @@ import {AppManager} from "./appManager.js";
 import {FileSystem} from "./filesystem/FileSystem.js";
 import {Terminal} from "./terminal.js";
 
+import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.esm.js' // ToDo: use a local version instead
+
+
 const dialog = Dialog;
 const terminal = new Terminal();
 
@@ -56,6 +59,12 @@ os.run = function (data) {
         if (!AppManager.instance.apps.has(command)) {
             this.next('function doesnt exist');
             Logger.info(` ${command}: function doesnt exist`);
+            let keys = Array.from(AppManager.instance.apps.keys());
+            const fuse = new Fuse(keys, {});
+            const result = fuse.search(command);
+            if (result.length > 0) {
+                this.next(`did you mean ${result[0].item}?`);
+            }
             resolve();
             return;
         }
