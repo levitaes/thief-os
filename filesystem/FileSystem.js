@@ -252,7 +252,7 @@ export class WorkingDirectory {
         if (name.startsWith("/")) {
             return this.fs.getNodeByPath(name);
         }
-        return this.fs.getNodeByPath(this.getPath() + "/" + name);
+        return this.fs.getNodeByPath(this.getPathAsString() + "/" + name);
     }
 
     /**
@@ -271,7 +271,7 @@ export class WorkingDirectory {
      * Get the current path as a string
      * @returns {string}
      */
-    getPath() {
+    getPathAsString() {
         let path = "";
         let current = this.current;
         while (current.parent != null) {
