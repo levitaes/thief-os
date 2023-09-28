@@ -22,6 +22,8 @@ const arr = [
     "ps.function.js",
     "history.function.js",
     "tree.function.js",
+    "reboot.function.js",
+    "rm.function.js",
 ]
 export const appList =  {
     apps: arr,
