@@ -35,3 +35,4 @@ jsdoc ./*
 This will generate the documentation in the `out` directory.
 Then you can open the `index.html` file in your browser.
 
+This will guarantee that the documentation is up-to-date.
