@@ -212,10 +212,11 @@ class Process {
         this.pid = AppManager.instance.lastPid;
         AppManager.instance.runningApps.set(this.pid, this);
         this.process.execute = this.process.execute.bind(this.process);
-         Object.defineProperty(this.process, "pid", {value: this.pid, writable: true});
+        Object.defineProperty(this.process, "pid", {value: this.pid, writable: true});
         // this.run();
         return this.pid;
     }
+
 
     destructor() {
         AppManager.instance.runningApps.delete(this.pid);
@@ -226,19 +227,20 @@ class Process {
      * @returns {Promise<unknown>}
      */
     run() {
-        // const originalExecute = this.process.execute;
-        // const args = this.args;
-        // const os = this.os;
-        // this.process.execute = async () => {
-        //
-        //     const stopPromise = new Promise((resolve, reject) => {
-        //         this.stopPromise = resolve;
-        //
-        //     });
-        //     // console.log(os);
-        //     await Promise.race([originalExecute(this.os, this.args), stopPromise]);
-        // }
+        const originalExecute = this.process.execute;
+        const args = this.args;
+        const os = this.os;
+        this.process.execute = async () => {
+
+            const stopPromise = new Promise((resolve, reject) => {
+                this.stopPromise = resolve;
+
+            });
+            // console.log(os);
+            await Promise.race([originalExecute(this.os, this.args), stopPromise]);
+        }
         return new Promise(async (resolve, reject) => {
+            // console.log(this);
             await this.process.execute(this.os, this.args);
             resolve();
         });

@@ -50,20 +50,22 @@ os.load = async () => {
  * Runs the command
  * @param data {string} The command to run
  */
-os.run = function (data) {
+os.run =  (data) =>{
     return new Promise(async (resolve, reject) => {
         const args = data.trim().split(' ');
         const command = args.shift().toLowerCase();
 
         // check if the command exists
         if (!AppManager.instance.apps.has(command)) {
-            this.next('function doesnt exist');
+            os.dialog.next('function doesnt exist');
             Logger.info(` ${command}: function doesnt exist`);
             let keys = Array.from(AppManager.instance.apps.keys());
-            const fuse = new Fuse(keys, {});
+            const fuse = new Fuse(keys, {
+                threshold: 0.8,
+            });
             const result = fuse.search(command);
             if (result.length > 0) {
-                this.next(`did you mean ${result[0].item}?`);
+                os.dialog.next(`did you mean ${result[0].item}?`);
             }
             resolve();
             return;
@@ -88,45 +90,12 @@ os.run = function (data) {
         try {
             // run the command
             // await AppManager.instance.apps.get(command).execute(this, args);
-            await AppManager.instance.run(command, this, args);
+            await AppManager.instance.run(command, os, args);
         } catch (error) {
             Dialog.next(error);
             console.log(error);
         }
         resolve();
-    });
-
-}
-
-os.runNew = function (data) {
-    return new Promise(async (resolve, reject) => {
-
-        let output = '';
-
-        while (true) {
-            // find next |
-            const index = data.indexOf('|');
-            if (index === -1) {
-
-                // no pipe found, but there is still data
-                await os.runOld(data);
-                resolve();
-                break;
-            }
-            // Pipe command found
-            const command = data.substring(0, index);
-            data = data.substring(index + 1);
-
-            // overwrite os.dialog.next()
-            os.dialog.next = (message) => {
-                output = message;
-            }
-
-            // run the command
-            await os.runOld(command);
-
-        }
-
     });
 }
 

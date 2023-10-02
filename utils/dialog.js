@@ -216,6 +216,7 @@ export class CommandLine extends HTMLElement {
         } catch (error) {
             console.log(error);
 
+            window.location.reload(); // TODO: better error handling
         }
     }
 
