@@ -203,6 +203,9 @@ class Process {
 
     /**
      * Constructor
+     * @param process {Object} - The process object
+     * @param os {Object} - The context of os
+     * @param args {string[]} - The arguments of the process
      */
     constructor(process, os, args) {
         this.process = process;
@@ -217,7 +220,9 @@ class Process {
         return this.pid;
     }
 
-
+    /**
+     * Destructor
+     */
     destructor() {
         AppManager.instance.runningApps.delete(this.pid);
     }
@@ -228,19 +233,15 @@ class Process {
      */
     run() {
         const originalExecute = this.process.execute;
-        const args = this.args;
-        const os = this.os;
         this.process.execute = async () => {
 
             const stopPromise = new Promise((resolve, reject) => {
                 this.stopPromise = resolve;
 
             });
-            // console.log(os);
             await Promise.race([originalExecute(this.os, this.args), stopPromise]);
         }
         return new Promise(async (resolve, reject) => {
-            // console.log(this);
             await this.process.execute(this.os, this.args);
             resolve();
         });

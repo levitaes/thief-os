@@ -76,11 +76,17 @@ export class Terminal {
         this.saveHistory();
     }
 
+    /**
+     * Clear the history
+     */
     clearHistory() {
         this.history = [];
         this.saveHistory();
     }
 
+    /**
+     * Save the history to the filesystem
+     */
     saveHistory() {
         const wwd = new WorkingDirectory();
         wwd.goDirByPath("var");
@@ -88,6 +94,9 @@ export class Terminal {
         file.setData(JSON.stringify(this.history));
     }
 
+    /**
+     * Load the history from the filesystem
+     */
     loadHistory() {
         const wwd = new WorkingDirectory();
         wwd.goDirByPath("var");
