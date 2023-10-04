@@ -4,11 +4,15 @@ body {
     font-weight: bolder;
     height: 100vh;
     margin: 0;
+    overflow-x: hidden;
 }
 
 .line {
     margin-right: 10px;
     float: left;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 [contenteditable="true"].input {
@@ -25,4 +29,8 @@ body {
 [contenteditable="true"].input * {
     display: inline;
     white-space: nowrap;
+}
+
+.commandline {
+    background-color: red;
 }

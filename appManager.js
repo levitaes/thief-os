@@ -20,6 +20,21 @@ export class AppManager {
     apps = new Map();
 
 
+    /**
+     * List of running apps
+     * @type {Map<Number, Object>}
+     */
+    runningApps = new Map();
+
+    /**
+     * The foreground app
+     * @type {Process}
+     */
+    foregroundApp = null;
+
+
+    lastPid = 0;
+
     constructor() {
         if (AppManager.instance === null) {
             AppManager.instance = this;
@@ -73,7 +88,7 @@ export class AppManager {
     }
 
     /**
-     * saves the apps
+     * saves the apps to the apps.json file
      */
     save() {
         const wd = new WorkingDirectory();
@@ -87,7 +102,7 @@ export class AppManager {
     }
 
     /**
-     * Load the apps
+     * Load the apps from the apps.json file
      * @returns {Promise<void>}
      */
     async load() {
@@ -117,4 +132,122 @@ export class AppManager {
         }
         return false;
     }
+
+    /**
+     * Try to run the command
+     * @param command {string}
+     * @param context {Object}
+     * @param args {string[]}
+     */
+    async run(command, context, args) {
+        try {
+            if (!this.apps.has(command)) {
+                return;
+            }
+            const obj = this.apps.get(command);
+            const app = new Process(obj, context, args);
+            this.foregroundApp = app;
+            await app.run();
+            this.foregroundApp = null;
+            this.runningApps.delete(app.pid);
+        } catch (e) {
+            Logger.error(e);
+        }
+    }
+
+    /**
+     * Stop the foreground app
+     * @returns {Promise<void>}
+     */
+    async stopForegroundApp() {
+        if (this.foregroundApp !== null) {
+            console.log("stop foreground app");
+            console.log(this.foregroundApp);
+            // this.foregroundApp.destructor();
+            this.foregroundApp.stopPromise();
+            this.foregroundApp = null;
+        }
+    }
+
+}
+
+
+class Process {
+    /**
+     * The pid of the process
+     * @type {number}
+     */
+    pid
+
+    /**
+     *  The process Object
+     */
+    process = null;
+
+    /**
+     * The context of os
+     */
+    os = null;
+
+    /**
+     * The arguments of the process
+     * @type {string[]}
+     */
+    args = null;
+
+    /**
+     * The promise to stop the process
+     * @type {function}
+     */
+    stopPromise = null;
+
+    /**
+     * Constructor
+     * @param process {Object} - The process object
+     * @param os {Object} - The context of os
+     * @param args {string[]} - The arguments of the process
+     */
+    constructor(process, os, args) {
+        this.process = process;
+        this.os = os;
+        this.args = args;
+        AppManager.instance.lastPid++;
+        this.pid = AppManager.instance.lastPid;
+        AppManager.instance.runningApps.set(this.pid, this);
+        this.process.execute = this.process.execute.bind(this.process);
+        Object.defineProperty(this.process, "pid", {value: this.pid, writable: true});
+        // this.run();
+        return this.pid;
+    }
+
+    /**
+     * Destructor
+     */
+    destructor() {
+        AppManager.instance.runningApps.delete(this.pid);
+    }
+
+    /**
+     * Run the process
+     * @returns {Promise<unknown>}
+     */
+    run() {
+        const originalExecute = this.process.execute;
+        this.process.execute = async () => {
+
+            const stopPromise = new Promise((resolve, reject) => {
+                this.stopPromise = resolve;
+
+            });
+            await Promise.race([originalExecute(this.os, this.args), stopPromise]);
+        }
+        return new Promise(async (resolve, reject) => {
+            await this.process.execute(this.os, this.args);
+            resolve();
+        });
+
+
+    }
+
+
 }

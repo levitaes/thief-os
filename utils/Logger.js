@@ -5,6 +5,10 @@ import {FileSystem} from "../filesystem/FileSystem.js";
  *
  */
 export class Logger {
+    /**
+     * The log file
+     * @type {File}
+     */
     static logFile;
     static {
         const d = FileSystem.instance.getNodeByPath('/var/log');

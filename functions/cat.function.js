@@ -5,7 +5,8 @@ export default {
     arguments: 1,
     execute(os, args) {
         const path = args[0];
-        const file = os.wd.getChild(path);
+        const file = os.wd.getFile(path);
+        console.log(os.wd);
         if(file instanceof File) {
             os.say(file.getData());
         } else {

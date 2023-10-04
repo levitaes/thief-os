@@ -7,6 +7,12 @@ Functions are installable apps.
 
 [Read more](./function.md)
 
+## Dialog
+
+The Dialog is a static class to show messages in the Terminal.
+
+[Read more](./dialog.md)
+
 ## File System
 
 The file system is a hierarchical structure that stores files and directories.
@@ -29,3 +35,4 @@ jsdoc ./*
 This will generate the documentation in the `out` directory.
 Then you can open the `index.html` file in your browser.
 
+This will guarantee that the documentation is up-to-date.

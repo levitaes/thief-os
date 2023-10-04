@@ -169,6 +169,7 @@ export class WorkingDirectory {
 
     /**
      * go one Directory up
+     * changes the current directory
      * @returns {Directory}
      */
     goDirUp() {
@@ -180,11 +181,15 @@ export class WorkingDirectory {
 
     /**
      * go to a child directory
+     * changes the current directory
      * @param {String} name
      * @returns {Directory}
      */
     goDir(name) {
         const child = this.current.dir.get(name);
+        if (child == null) {
+            throw new Error(`Directory "${name}" not found`);
+        }
         if (child instanceof Directory) {
             this.current = child;
         }
@@ -193,13 +198,14 @@ export class WorkingDirectory {
 
     /**
      * go to directory by path
+     * changes the current directory
      * @param {String} path
      * @returns {Directory}
      */
     goDirByPath(path) {
         const parts = path.split("/");
-        for (let i = 0; i < parts.length; i++) {
-            const part = parts[i];
+        for (const element of parts) {
+            const part = element;
             // console.log(part);
             if (part === "..") {
                 this.goDirUp();
@@ -238,6 +244,18 @@ export class WorkingDirectory {
     }
 
     /**
+     * Get the file with the given path and name
+     * @param name {string}
+     */
+    getFile(name) {
+        // if the name starts with a slash, it is an absolute path
+        if (name.startsWith("/")) {
+            return this.fs.getNodeByPath(name);
+        }
+        return this.fs.getNodeByPath(this.getPathAsString() + "/" + name);
+    }
+
+    /**
      * get or create file
      * @param  name {String} - the name of the file
      */
@@ -247,5 +265,19 @@ export class WorkingDirectory {
             return new File(name, this.current);
         }
         return file;
+    }
+
+    /**
+     * Get the current path as a string
+     * @returns {string}
+     */
+    getPathAsString() {
+        let path = "";
+        let current = this.current;
+        while (current.parent != null) {
+            path = "/" + current.name + path;
+            current = current.parent;
+        }
+        return path;
     }
 }

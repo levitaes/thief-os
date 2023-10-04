@@ -19,6 +19,11 @@ const arr = [
     "touch.function.js",
     "fs.function.js",
     "roguealike.function.js",
+    "ps.function.js",
+    "history.function.js",
+    "tree.function.js",
+    "reboot.function.js",
+    "rm.function.js",
 ]
 export const appList =  {
     apps: arr,
