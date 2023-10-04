@@ -4,7 +4,7 @@ export default {
     arguments: 0,
     clear: true,
     execute: async function (os) {
-        clear();
+        os.dialog.clear();
         let response;
         //stats
         let hp = 3;
@@ -29,16 +29,3 @@ export default {
         os.next();
     }
 };
-
-function clear() {
-    let divs = document.getElementsByTagName("div");
-    let brs = document.getElementsByTagName("br");
-    let length = divs.length;
-    let lengthBrs = brs.length;
-    for (let i = 0; i < length; i++) {
-        divs[0].remove();
-    }
-    for (let i = 0; i < lengthBrs; i++) {
-        brs[0].remove();
-    }
-}
