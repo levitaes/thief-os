@@ -232,15 +232,15 @@ class Process {
      * @returns {Promise<unknown>}
      */
     run() {
-        const originalExecute = this.process.execute;
-        this.process.execute = async () => {
-
-            const stopPromise = new Promise((resolve, reject) => {
-                this.stopPromise = resolve;
-
-            });
-            await Promise.race([originalExecute(this.os, this.args), stopPromise]);
-        }
+        // const originalExecute = this.process.execute;
+        // this.process.execute = async () => {
+        //
+        //     const stopPromise = new Promise((resolve, reject) => {
+        //         this.stopPromise = resolve;
+        //
+        //     });
+        //     await Promise.race([originalExecute(this.os, this.args), stopPromise]);
+        // }
         return new Promise(async (resolve, reject) => {
             await this.process.execute(this.os, this.args);
             resolve();
