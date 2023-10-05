@@ -4,10 +4,9 @@ import {AppManager} from "./appManager.js";
 import {FileSystem} from "./filesystem/FileSystem.js";
 import {Terminal} from "./terminal.js";
 
-import Fuse from 'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.esm.js' // ToDo: use a local version instead
+import Fuse from 'https://unpkg.com/fuse.js@6.6.2/dist/fuse.esm.js' // ToDo: use a local version instead
 
-
-const dialog = Dialog;
+const dialog = Dialog.globalInstance;
 const terminal = new Terminal();
 
 const os = {
@@ -18,13 +17,13 @@ const os = {
      * @deprecated
      * os.dialog.say should be used instead
      */
-    say: Dialog.sayRaw,
+    say: dialog.sayRaw,
     /**
      * @deprecated
      * os.dialog.ask should be used instead
      */
-    ask: Dialog.ask,
-    next: Dialog.next,
+    ask: dialog.ask,
+    next: dialog.next,
     logger: Logger,
     dialog: dialog,
     fs: FileSystem.instance,
@@ -50,10 +49,13 @@ os.load = async () => {
  * Runs the command
  * @param data {string} The command to run
  */
-os.run =  (data) =>{
+const runO = (data) => {
     return new Promise(async (resolve, reject) => {
-        const args = data.trim().split(' ');
+        let args = data.trim().split(' ');
         const command = args.shift().toLowerCase();
+        let options = {
+            pipe: false,
+        };
 
         // check if the command exists
         if (!AppManager.instance.apps.has(command)) {
@@ -69,6 +71,12 @@ os.run =  (data) =>{
             }
             resolve();
             return;
+        }
+
+        // check if pipe is used
+        if (args.includes('|')) {
+            options.pipe = true;
+            args = args.filter(e => e !== '|');
         }
 
         // check if the command has the correct amount of arguments
@@ -90,10 +98,32 @@ os.run =  (data) =>{
         try {
             // run the command
             // await AppManager.instance.apps.get(command).execute(this, args);
-            await AppManager.instance.run(command, os, args);
+            const output = await AppManager.instance.run(command, os, args, options);
+            resolve(output);
         } catch (error) {
-            Dialog.next(error);
+            dialog.next(error);
             console.log(error);
+        }
+        resolve();
+    });
+}
+
+/**
+ * Split the command by | and run each command
+ * @param data {string} The commands to run
+ */
+os.run = (data) => {
+    return new Promise(async (resolve, reject) => {
+        const tmp = data.replaceAll('|', '|;:');
+        const commands = tmp.split(';:');
+        let lastOutput = [];
+
+        for (let command of commands) {
+
+            if (command === '') continue;
+
+            const cmd = command + ' ' + lastOutput.join(' ');
+            lastOutput = await runO(cmd);
         }
         resolve();
     });

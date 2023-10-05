@@ -1,24 +1,49 @@
 import {InputManager} from "../inputManager.js";
 import {AppManager} from "../appManager.js";
 import {WorkingDirectory} from "../filesystem/FileSystem.js";
-import {Terminal} from "../terminal.js";
 
 /**
  * Class Representing Input/Output Dialogs
  */
 export class Dialog {
 
-    static defaultConfig = {
+    defaultConfig = {
         color: 'white',
         newline: true,
     }
+
+    /**
+     * The global instance of the Dialog
+     * @type {Dialog}
+     */
+    static globalInstance = null;
+    static globalTerminal = null;
+
+    /**
+     * Buffer for the pipe
+     * @type {string[]}
+     */
+    buffer = [];
+
+    /**
+     * If the dialog is a pipe
+     * @type {boolean}
+     */
+    pipe = false;
+
+    constructor(pipe = false) {
+        this.pipe = pipe;
+    }
+
 
     /**
      * Output a message
      * @param {string} message - The message to output
      * @param {{newline: boolean, color: string}} config - The configuration object
      */
-    static say(message, config = {}) {
+    say(message, config = {}) {
+        if (ifIsPipeWriteToBuf(this, message)) return;
+
         new CommandLine(message, config);
     }
 
@@ -26,7 +51,9 @@ export class Dialog {
      * Output a raw message
      * @param {string} message - The message to output
      */
-    static sayRaw(message) {
+    sayRaw(message) {
+        if (ifIsPipeWriteToBuf(this, message)) return;
+
         new CommandLine(message, {raw: true});
     }
 
@@ -36,7 +63,7 @@ export class Dialog {
      * @param {{autoComplete: string}} config - The configuration object, not required
      // * @returns {Promise<string>}
      */
-    static ask(message, config = {color: 'default', newline: true, autoComplete: null, history: false}) {
+    ask(message, config = {color: 'default', newline: true, autoComplete: null, history: false}) {
         return new Promise(async (resolve, reject) => {
             const commandLine = new CommandLine(message, config);
             const data = await commandLine.onInput();
@@ -49,7 +76,7 @@ export class Dialog {
      * @param {string} message - The message to output
      * @returns {Promise<string>}
      */
-    static askRaw(message) {
+    askRaw(message) {
         return new Promise(async (resolve) => {
             const commandLine = new CommandLine(message, {raw: true});
             const data = await commandLine.onInput();
@@ -63,7 +90,7 @@ export class Dialog {
      * @param {Object} config - The configuration object
      * @returns {Promise<boolean>}
      */
-    static askYesNo(message, config) {
+    askYesNo(message, config) {
         //TODO
         console.log(message);
         return new Promise(async (resolve) => {
@@ -89,7 +116,7 @@ export class Dialog {
      * @param {string} filename - The filename to download as
      * @returns {Promise<void>}
      */
-    static download(data, filename) {
+    download(data, filename) {
         return new Promise((resolve) => {
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
@@ -111,7 +138,7 @@ export class Dialog {
      * @param {string} type - The file type to upload
      * @returns {Promise<String>} - The file that was uploaded as JavaScript File Object
      */
-    static upload(type) {
+    upload(type) {
         return new Promise((resolve, reject) => {
             // upload a json file and read it
             const input = document.createElement('input');
@@ -143,20 +170,41 @@ export class Dialog {
      * Output the last message and exit
      * @param message {string}
      */
-    static next(message = '') {
+    next(message = '') {
         if (message !== '') {
-            Dialog.say(message);
+            if (ifIsPipeWriteToBuf(this, message)) return;
+
+            this.say(message);
         }
     }
 
     /**
      * Clear the terminal
      */
-    static clear() {
+    clear() {
         const lines = document.getElementById("lines");
         lines.innerHTML = "";
     }
+}
 
+/**
+ * Check if the context is a pipe and write the message to the buffer
+ * @param ctx {Object}
+ * @param message {string}
+ * @returns {boolean}
+ */
+const ifIsPipeWriteToBuf = (ctx, message) => {
+    if (ctx.pipe) {
+        ctx.buffer.push(message);
+        return true;
+    }
+    if (ctx.dialog) {
+        if (ctx.dialog.pipe) {
+            ctx.dialog.buffer.push(message);
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
@@ -172,6 +220,8 @@ export class CommandLine extends HTMLElement {
 
 
     active = false;
+
+    static terminal = null;
 
     /**
      * Create a new CommandLine
@@ -201,9 +251,8 @@ export class CommandLine extends HTMLElement {
 
             if (config.color !== undefined) {
                 p.style.color = config.color;
-            }
-            else {
-                p.style.color = Dialog.defaultConfig.color;
+            } else {
+                p.style.color = Dialog.globalInstance.defaultConfig.color;
             }
 
             // creates a shadow root
@@ -243,7 +292,7 @@ export class CommandLine extends HTMLElement {
             const config = this.config;
 
             const autoCompleteCallBack = () => {
-                if(!this.active) return;
+                if (!this.active) return;
                 if (config.autoComplete === "apps") {
                     const apps = AppManager.instance.getAppList();
                     const data = input.value;
@@ -278,20 +327,20 @@ export class CommandLine extends HTMLElement {
             }
 
             const historyCallBack = (e) => {
-                if(this.active === false) return;
+                if (this.active === false) return;
                 if (e.key === "ArrowUp") {
-                    Terminal.instance.historyPointer--;
-                    if (Terminal.instance.historyPointer < 0) {
-                        Terminal.instance.historyPointer = 0;
+                    CommandLine.terminal.historyPointer--;
+                    if (CommandLine.terminal.historyPointer < 0) {
+                        CommandLine.terminal.historyPointer = 0;
                     }
 
                 } else if (e.key === "ArrowDown") {
-                    Terminal.instance.historyPointer++;
-                    if (Terminal.instance.historyPointer > Terminal.instance.history.length) {
-                        Terminal.instance.historyPointer = Terminal.instance.history.length;
+                    CommandLine.terminal.historyPointer++;
+                    if (CommandLine.terminal.historyPointer > CommandLine.terminal.history.length) {
+                        CommandLine.terminal.historyPointer = CommandLine.terminal.history.length;
                     }
                 }
-                input.value = Terminal.instance.history[Terminal.instance.historyPointer] || "";
+                input.value = CommandLine.terminal.history[CommandLine.terminal.historyPointer] || "";
             }
 
             if (this.config.history === true) {
