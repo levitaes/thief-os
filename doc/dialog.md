@@ -7,7 +7,14 @@ It is a static class, so you can use it without creating an instance.
 ## Usage
     
 ```js
-Dialog.say("Hello World!");
+Dialog.globalInstance.say("Hello World!");
+```
+
+or create an instance
+
+```js
+const dialog = new Dialog();
+dialog.say("Hello World!");
 ```
 
 ## Usage within functions
