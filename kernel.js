@@ -11,6 +11,7 @@ async function boot() {
     await initFilesystem(); // load the filesystem
     await initInputManager(); //load the input manager
     await initAppManager(); //load the app manager
+    await initDialog(); //load the dialog
     setup();
     await functionLoaderInit();
 
@@ -45,6 +46,11 @@ async function initAppManager() {
     const {AppManager} = await import('./appManager.js');
     appManager = new AppManager();
     await appManager.load();
+}
+
+async function initDialog() {
+    const {Dialog} = await import('./utils/dialog.js');
+    Dialog.globalInstance = new Dialog();
 }
 
 /**

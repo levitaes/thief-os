@@ -122,7 +122,8 @@ os.run = (data) => {
 
             if (command === '') continue;
 
-            const cmd = command + ' ' + lastOutput.join(' ');
+            const cmd = `${command} ${lastOutput.join(' ')}`
+            console.log(cmd);
             lastOutput = await runO(cmd);
         }
         resolve();
