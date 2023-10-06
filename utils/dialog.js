@@ -261,6 +261,11 @@ export class CommandLine extends HTMLElement {
 
             // appends the element to the DOM
             let lines = document.getElementById("lines");
+
+            if (config.newline === false) {
+                this.shadowRoot.querySelector('br').remove();
+            }
+
             lines.appendChild(this);
         } catch (error) {
             console.log(error);
