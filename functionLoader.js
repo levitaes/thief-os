@@ -28,6 +28,7 @@ const os = {
     dialog: dialog,
     fs: FileSystem.instance,
     terminal: terminal,
+    wd: terminal.wd,
 }
 
 /**
@@ -79,6 +80,21 @@ const runO = (data) => {
             args = args.filter(e => e !== '|');
         }
 
+        if(args.includes('>')) {
+            options.pipe = true;
+            options.mode = ">";
+            options.path = args[args.indexOf('>') + 1];
+            // remove all args after the >
+            args = args.slice(0, args.indexOf('>'));
+        }
+        if(args.includes('>>')) {
+            options.pipe = true;
+            options.mode = ">>";
+            options.path = args[args.indexOf('>>') + 1];
+            // remove all args after the >>
+            args = args.slice(0, args.indexOf('>>'));
+        }
+
         // check if the command has the correct amount of arguments
         if (AppManager.instance.apps.get(command).arguments !== -1) {
 
@@ -99,6 +115,20 @@ const runO = (data) => {
             // run the command
             // await AppManager.instance.apps.get(command).execute(this, args);
             const output = await AppManager.instance.run(command, os, args, options);
+
+            if(options.mode === ">" || options.mode === ">>") {
+                const file = os.wd.getOrCreateFile(options.path);
+                if(options.mode === ">") {
+                    file.setData(output.join('\n'));
+                    resolve();
+                }
+                if(options.mode === ">>") {
+                    file.appendData(output.join('\n'));
+                    resolve();
+                }
+            }
+
+
             resolve(output);
         } catch (error) {
             dialog.next(error);
@@ -124,7 +154,7 @@ os.run = (data) => {
 
             const cmd = `${command} ${lastOutput.join(' ')}`
             console.log(cmd);
-            lastOutput = await runO(cmd);
+            lastOutput = await runO(cmd) ?? [];
         }
         resolve();
     });
