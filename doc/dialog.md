@@ -2,12 +2,20 @@
 
 The class responsible for outputting data to the Terminal.
 
-It is a static class, so you can use it without creating an instance.
+It has a static instance that can be used globally. Which is used for the functions in the `os.dialog` object.
+Expect if a pipe is used, that a new instance is created to be able to store the buffer.
 
 ## Usage
     
 ```js
-Dialog.say("Hello World!");
+Dialog.globalInstance.say("Hello World!");
+```
+
+or create an instance
+
+```js
+const dialog = new Dialog();
+dialog.say("Hello World!");
 ```
 
 ## Usage within functions

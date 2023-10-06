@@ -31,6 +31,10 @@ The Logger is a static class to log messages to the file system.
 ```bash
 jsdoc ./*
 ```
+or
+```bash
+jsdooc -r ./
+```
 
 This will generate the documentation in the `out` directory.
 Then you can open the `index.html` file in your browser.

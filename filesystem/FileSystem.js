@@ -130,6 +130,9 @@ export class FileSystem {
      */
     getNodeByPath(path) {
         const parts = path.split("/");
+        if(parts.length > 0 && parts[parts.length - 1] === "") {
+            parts.pop();
+        }
         let node = this.root;
         for (let i = 0; i < parts.length; i++) {
             const part = parts[i];
@@ -260,11 +263,36 @@ export class WorkingDirectory {
      * @param  name {String} - the name of the file
      */
     getOrCreateFile(name) {
-        const file = this.current.getChild(name)
-        if (file == null) {
-            return new File(name, this.current);
+        let tmp = null;
+        if (name.startsWith("/")) {
+            tmp = this.fs.getNodeByPath(name);
+        } else {
+            tmp = this.fs.getNodeByPath(this.getPathAsString() + "/" + name);
         }
-        return file;
+
+        if (tmp instanceof File) {
+            return tmp;
+        }
+
+        if (tmp instanceof Directory) {
+            throw new Error(`"${name}" is a directory`);
+        }
+
+        if (tmp == null) {
+            // path is the name till the last slash
+            const path = name.substring(0, name.lastIndexOf("/"));
+            // name is the name after the last slash
+            name = name.substring(name.lastIndexOf("/") + 1);
+            // go to the path
+            let parent;
+            if (path.startsWith("/")) {
+                parent = this.fs.getNodeByPath(path);
+            } else {
+                parent = this.fs.getNodeByPath(this.getPathAsString() + "/" + path);
+            }
+            // create the file
+            return new File(name, parent);
+        }
     }
 
     /**

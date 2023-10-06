@@ -1,6 +1,7 @@
 import {Logger} from "./utils/Logger.js";
 import storage from "./utils/storage.js";
 import {WorkingDirectory} from "./filesystem/FileSystem.js";
+import {Dialog} from "./utils/dialog.js";
 
 /**
  * AppManager class
@@ -22,7 +23,7 @@ export class AppManager {
 
     /**
      * List of running apps
-     * @type {Map<Number, Object>}
+     * @type {Map<Number, Process>}
      */
     runningApps = new Map();
 
@@ -138,18 +139,37 @@ export class AppManager {
      * @param command {string}
      * @param context {Object}
      * @param args {string[]}
+     * @param options {Object}
      */
-    async run(command, context, args) {
+    async run(command, context, args, options = {}) {
         try {
             if (!this.apps.has(command)) {
                 return;
             }
             const obj = this.apps.get(command);
-            const app = new Process(obj, context, args);
+            const dia = new Dialog(options.pipe);
+            // ToDo: creat just one os, see functionLoader.js
+            const os = {
+                wd: context.wd,
+                functions: context.functions,
+                promiseResolve: context.promiseResolve,
+                promiseReject: context.promiseReject,
+                logger: context.logger,
+                fs: context.fs,
+                terminal: context.terminal,
+                dialog: dia,
+                next: dia.next,
+                say: dia.say,
+                ask: dia.ask,
+            }
+
+            const app = new Process(obj, os, args);
             this.foregroundApp = app;
             await app.run();
             this.foregroundApp = null;
             this.runningApps.delete(app.pid);
+            return app.os.dialog.buffer;
+
         } catch (e) {
             Logger.error(e);
         }

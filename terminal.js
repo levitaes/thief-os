@@ -49,6 +49,8 @@ export class Terminal {
             return Terminal.instance;
         }
 
+        CommandLine.terminal = this;
+
         // Saves the session
         // Terminal.sessions.push(this);
     }
@@ -58,7 +60,7 @@ export class Terminal {
      * @returns {Promise<void>}
      */
     async init() {
-        Dialog.say("Welcome to the terminal");
+        Dialog.globalInstance.say("Welcome to the terminal");
         this.loadHistory();
         await this.loop();
     }
@@ -114,14 +116,14 @@ export class Terminal {
     async loop() {
         while (true) {
             this.historyPointer = this.history.length;
-            const input = await Dialog.ask(`${this.wd.getPathAsString() || ""} >`, {autoComplete: "apps", history: true});
+            const input = await Dialog.globalInstance.ask(`${this.wd.getPathAsString() || ""} >`, {autoComplete: "apps", history: true});
             try {
                 // save output of last command
                 this.pushHistory(input);
                 await functionLoader.run(input);
             } catch (e) {
                 console.log(e);
-                Dialog.say(e.message);
+                Dialog.globalInstance.say(e.message);
             }
         }
     }
