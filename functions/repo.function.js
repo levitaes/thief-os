@@ -2,7 +2,11 @@ import {AppManager} from "../appManager.js";
 
 export default {
     name: 'repo',
-    description: ['repo count (output available functions as integer)', 'repo list (list available functions)'], // arguments: 1,
+    description: [
+        'repo count (output available functions as integer)',
+        'repo list (list available functions)',
+        'repo install (install function)',
+        'repo remove (remove function)'], // arguments: 1,
     repositories: [["default", "/functions"], ["stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions"]],
     async execute(os, args) {
         switch (args[0]) {
