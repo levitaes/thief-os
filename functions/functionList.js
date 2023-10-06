@@ -18,7 +18,7 @@ const arr = [
     "cat.function.js",
     "touch.function.js",
     "fs.function.js",
-    "roguealike.function.js",
+    "cotob.function.js",
     "ps.function.js",
     "history.function.js",
     "tree.function.js",

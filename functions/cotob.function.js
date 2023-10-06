@@ -1,6 +1,6 @@
 export default {
-    name: 'roguealike',
-    description: 'roguealike (start epic adventure)',
+    name: 'cotob',
+    description: 'consigned to oblivion 龴ↀ◡ↀ龴',
     arguments: 0,
     clear: true,
     execute: async function (os) {
@@ -10,9 +10,12 @@ export default {
         let hp = 3;
         let dmg = 1;
 
+        if (this.storage.get('chapter') === "")
+            this.storage.set('chapter', 0);
+
         switch (this.storage.get('chapter')) {
             case 0:
-                os.say("龴ↀ◡ↀ龴: Welcome Adventurer what is your name?")
+                os.say(": Welcome Adventurer what is your name?")
                 response = await os.ask(">>")
                 let name = response.charAt(0).toUpperCase() + response.slice(1);
                 this.storage.set('name', name);
@@ -23,8 +26,7 @@ export default {
                 os.say(this.storage.get('name') + "? Is that really you?")
                 break;
             default:
-                this.storage.set('chapter', 0);
-                await this.execute(os);
+                break;
         }
         os.next();
     }
