@@ -60,7 +60,7 @@ export class Terminal {
      * @returns {Promise<void>}
      */
     async init() {
-        Dialog.globalInstance.say("Welcome to the terminal");
+        Dialog.globalInstance.say("Welcome to the terminal", {newline: false});
         this.loadHistory();
         await this.loop();
     }
@@ -104,7 +104,7 @@ export class Terminal {
         wwd.goDirByPath("var");
         const file = wwd.getOrCreateFile("history.json");
         const data = file.getData();
-        if(data === "") return;
+        if (data === "") return;
         this.history = JSON.parse(data);
     }
 
@@ -116,7 +116,10 @@ export class Terminal {
     async loop() {
         while (true) {
             this.historyPointer = this.history.length;
-            const input = await Dialog.globalInstance.ask(`${this.wd.getPathAsString() || ""} >`, {autoComplete: "apps", history: true});
+            const input = await Dialog.globalInstance.ask(`${this.wd.getPathAsString() || ""} >`, {
+                autoComplete: "apps",
+                history: true
+            });
             try {
                 // save output of last command
                 this.pushHistory(input);
