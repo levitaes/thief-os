@@ -39,7 +39,7 @@ export class Dialog {
     /**
      * Output a message
      * @param {string} message - The message to output
-     * @param {{newline: boolean, color: string}} config - The configuration object
+     * @param {{newline: boolean, color: string, typewriter: number}} config - The configuration object
      */
     say(message, config = {}) {
         if (ifIsPipeWriteToBuf(this, message)) return;
@@ -192,6 +192,20 @@ export class Dialog {
     }
 
     /**
+     * Output a message with a typewriter effect
+     * @param text {string}
+     * @param time {number} in ms for the whole text
+     * @returns {Promise<void>}
+     */
+    async typewriter(text, time) {
+        if (ifIsPipeWriteToBuf(this, text)) return;
+        const config = {typewriter: time};
+
+        const cl = new CommandLine(text, config);
+        await cl.typeWriter();
+    }
+
+    /**
      * Clear the terminal
      */
     clear() {
@@ -259,7 +273,9 @@ export class CommandLine extends HTMLElement {
             if (config.raw === true) {
                 p.innerHTML = this.data;
             } else {
-                p.innerText = this.data;
+                if (config.typewriter === undefined || config.typewriter === 0) {
+                    p.innerText = this.data;
+                }
             }
 
             if (config.color !== undefined) {
@@ -280,12 +296,31 @@ export class CommandLine extends HTMLElement {
             }
 
             lines.appendChild(this);
+
         } catch (error) {
             console.log(error);
 
             window.location.reload(); // TODO: better error handling
         }
     }
+
+    /**
+     * Typewriter effect
+     * @returns {Promise<void>}
+     */
+    async typeWriter() {
+        const p = this.shadowRoot.querySelector('p');
+        const timePerChar = this.config.typewriter / this.data.length;
+        let string = "";
+        for (let c of this.data) {
+            string += c;
+            p.innerText = string;
+            await new Promise((resolve) => {
+                setTimeout(resolve, timePerChar);
+            });
+        }
+    }
+
 
     /**
      * creates a new input element and waits for Enter to be pressed
@@ -384,4 +419,11 @@ export class CommandLine extends HTMLElement {
 
 
 // define the custom element
-window.customElements.define('command-line', CommandLine);
+window
+    .customElements
+    .define(
+        'command-line'
+        ,
+        CommandLine
+    )
+;
