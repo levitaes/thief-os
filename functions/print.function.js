@@ -3,6 +3,6 @@ export default {
     description: 'print [string] (print argument)',
     arguments: -1,
     execute(os, args) {
-        os.next(args.join(' '));
+        os.dialog.next(args.join(' '));
     }
 };

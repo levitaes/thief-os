@@ -84,14 +84,14 @@ const runO = (data) => {
             args = args.filter(e => e !== '|');
         }
 
-        if(args.includes('>')) {
+        if (args.includes('>')) {
             options.pipe = true;
             options.mode = ">";
             options.path = args[args.indexOf('>') + 1];
             // remove all args after the >
             args = args.slice(0, args.indexOf('>'));
         }
-        if(args.includes('>>')) {
+        if (args.includes('>>')) {
             options.pipe = true;
             options.mode = ">>";
             options.path = args[args.indexOf('>>') + 1];
@@ -120,13 +120,13 @@ const runO = (data) => {
             // await AppManager.instance.apps.get(command).execute(this, args);
             const output = await AppManager.instance.run(command, os, args, options);
 
-            if(options.mode === ">" || options.mode === ">>") {
+            if (options.mode === ">" || options.mode === ">>") {
                 const file = os.wd.getOrCreateFile(options.path);
-                if(options.mode === ">") {
+                if (options.mode === ">") {
                     file.setData(output.join('\n'));
                     resolve();
                 }
-                if(options.mode === ">>") {
+                if (options.mode === ">>") {
                     file.appendData(output.join('\n'));
                     resolve();
                 }
@@ -156,7 +156,19 @@ os.run = (data) => {
 
             if (command === '') continue;
 
-            const cmd = `${command} ${lastOutput.join(' ')}`
+            let string = "";
+
+            // find > and >>, remove them from the command and put them at the end of the generated command
+            if (command.includes('>')) {
+                string = "> " + command.split('>')[1].trim();
+                command = command.split('>')[0].trim();
+            }
+            if (command.includes('>>')) {
+                string = ">> " + command.split('>>')[1].trim();
+                command = command.split('>>')[0].trim();
+            }
+
+            const cmd = `${command} ${lastOutput.join(' ')} ${string}`
             lastOutput = await runO(cmd) ?? [];
         }
         resolve();
