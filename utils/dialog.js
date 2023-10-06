@@ -98,11 +98,11 @@ export class Dialog {
             while (true) {
                 const commandLine = new CommandLine(msg, config);
                 const data = await commandLine.onInput();
-                if (data === "y" || data === "Y" || data === "yes" || data === "Yes" || data === "YES") {
+                if (data.toLowerCase() === "y" || data.toLowerCase() === "yes") {
                     resolve(true);
                     break;
                 }
-                if (data === "n" || data === "N" || data === "no" || data === "No" || data === "NO") {
+                if (data.toLowerCase() === "n" || data.toLowerCase() === "no") {
                     resolve(false);
                     break;
                 }
