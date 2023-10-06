@@ -60,7 +60,7 @@ export class Terminal {
      * @returns {Promise<void>}
      */
     async init() {
-        Dialog.globalInstance.say("Welcome to the terminal");
+        Dialog.globalInstance.say("Welcome User 龴ↀ◡ↀ龴");
         this.loadHistory();
         await this.loop();
     }
