@@ -23,6 +23,10 @@ const os = {
      * os.dialog.ask should be used instead
      */
     ask: dialog.ask,
+    /**
+     * @deprecated
+     * os.dialog.next can be used instead, or just return
+     */
     next: dialog.next,
     logger: Logger,
     dialog: dialog,
