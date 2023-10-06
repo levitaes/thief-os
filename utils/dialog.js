@@ -179,6 +179,19 @@ export class Dialog {
     }
 
     /**
+     * Wait for a time in ms
+     * @param time {number} in ms
+     * @returns {Promise<unknown>}
+     */
+    wait(time) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, time);
+        });
+    }
+
+    /**
      * Clear the terminal
      */
     clear() {
