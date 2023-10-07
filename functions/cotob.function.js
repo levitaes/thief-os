@@ -28,7 +28,7 @@ export default {
             player.dmg = this.storage.get('dmg');
         }
 
-        say("~CONSIGNED TO OBLIVION~");
+        os.dialog.say("~CONSIGNED TO OBLIVION~", {newline: false});
         say("");
 
         switch (0) {
