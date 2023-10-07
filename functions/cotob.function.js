@@ -74,6 +74,7 @@ export default {
                 await write("II. I declare " + name + " as my sole beneficiary who shall acquire my beloved hut and all its contents.", 3500);
                 await wait(4000);
                     say("");
+            /* FALLTHROUGH */
 
             case 1:
                     this.storage.set('chapter', 1);
