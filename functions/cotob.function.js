@@ -28,22 +28,25 @@ export default {
             player.dmg = this.storage.get('dmg');
         }
 
+        say("~CONSIGNED TO OBLIVION~");
+        say("");
+
         switch (0) {
             case 0:
-                say("~CONSIGNED TO OBLIVION~");
-                    say("");
                 say("~PROLOGUE~");
                     say("");
+                    await wait(3000);
+                await write("I am sorry for your loss..", 1000);
                     await wait(1000);
-                say("I am sorry for your loss..");
-                    await wait(1000);
-                say("He was a remarkable Explorer.")
-                    await wait(100);
-                say("And although he didn't have much your father lived life to the fullest!")
-                    await wait(100);
-                say("It is just so disheartening he passed so prematurely..")
+                await write("He was a remarkable Explorer.", 1000);
+                    await wait(800);
+                await write("And although he didn't have much your father lived life to the fullest!", 2000);
                     await wait(2000);
-                say("Listen, this is just a formality but i need your name to confirm you as the beneficiary.")
+                await write("It is just so disheartening he passed so prematurely..", 1000);
+                    await wait(3000);
+                await write("Listen,", 500);
+                    await wait(300);
+                await write("this is just a formality but i need your name to confirm you as the beneficiary.", 2000)
                 await ask();
                     let name = response.charAt(0).toUpperCase() + response.slice(1);
                     this.storage.set('name', name);
@@ -79,6 +82,7 @@ export default {
 
         //helper functions
         function say(phrase) { os.dialog.say(phrase); }
+        async function write(phrase, time) { await os.dialog.typewriter(phrase, time) }
         async function wait(time) { await os.dialog.wait(time); }
         async function ask(phrase = "▷") { response = await os.ask(phrase); }
     }
