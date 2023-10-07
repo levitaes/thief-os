@@ -8,6 +8,7 @@ export default {
 
         //util
         let response;
+        let speed = 1;
 
         //vars
         let chapter;
@@ -29,20 +30,21 @@ export default {
         }
 
         os.dialog.say("~CONSIGNED TO OBLIVION~", {newline: false});
+            await wait(1500);
         say("");
 
-        switch (0) {
+        switch (chapter) {
             case 0:
                 say("~PROLOGUE~");
                     say("");
-                    await wait(3000);
+                    await wait(1500);
                 await write("I am sorry for your loss..", 1000);
                     await wait(1000);
                 await write("He was a remarkable Explorer.", 1000);
                     await wait(800);
                 await write("And although he didn't have much your father lived life to the fullest!", 2000);
                     await wait(2000);
-                await write("It is just so disheartening he passed so prematurely..", 1000);
+                await write("It is just disheartening he passed so prematurely..", 1000);
                     await wait(3000);
                 await write("Listen,", 500);
                     await wait(300);
@@ -50,28 +52,42 @@ export default {
                 await ask();
                     let name = response.charAt(0).toUpperCase() + response.slice(1);
                     this.storage.set('name', name);
-                say(name + " certainly is a name only your father could come up with.");
-                    await wait(3000);
-                say("Now that the formalities are concluded we can start.");
-                    await wait(100);
+                await write(name + " certainly is a name only your father could come up with.", 1000);
+                    await wait(1000);
+                await write("Now that the formalities are concluded we can start.",1000);
+                    await wait(1000);
+                    say("");
                 say("«The executor hands you a piece of paper. You should be able to 'look' at it»");
-                /*response = await os.ask(ask);
-                    if (response.contains('look'))*/
-
-
-
-
+                await action(['look','inspect']);
+                    say("");
+                say("«The top of the paper says 'Last Will and Testament'»");
+                    await wait(1500);
+                say("«It reads the following:'»");
+                    await wait(800);
+                    say("");
+                await write("I, Jonathan Jones, native of Iocath,", 2000);
+                await write("have been born on the 5th day of the 3rd Season of 522 BL,", 2500);
+                await write("being of sound mind, and not acting under intimidation of whatever kind,", 3000);
+                await write("do by these presents declare this to be my Last Will and Testament.", 3000);
+                await write("And I hereby declare that:", 1500);
+                await write("I. I desire that my remains be left to the animals according to the rites of my ancestors.", 3500);
+                await write("II. I declare " + name + " as my sole beneficiary who shall acquire my beloved hut and all its contents.", 3500);
+                await wait(4000);
+                    say("");
 
             case 1:
                     this.storage.set('chapter', 1);
-                    say("");
                 say('~CHAPTER ONE~');
+                    await wait(1500);
+                    say("");
+                say("«You are stood before an old shitty fucked up hut»");
 
                 break;
             case 2:
                     this.storage.set('chapter', 2);
                     say("");
                 say('~CHAPTER TWO~');
+                    await wait(1500);
 
                 break;
             default:
@@ -83,7 +99,16 @@ export default {
         //helper functions
         function say(phrase) { os.dialog.say(phrase); }
         async function write(phrase, time) { await os.dialog.typewriter(phrase, time) }
-        async function wait(time) { await os.dialog.wait(time); }
+        async function wait(time) {
+            time *= speed;
+            await os.dialog.wait(time); }
         async function ask(phrase = "▷") { response = await os.ask(phrase); }
+        async function action(keywords = []) {
+            await ask()
+            if (!keywords.includes(response)) {
+                write("You can't do that", 300);
+                await action(keywords);
+            }
+        }
     }
 };
