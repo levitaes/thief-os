@@ -104,7 +104,7 @@ export class Terminal {
         wwd.goDirByPath("var");
         const file = wwd.getOrCreateFile("history.json");
         const data = file.getData();
-        if(data === "") return;
+        if (data === "") return;
         this.history = JSON.parse(data);
     }
 
@@ -114,9 +114,12 @@ export class Terminal {
      * @returns {Promise<void>}
      */
     async loop() {
+        const lines = document.getElementById("lines");
         while (true) {
             this.historyPointer = this.history.length;
-            const input = await Dialog.globalInstance.ask(`${this.wd.getPathAsString() || ""} >`, {autoComplete: "apps", history: true});
+            const config = {autoComplete: "apps", history: true};
+            if (lines.innerHTML === "") config.newline = false;
+            const input = await Dialog.globalInstance.ask(`${this.wd.getPathAsString() || ""} >`, config);
             try {
                 // save output of last command
                 this.pushHistory(input);
