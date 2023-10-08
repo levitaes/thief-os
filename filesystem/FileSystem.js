@@ -54,9 +54,13 @@ export class FileSystem {
     restore() {
         const json = localStorage.getItem("FileSystem");
         if (json != null) {
-            const data = JSON.parse(json);
-            this.root = this.deserialize(data);
-            return true;
+            try {
+                const data = JSON.parse(json);
+                this.root = this.deserialize(data);
+                return true;
+            } catch (e) {
+                console.error("Filesystem could not be restored. Try resetting it");
+            }
         }
         return false;
     }
@@ -70,6 +74,7 @@ export class FileSystem {
             type: "directory",
             name: this.root.name,
             children: [],
+            metadata: this.root.metadata
         };
         for (const child of this.root.dir.values()) {
             data.children.push(this.serializeNode(child));
@@ -86,6 +91,7 @@ export class FileSystem {
         const data = {
             type: node.constructor.name.toLowerCase(),
             name: node.name,
+            metadata: node.metadata,
         };
         if (node instanceof File) {
             data.content = node.data;
@@ -120,6 +126,7 @@ export class FileSystem {
             const targetNode = this.getNodeByPath(data.target);
             node = new SysLink(data.name, null, targetNode);
         }
+        node.metadata = data.metadata;
         return node;
     }
 
@@ -130,7 +137,7 @@ export class FileSystem {
      */
     getNodeByPath(path) {
         const parts = path.split("/");
-        if(parts.length > 0 && parts[parts.length - 1] === "") {
+        if (parts.length > 0 && parts[parts.length - 1] === "") {
             parts.pop();
         }
         let node = this.root;

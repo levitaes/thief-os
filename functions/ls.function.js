@@ -7,11 +7,12 @@ export default {
         const arg = args[0];
         if (arg && arg.startsWith('-')) {
             const option = arg.substring(1);
-            if (option === 'a') {
+            if (option === 'l') {
                 for (let [key, value] of os.wd.getChildren()) {
                     const color = value instanceof Directory ? '#92AEBE' : '#C4D3B2';
                     const metadata = value.getMetadata();
-                    const html = ` <span>${metadata.permissions.read ? 'r' : '-'}${metadata.permissions.write ? 'w' : '-'}${metadata.permissions.execute ? 'x' : '-'} ${metadata.owner.uid}      ${metadata.modified.toDateString()} ${metadata.modified.getHours()}:${metadata.modified.getMinutes()} </span><span style="color: ${color}">${key}</span>`;
+                    const modified = new Date(metadata.modified);
+                    const html = ` <span>${metadata.permissions.read ? 'r' : '-'}${metadata.permissions.write ? 'w' : '-'}${metadata.permissions.execute ? 'x' : '-'} ${metadata.owner.uid}      ${modified.toDateString()} ${modified.getHours()}:${modified.getMinutes()} </span><span style="color: ${color}">${key}</span>`;
                     os.dialog.sayRaw(html);
                 }
             } else {
