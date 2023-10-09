@@ -250,6 +250,12 @@ export class CommandLine extends HTMLElement {
 
     static terminal = null;
 
+    autoComplete = {
+        list: null,
+        index: 0,
+        realInput: ""
+    }
+
     /**
      * Create a new CommandLine
      * @param data {string}
@@ -347,13 +353,22 @@ export class CommandLine extends HTMLElement {
             const autoCompleteCallBack = () => {
                 if (!this.active) return;
                 if (config.autoComplete === "apps") {
-                    const apps = AppManager.instance.getAppList();
-                    const data = input.value;
-                    apps.forEach((app) => {
-                        if (app.name.startsWith(data)) {
-                            input.value = app.name;
-                        }
+                    // get all apps that start with the input
+                    const apps = this.autoComplete.list.filter((app) => {
+                        return app.startsWith(this.autoComplete.realInput);
                     });
+
+                    if (apps.length === 0) return;
+
+                    // if the index is out of bounds, reset it
+                    if (this.autoComplete.index >= apps.length) {
+                        this.autoComplete.index = 0;
+                    }
+
+                    // set the input to the next app
+                    input.value = apps[this.autoComplete.index];
+                    this.autoComplete.index++;
+
                 } else if (config.autoComplete === "file") {
                     // TODO use the current working directory
                     const wd = new WorkingDirectory();
@@ -365,18 +380,33 @@ export class CommandLine extends HTMLElement {
                         }
                     });
                 } else if (Array.isArray(config.autoComplete)) {
-                    const data = input.value;
-                    config.autoComplete.forEach((item) => {
-                        if (item.startsWith(data)) {
-                            input.value = item;
-                        }
+                    const apps = this.autoComplete.list.filter((app) => {
+                        return app.startsWith(this.autoComplete.realInput);
                     });
+
+                    if (apps.length === 0) return;
+
+                    // if the index is out of bounds, reset it
+                    if (this.autoComplete.index >= apps.length) {
+                        this.autoComplete.index = 0;
+                    }
+
+                    // set the input to the next app
+                    input.value = apps[this.autoComplete.index];
+                    this.autoComplete.index++;
                 }
             }
 
             if (this.config.autoComplete !== null) {
-
+                if (this.config.autoComplete === "apps") {
+                    this.autoComplete.list = [...AppManager.instance.getAppList().keys()];
+                }
                 InputManager.instance.onKeyDown("Tab", autoCompleteCallBack);
+            }
+
+            // store the real input, because the input value is changed by the autocomplete
+            input.oninput = () => {
+                this.autoComplete.realInput = input.value;
             }
 
             const historyCallBack = (e) => {
