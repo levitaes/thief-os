@@ -1,6 +1,7 @@
 import {InputManager} from "../inputManager.js";
 import {AppManager} from "../appManager.js";
 import {WorkingDirectory} from "../filesystem/FileSystem.js";
+import {Directory} from "../filesystem/INode.js";
 
 /**
  * Class Representing Input/Output Dialogs
@@ -248,6 +249,10 @@ export class CommandLine extends HTMLElement {
 
     active = false;
 
+    /**
+     * Terminal
+     * @type {Terminal}
+     */
     static terminal = null;
 
     autoComplete = {
@@ -370,17 +375,41 @@ export class CommandLine extends HTMLElement {
                     this.autoComplete.index++;
 
                 } else if (config.autoComplete === "file") {
-                    // TODO use the current working directory
-                    const wd = new WorkingDirectory();
-                    const files = wd.getChildren();
-                    const data = input.value;
-                    files.forEach((file) => {
-                        if (file.name.startsWith(data)) {
-                            input.value = file.name;
-                        }
+                    const wd = CommandLine.terminal.wd;
+                    if (!wd) return;
+
+                    const parts = this.autoComplete.realInput.split("/");
+                    const lastPart = parts.pop();
+                    let path = parts.join("/");
+
+                    if (!this.autoComplete.realInput.startsWith("/")) {
+                        path = CommandLine.terminal.wd.getPathAsString() + path;
+                        console.log(path);
+                    }
+
+                    const node = wd.fs.getNodeByPath(path);
+
+                    if (!node) return;
+                    if (!(node instanceof Directory)) return;
+                    const files = [...node.dir.keys()].filter((file) => {
+                        return file.startsWith(lastPart);
                     });
+
+                    if (files.length === 0) {
+                        return;
+                    }
+
+                    // if the index is out of bounds, reset it
+                    if (this.autoComplete.index >= files.length) {
+                        this.autoComplete.index = 0;
+                    }
+
+                    // set the input to the next file
+                    input.value = path + "/" + files[this.autoComplete.index];
+                    this.autoComplete.index++;
+
                 } else if (Array.isArray(config.autoComplete)) {
-                    const apps = this.autoComplete.list.filter((app) => {
+                    const apps = config.autoComplete.filter((app) => {
                         return app.startsWith(this.autoComplete.realInput);
                     });
 
