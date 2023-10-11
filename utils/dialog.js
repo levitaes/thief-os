@@ -344,6 +344,7 @@ export class CommandLine extends HTMLElement {
             input.setAttribute('spellcheck', 'false');
             input.setAttribute('contenteditable', 'true');
             input.setAttribute('autofocus', 'true');
+            input.setAttribute('autocomplete', 'off')
             input.classList.add('input');
             this.active = true;
 
