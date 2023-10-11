@@ -1,7 +1,7 @@
 export default {
     name: 'rm',
     description: 'remove (remove a file)',
-    arguments: 1,
+    arguments: ["file"],
     execute(os, args) {
         const path = args[0];
         try {

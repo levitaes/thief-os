@@ -1,7 +1,7 @@
 export default {
     name: 'cd',
     description: 'cd [string]/[..] (change directory)',
-    // arguments: 1,
+    arguments: ["path"],
     async execute(os, args) {
         if(args.length === 0) {
             const path = await os.dialog.ask("Please specify a path:", {autoComplete: "file"});

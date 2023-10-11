@@ -2,9 +2,10 @@ import {File} from '../filesystem/INode.js'
 export default {
     name: 'cat',
     description: 'cat (show file contents)',
-    arguments: 1,
+    arguments: ["file"],
     execute(os, args) {
         const path = args[0];
+        if(!path) return os.next();
         const file = os.wd.getFile(path);
         if(file instanceof File) {
             os.say(file.getData());
