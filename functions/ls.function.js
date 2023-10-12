@@ -3,6 +3,7 @@ import {Directory} from "../filesystem/INode.js";
 export default {
     name: 'ls',
     description: 'ls (list files and directories)',
+    arguments: [["-l"]],
     execute(os, args) {
         const arg = args[0];
         if (arg && arg.startsWith('-')) {

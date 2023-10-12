@@ -11,6 +11,7 @@ export default {
         'repo remove (remove function)',
         "repo purge (remove all data of function"], // arguments: 1,
     repositories: [["default", "/functions"], ["stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions"]],
+    arguments: [["count", "list", "install", "remove", "add", "purge", "re"]],
     async execute(os, args) {
 
         const addRepo = async (url) => {

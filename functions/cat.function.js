@@ -8,9 +8,9 @@ export default {
         if(!path) return os.next();
         const file = os.wd.getFile(path);
         if(file instanceof File) {
-            os.say(file.getData());
+            os.dialog.say(file.getData());
         } else {
-            os.say(`cat: ${path}: No such file`);
+            os.dialog.say(`cat: ${path}: No such file`);
         }
         os.next();
     }

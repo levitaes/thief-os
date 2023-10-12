@@ -3,7 +3,7 @@ import {AppManager} from "../appManager.js";
 export default {
     name: 'man',
     description: 'man [string] (display manual of function)',
-    arguments: 1,
+    arguments: ["apps"],
     execute(os, args) {
         const command = args.shift().toLowerCase();
         if (!AppManager.instance.apps.has(command)) {

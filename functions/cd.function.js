@@ -16,9 +16,9 @@ export default {
                     os.wd.goDirByPath(path);
                 }
             } catch (e) {
-                os.say(e.message);
+                os.dialog.say(e.message);
             }
         }
-        os.next();
+        os.dialog.next();
     }
 };

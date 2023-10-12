@@ -426,6 +426,42 @@ export class CommandLine extends HTMLElement {
                             input.value = texts.slice(0, -1).join(" ") + " " + path + "/" + files[this.autoComplete.index];
                             this.autoComplete.index++;
                         }
+
+                        if (arg === "apps") {
+                            const list = [...AppManager.instance.getAppList().keys()];
+                            const apps = list.filter((app) => {
+                                return app.startsWith(vInput);
+                            });
+
+                            if (apps.length === 0) return;
+
+                            // if the index is out of bounds, reset it
+                            if (this.autoComplete.index >= apps.length) {
+                                this.autoComplete.index = 0;
+                            }
+
+                            // set the input to the next app
+                            input.value = texts.slice(0, -1).join(" ") + " " + apps[this.autoComplete.index];
+                            this.autoComplete.index++;
+                        }
+
+                        if (Array.isArray(arg)) {
+                            console.log(arg);
+                            const apps = arg.filter((app) => {
+                                return app.startsWith(vInput);
+                            });
+
+                            if (apps.length === 0) return;
+
+                            // if the index is out of bounds, reset it
+                            if (this.autoComplete.index >= apps.length) {
+                                this.autoComplete.index = 0;
+                            }
+
+                            // set the input to the next app
+                            input.value = texts.slice(0, -1).join(" ") + " " + apps[this.autoComplete.index];
+                            this.autoComplete.index++;
+                        }
                     }
 
 
