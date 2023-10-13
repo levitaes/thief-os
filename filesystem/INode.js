@@ -267,9 +267,21 @@ export class Directory extends INode {
  * Class representing a device
  * @extends INode
  */
-export class Device extends INode {
+export class Device extends File {
     constructor(name, parent) {
         super(name, parent);
+    }
+
+    getData() {
+        return super.getData();
+    }
+
+    setData(data) {
+        super.setData(data);
+    }
+
+    appendData(data) {
+        super.appendData(data);
     }
 }
 

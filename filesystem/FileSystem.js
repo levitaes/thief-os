@@ -37,7 +37,36 @@ export class FileSystem {
                 new Directory("opt", varDir);
             }
         }
+        this.createDevices();
         return FileSystem.instance;
+    }
+
+    createDevices() {
+        const dev = this.root.dir.get("dev");
+
+        const devNull = new Device("null", dev);
+        devNull.setData = () => {
+        };
+        devNull.appendData = () => {
+        };
+
+        const devZero = new Device("zero", dev);
+        devZero.setData = () => {
+        };
+        devZero.appendData = () => {
+        };
+        devZero.getData = () => {
+            return "0"
+        };
+
+        const devRandom = new Device("random", dev);
+        devRandom.setData = () => {
+        }
+        devRandom.appendData = () => {
+        }
+        devRandom.getData = () => {
+            return Math.random().toString();
+        }
     }
 
     /**
@@ -60,6 +89,7 @@ export class FileSystem {
                 return true;
             } catch (e) {
                 console.error("Filesystem could not be restored. Try resetting it");
+                console.error(e);
             }
         }
         return false;
@@ -98,7 +128,10 @@ export class FileSystem {
         } else if (node instanceof Directory) {
             data.children = [];
             for (const child of node.dir.values()) {
-                data.children.push(this.serializeNode(child));
+                const childData = this.serializeNode(child);
+                if (!(childData instanceof Device) && childData.type !== "device") {
+                    data.children.push(this.serializeNode(child));
+                }
             }
         } else if (node instanceof SysLink) {
             data.target = node.target.name;

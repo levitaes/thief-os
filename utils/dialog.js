@@ -446,7 +446,6 @@ export class CommandLine extends HTMLElement {
                         }
 
                         if (Array.isArray(arg)) {
-                            console.log(arg);
                             const apps = arg.filter((app) => {
                                 return app.startsWith(vInput);
                             });
