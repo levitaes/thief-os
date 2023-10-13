@@ -361,6 +361,7 @@ export class CommandLine extends HTMLElement {
                 if (config.autoComplete === "apps") {
                     // get all apps that start with the input
                     const texts = this.autoComplete.realInput.split(" ");
+                    console.log(texts);
 
                     if (texts.length === 1) {
                         const i = this.autoComplete.realInput.trim();
@@ -380,6 +381,62 @@ export class CommandLine extends HTMLElement {
                         input.value = apps[this.autoComplete.index];
                         this.autoComplete.index++;
                     } else if (texts.length > 1) {
+                        // autocomplete app when | is typed
+                        if (texts[texts.length - 2] === "|") {
+                            console.log("autocomplete pipe");
+                            const i = texts[texts.length - 1];
+                            const apps = this.autoComplete.list.filter((app) => {
+                                return app.startsWith(i);
+                            });
+
+                            if (apps.length === 0) return;
+
+                            // if the index is out of bounds, reset it
+                            if (this.autoComplete.index >= apps.length) {
+                                this.autoComplete.index = 0;
+                            }
+
+                            // set the input to the next app
+                            input.value = texts.slice(0, -1).join(" ") + " " + apps[this.autoComplete.index];
+                            this.autoComplete.index++;
+                            return;
+                        }
+                        const vInput = texts[texts.length - 1];
+                        if (texts[texts.length - 2] === ">" || texts[texts.length - 2] === ">>") {
+                            const wd = CommandLine.terminal.wd;
+                            if (!wd) return;
+
+                            const parts = vInput.split("/");
+                            const lastPart = parts.pop();
+                            let path = parts.join("/");
+                            if (!vInput.startsWith("/")) {
+                                path = CommandLine.terminal.wd.getPathAsString() + path;
+                            }
+
+                            const node = wd.fs.getNodeByPath(path);
+
+                            if (!node) return;
+                            if (!(node instanceof Directory)) return;
+                            const files = [...node.dir.keys()].filter((file) => {
+                                return file.startsWith(lastPart);
+                            });
+
+                            if (files.length === 0) {
+                                return;
+                            }
+
+                            // if the index is out of bounds, reset it
+                            if (this.autoComplete.index >= files.length) {
+                                this.autoComplete.index = 0;
+                            }
+
+                            // set the input to the next file
+                            input.value = texts.slice(0, -1).join(" ") + " " + path + "/" + files[this.autoComplete.index];
+                            this.autoComplete.index++;
+
+                        }
+
+
                         // Autocomplete the next argument
                         const app = AppManager.instance.getAppList().get(texts[0]);
 
@@ -388,7 +445,6 @@ export class CommandLine extends HTMLElement {
 
                         const arg = app.arguments[texts.length - 2];
 
-                        const vInput = texts[texts.length - 1];
 
                         // Check if next argument exists
                         if (arg === undefined) return;
@@ -499,19 +555,19 @@ export class CommandLine extends HTMLElement {
                     this.autoComplete.index++;
 
                 } else if (Array.isArray(config.autoComplete)) {
-                    const apps = config.autoComplete.filter((app) => {
-                        return app.startsWith(this.autoComplete.realInput);
+                    const items = config.autoComplete.filter((ele) => {
+                        return ele.startsWith(this.autoComplete.realInput);
                     });
 
-                    if (apps.length === 0) return;
+                    if (items.length === 0) return;
 
                     // if the index is out of bounds, reset it
-                    if (this.autoComplete.index >= apps.length) {
+                    if (this.autoComplete.index >= items.length) {
                         this.autoComplete.index = 0;
                     }
 
                     // set the input to the next app
-                    input.value = apps[this.autoComplete.index];
+                    input.value = items[this.autoComplete.index];
                     this.autoComplete.index++;
                 }
             }
