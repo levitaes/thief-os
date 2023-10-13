@@ -25,6 +25,7 @@ const arr = [
     "reboot.function.js",
     "rm.function.js",
     "stat.function.js",
+    "cp.function.js",
 ]
 export const appList =  {
     apps: arr,

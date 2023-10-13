@@ -186,6 +186,23 @@ export class FileSystem {
         }
         return node;
     }
+
+    /**
+     * Copy a node to a destination.
+     * @param source {INode}
+     * @param destinationParent {Directory}
+     */
+    copy(source, destinationParent) {
+        if(source === destinationParent) return;
+        if (source instanceof Directory) {
+            const destination = new Directory(source.name, destinationParent);
+            for (const child of source.dir.values()) {
+                this.copy(child, destination);
+            }
+        } else if (source instanceof File) {
+            new File(source.name, destinationParent, source.data);
+        }
+    }tr
 }
 
 /**
