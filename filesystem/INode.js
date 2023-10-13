@@ -31,7 +31,7 @@ export class INode {
      */
     constructor(name, parent) {
         if (parent) {
-            errorIfChildWithNameExist( name, parent);
+            errorIfChildWithNameExist(name, parent);
             parent.dir.set(name, this);
         }
 
@@ -47,9 +47,9 @@ export class INode {
                 uid: 0,
                 gid: 0,
             },
-            created: new Date(),
-            modified: new Date(),
-            accessed: new Date(),
+            created: Date.now(),
+            modified: Date.now(),
+            accessed: Date.now(),
         };
         return this;
     }
@@ -76,6 +76,18 @@ export class INode {
      */
     getMetadata() {
         return this.metadata;
+    }
+
+    /**
+     * Get the type of this inode
+     * @returns {string} - the type
+     */
+    getType() {
+        if(this instanceof File) return "file";
+        if(this instanceof Directory) return "directory";
+        if(this instanceof Device) return "device";
+        if(this instanceof SysLink) return "syslink";
+        return "unknown";
     }
 
     /**
@@ -113,7 +125,7 @@ export class INode {
      */
     move(newParent) {
         errorIfRoot(this);
-        errorIfChildWithNameExist( this.name, newParent);
+        errorIfChildWithNameExist(this.name, newParent);
 
         this.parent.dir.delete(this.name); // delete from old parent
         newParent.dir.set(this.name, this); // add to new parent
@@ -138,6 +150,18 @@ export class INode {
      */
     isFile() {
         return this === typeof File;
+    }
+
+    /**
+     * Get the size of this inode
+     * @returns {number} - the size
+     */
+    getSize() {
+        if (this instanceof File) {
+            return this.data.length;
+        }
+        console.warn("getSize() not implemented for " + this.constructor.name);
+        return 0;
     }
 }
 
@@ -168,7 +192,7 @@ export class File extends INode {
      * @returns {string} - the data
      */
     getData() {
-        this.metadata.accessed = new Date();
+        this.metadata.accessed = Date.now();
         return this.data;
     }
 
@@ -178,7 +202,7 @@ export class File extends INode {
      */
     setData(data) {
         this.data = data;
-        this.metadata.modified = new Date();
+        this.metadata.modified = Date.now();
         FileSystem.instance.save();
     }
 
@@ -188,7 +212,7 @@ export class File extends INode {
      */
     appendData(data) {
         this.data += data;
-        this.metadata.modified = new Date();
+        this.metadata.modified = Date.now();
         FileSystem.instance.save();
     }
 }
