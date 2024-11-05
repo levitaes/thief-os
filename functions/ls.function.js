@@ -3,7 +3,7 @@ import {Directory} from "../filesystem/INode.js";
 export default {
     name: 'ls',
     description: 'ls (list files and directories)',
-    arguments: [["-l"]],
+    arguments: [["-l", "-h"]],
     execute(os, args) {
         const arg = args[0];
         if (arg && arg.startsWith('-')) {
@@ -16,7 +16,10 @@ export default {
                     const html = ` <span>${metadata.permissions.read ? 'r' : '-'}${metadata.permissions.write ? 'w' : '-'}${metadata.permissions.execute ? 'x' : '-'} ${metadata.owner.uid}      ${modified.toDateString()} ${modified.getHours()}:${modified.getMinutes()} </span><span style="color: ${color}">${key}</span>`;
                     os.dialog.sayRaw(html);
                 }
-            } else {
+            } else if (option === "h"){
+                os.dialog.say("Usage: ls [OPTION]");
+                os.dialog.say("List information about the FILEs (the current directory by default).");
+            }else {
                 os.dialog.say(`ls: invalid option -- '${option}'`);
             }
 
