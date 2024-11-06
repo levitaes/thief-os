@@ -4,8 +4,6 @@ import {AppManager} from "./appManager.js";
 import {FileSystem} from "./filesystem/FileSystem.js";
 import {Terminal} from "./terminal.js";
 
-import Fuse from 'https://unpkg.com/fuse.js@6.6.2/dist/fuse.esm.js' // ToDo: use a local version instead
-
 const dialog = Dialog.globalInstance;
 const terminal = new Terminal();
 
