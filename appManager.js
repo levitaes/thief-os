@@ -262,8 +262,13 @@ class Process {
         //     await Promise.race([originalExecute(this.os, this.args), stopPromise]);
         // }
         return new Promise(async (resolve, reject) => {
-            await this.process.execute(this.os, this.args);
-            resolve();
+            try {
+                await this.process.execute(this.os, this.args);
+                resolve();
+            } catch (e) {
+                Logger.error(e);
+                resolve();
+            }
         });
 
 
