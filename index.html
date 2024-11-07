@@ -5,12 +5,31 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="themes/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="description" content="Terminal OS">
+    <link rel="manifest" href="manifest.json"/>
 </head>
 
 <body>
 <script src="kernel.js" onload="boot();"></script>
 <script src="./filesystem/FileSystem.js" type="module"></script>
 <script src="./fuse.js"></script>
+
+<script>
+    if (navigator.serviceWorker) {
+        if (navigator.serviceWorker.controller) {
+            // console.log("Active service worker found");
+        } else {
+            navigator.serviceWorker
+                .register("sw.js", {
+                    scope: "./",
+                })
+                .then(function (reg) {
+                    console.log("Service worker  registered");
+                });
+        }
+    }
+</script>
 
 <!--  Template for cli  -->
 <template id="commandLineTemplate">

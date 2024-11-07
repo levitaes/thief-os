@@ -38,14 +38,11 @@ const os = {
  * @returns {Promise<unknown>}
  */
 os.load = async () => {
-    return new Promise(async (resolve, reject) => {
-        const {appList} = await import('./functions/functionList.js');
-        for (const app of appList.apps) {
-            const path = `./${appList.path}/${app}`;
-            await AppManager.instance.addApp(path);
-        }
-        resolve();
-    });
+    const {appList} = await import('./functions/functionList.js');
+    await Promise.all(appList.apps.map(async (app) => {
+        const path = `./${appList.path}/${app}`;
+        await AppManager.instance.addApp(path);
+    }));
 }
 
 /**
