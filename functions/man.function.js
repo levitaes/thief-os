@@ -5,6 +5,10 @@ export default {
     description: 'man [string] (display manual of function)',
     arguments: ["apps"],
     execute(os, args) {
+        if(args.length === 0) {
+            os.next('Please specify a function to display the manual');
+            return;
+        }
         const command = args.shift().toLowerCase();
         if (!AppManager.instance.apps.has(command)) {
             os.next('function not found');
