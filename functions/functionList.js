@@ -27,6 +27,7 @@ const arr = [
     "stat.function.js",
     "cp.function.js",
     "chmod.function.js",
+    "ed.function.js",
 ]
 export const appList =  {
     apps: arr,
