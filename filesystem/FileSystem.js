@@ -31,6 +31,7 @@ export class FileSystem {
                 new Directory("bin", this.root);
                 new Directory("etc", this.root);
                 new File("README.md", home, "This is a README file.");
+                FileSystem.instance.uploadFile(home, "sh.rc");
 
                 const varDir = new Directory("var", this.root);
                 new Directory("log", varDir);
@@ -202,7 +203,20 @@ export class FileSystem {
         } else if (source instanceof File) {
             new File(source.name, destinationParent, source.data);
         }
-    }tr
+    }
+
+    /**
+     * fetch a remote file and add it to the file system
+     * @param parent {Directory}
+     * @param name {string}
+     */
+    uploadFile(parent, name) {
+        fetch(name).then(response => {
+            return response.text();
+        }).then(data => {
+            new File(name.substring(name.lastIndexOf("/") + 1), parent, data);
+        });
+    }
 }
 
 /**

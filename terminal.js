@@ -1,6 +1,6 @@
 import {CommandLine, Dialog} from './utils/dialog.js'
 import functionLoader from "./functionLoader.js";
-import {FileSystem, WorkingDirectory} from "./filesystem/FileSystem.js";
+import {WorkingDirectory} from "./filesystem/FileSystem.js";
 
 /**
  * The terminal class
@@ -33,6 +33,9 @@ export class Terminal {
 
     static instance = null;
 
+    alias = new Map();
+    motd = "";
+
     /**
      * This creates a new Session
      * @constructor
@@ -55,14 +58,58 @@ export class Terminal {
         // Terminal.sessions.push(this);
     }
 
+
     /**
      * Initialize the terminal and start the main loop
      * @returns {Promise<void>}
      */
     async init() {
-        Dialog.globalInstance.say("Welcome to the terminal 龴ↀ◡ↀ龴", {newline: false});
+
+        this.loadSHRC();
+        if (this.motd !== "") {
+            Dialog.globalInstance.say(this.motd, {newline: false});
+        } else {
+            Dialog.globalInstance.say("Welcome to the terminal 龴ↀ◡ↀ龴", {newline: false});
+        }
         this.loadHistory();
         await this.loop();
+    }
+
+    /**
+     * Loads the sh.rc
+     */
+    loadSHRC() {
+        const file = new WorkingDirectory().getFile("home/sh.rc");
+        if (!file) return;
+
+        const data = file.getData();
+        if (data === "") return;
+        const lines = data.split("\n");
+        for (let line of lines) {
+            // ignore comments via # and empty lines via regex
+            if (line.startsWith("#") || line.match(/^\s*$/)) continue;
+
+            // replace $TIME with the current time
+            line = line.replace("\$TIME", new Date().toLocaleTimeString());
+            // Replace $DAY with the current weekday
+            line = line.replace("\$DAY", new Date().toLocaleDateString('en-US', {weekday: 'long'}));
+            // Replace $DATE with the current date
+            line = line.replace("\$DATE", new Date().toLocaleDateString());
+            // Replace $USER with the current user
+            line = line.replace("\$USER", "user");
+
+            if (line.startsWith("alias ")) {
+                // add alias
+                const alias = line.split(" ").slice(1).join(" ").split("=");
+                this.alias.set(alias[0], alias[1].replace(/"/g, ''));
+                continue;
+            }
+
+            if (line.startsWith("motd ")) {
+                this.motd = line.split(" ").slice(1).join(" ").replace(/"/g, '');
+            }
+
+        }
     }
 
     /**

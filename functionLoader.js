@@ -153,6 +153,15 @@ os.run = (data) => {
 
             let string = "";
 
+            const parts = command.split(' ')
+            // check for alias
+            if (Terminal.instance.alias.has(parts[0])) {
+               //replace alias with the command
+                parts[0] = Terminal.instance.alias.get(parts[0]);
+                command = parts.join(' ');
+                console.log("alias", command);
+            }
+
             // find > and >>, remove them from the command and put them at the end of the generated command
             if (command.includes('>')) {
                 string = "> " + command.split('>')[1].trim();

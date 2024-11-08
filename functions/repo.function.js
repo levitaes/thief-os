@@ -11,7 +11,7 @@ export default {
         'repo remove (remove function)',
         "repo purge (remove all data of function"], // arguments: 1,
     repositories: [["default", "/functions"], ["stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions"]],
-    arguments: [["count", "list", "install", "remove", "add", "purge", "re"]],
+    arguments: [["count", "list", "install", "remove", "add", "purge", "re", "-h"]],
     async execute(os, args) {
 
         const addRepo = async (url) => {
@@ -116,6 +116,12 @@ export default {
                     await addRepo(RECOMMENDED_REPOS[ans].url);
                 }
 
+                break;
+            case "-h":
+                for (const ele of this.description) {
+                    os.dialog.say(ele);
+                }
+                os.next();
                 break;
             default:
                 os.next("argument doesnt exist");

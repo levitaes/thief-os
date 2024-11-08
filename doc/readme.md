@@ -25,6 +25,12 @@ The Logger is a static class to log messages to the file system.
 
 [Read more](./logger.md)
 
+## Customization
+
+You can customize the shell
+
+
+
 
 ## To generate the documentation
 
