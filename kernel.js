@@ -1,5 +1,5 @@
 //vars
-let userName = "thief";
+let userName = "user";
 let inputHistory = [];
 let inputHistoryCursor = inputHistory.length;
 let wd;

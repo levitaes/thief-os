@@ -10,7 +10,7 @@ export default {
         "repo re (add recommended repositories",
         'repo remove (remove function)',
         "repo purge (remove all data of function"], // arguments: 1,
-    repositories: [["default", "/functions"], ["stable", "https://cdn.jsdelivr.net/gh/thief-hub/thief-os-stable/functions"]],
+    repositories: [["default", "/functions"], ["stable", "https://cdn.jsdelivr.net/gh/levitaes/shell.js-pkgs/functions"]],
     arguments: [["count", "list", "install", "remove", "add", "purge", "re", "-h"]],
     async execute(os, args) {
 
