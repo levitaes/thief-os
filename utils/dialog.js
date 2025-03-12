@@ -9,7 +9,7 @@ import {Directory} from "../filesystem/INode.js";
 export class Dialog {
 
     defaultConfig = {
-        color: 'white', newline: true,
+        color: 'rgb(250, 240, 230)', newline: true,
     }
 
     /**
