@@ -116,7 +116,7 @@ The config object is used to configure the Terminal.
 
 ```js
 const config = {
-    color: "white",
+    color: "rgb(250, 240, 230)",
     newLine: false,
     autoComplete: "file|apps|[]"
     
